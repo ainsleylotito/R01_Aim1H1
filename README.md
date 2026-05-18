@@ -1,0 +1,194 @@
+README
+================
+
+## Overview
+
+This repository contains code and data for analyzing reported driving
+after drinking behaviors between 21-24y/olds vs. \<21 y/olds as a
+component of the project *“Modeling a national Graduated-BAC per se
+policy for 21-24 y/o drivers to reduce alcohol impaired driving injury
+and fatal crashes.”*
+
+### Data Source
+
+**National Longitudinal Survey of Youth 1997 (NLSY97)**
+
+The NLSY97, conducted by the US Bureau of Labor Statistics, followed a
+nationally representative sample of US (N=8,984) adolescents born
+between 1/1/1980 - 12/31/1984, on various aspects through their
+transition from adolescence to adulthood.31 Participants, aged 12-16 as
+of December 31, 1996, were interviewed in 1997 (12-18y/o at 1st
+interview). The initial cohort consists of 51% men (vs. 49% women) and
+51.9% non-Black/non-Hispanic participants (vs. 26% Black non-Hispanic,
+21.2% Hispanic/Latino, and 0.9% Mixed raced). To select the sample,
+interviewers screened 75,291 households in 147 primary sampling units
+without overlap. There have been 19 subsequent follow up interviews with
+a 77% retention rate in 2019. Our study will use data from rounds 1
+(1997) to 13 (2009), in which all participants turned 24y/o. The maximum
+sample size was 7,559 participants. Only those who reported having a
+driver’s license in a given round will be included. In round 13 (2009),
+6,360 24-31y/o participants reported having a driver’s license. To
+compare the likelihood of driving after drinking between pre-age 21 and
+aged 21-24, those who did not obtain a driver’s license will be excluded
+from the analysis.
+
+Details about the dataset are available at [this
+link](https://www.bls.gov/nls/nlsy97.htm)
+
+## Data Files
+
+Raw datafiles are in the `/RawData` directory.
+
+- `"Datafile name"` and details about it
+
+## Methods
+
+### Data Cleaning
+
+Data are cleaned in the `Scripts/01_Cleaning.rmd` file. The following
+variables were generated/recategorized:
+
+**NLSY97 Measure: Dependent Variable to be Generated**
+
+• **Driving After Drinking:** Driving after drinking will be measured by
+responses to the question asking how many times they drove a vehicle
+after drinking alcohol in the past 30-days. The driving after drinking
+score in each round will be a dichotomous variable: 1 = ≥1 time and 0 =
+no times. These dichotomous variables will be summed separately for
+rounds before 21 y/o and between 21-24 y/o. The summed scores will be
+dichotomized to a single variable: 1 = ≥1 time vs. 0 = no times driving
+after drinking among pre-age 21 and aged 21-24 groups.
+
+**NLSY97 Data Measures: Independent Variables**
+
+•**Cohort group:** Five groups based on initial cohort groups ages 16y/o
+(based on age by 12/31/1996).
+
+• **Binge Drinking:** Binge drinking was measured by asking participants
+their frequency of consuming ≥5 drinks within a single occasion over the
+past 30 days. This variable will be dichotomized to 1 = ≥1 day vs. 0 =
+no days in each round. Those stating they had not had alcohol since
+their last interview, and thus not asked the question, were classified
+as having zero days of binge drinking. Binge drinking dichotomous
+variables of the rounds before 21y/o and of the rounds between 21-24y/o
+will be summed separately. The summed scores will be further
+dichotomized: 1 = ≥1 day vs. 0 = no-days binge drinking among pre-age 21
+and aged 21-24 groups.
+
+• **Marijuana Use:** To measure marijuana use, participants answered the
+question, “On how many days have you used marijuana in the past 30
+days?”. Those stating they had not used marijuana in the past 30 days
+were not asked this question and thus classified as zero. Marijuana use
+dichotomous variables of the rounds before 21y/o and of the rounds
+between 21-24y/o will be summed separately. Summed scores will be
+further dichotomized to 1 = ≥1 day vs. 0 = no days marijuana use among
+pre-age 21 and aged 21-24 groups.
+
+• **Parental Monitoring Knowledge:** Questions were asked from 1997-2000
+regarding participants’ “family process” including questions capturing
+both maternal and paternal monitoring as reported by the youth. We will
+use data collected from rounds 1-4 (1997-2000) and only items for
+residential mothers and fathers. Adolescents reported their perceptions
+of each parent’s monitoring about their activities with 4 items: how
+much their mother or father knew about their close friends, close
+friend’s parents, who they were with when not at home, their teachers,
+and what they were doing in school, with 4 response options (0 = knows
+nothing; 1 = knows just a little; 2 = knows some things; 3 = knows most
+things; 4 knows everything). More details about this measure are in the
+NLSY97 appendix 9.31 Scores of 4 parental monitoring items were summed
+for mothers and fathers separately and the summed scores could range
+from 0 -16 with higher scores indicating greater parental monitoring.
+
+• **Demographic Variables:** Demographic variables include sex, race,
+ethnicity, annual household income (\<\$10,000, \$10,001-\$30,000,
+\$30,001-\$50,000, \$50,001-\$80,000, \>\$80,000), and education (None,
+GED, high school diploma, associate, bachelor’s, master’s, doctoral,
+professional degree). Age, sex, and race/ethnicity were collected at
+baseline. Income, employment, and education status were collected at all
+rounds.
+
+The resulting cleaned dataset was saved in the `/CleanData` Directory.
+An accompanying data dictionary is in the file
+`/CleanData/DataDictionary.xlsx`.
+
+### Statistical Analysis
+
+To address the hypothesis that *Young adult drivers aged 21-24y/o
+vs. \<21y/o are more likely to report driving after drinking behavior*,
+we conducted the following analyses in the files 02_Exploratory.Rmd and
+03_Analysis.Rmd (all final reported results are contained within
+03_Analysis.Rmd).
+
+**Analytical Approach:** Descriptive statistics (means, medians,
+frequencies) will be used to characterize demographic and clinical
+variables of participants overall and across age groups. Histograms and
+box plots will evaluate variable distributions and identify outliers.
+H1.a will be tested using regressions of repeated measures of driving
+after drinking through generalized estimating equations (GEE; binary).
+Features of the complex survey design (i.e., stratification, clustering,
+and sampling weights) will be taken into account to estimate standard
+errors appropriately. Domain analysis will be applied when a subsample
+is used. First, bivariate models will be fitted to examine pairwise
+associations of outcome variable (i.e., driving after drinking) with the
+stage (i.e., pre-21y/o vs. 21-24y/o) and each of the potential
+covariates (race, ethnicity, sex, education at 21y/o, annual household
+income, parental monitoring, binge drinking, and marijuana use
+(prevalence of cannabinoids in serious/fatally crash injured drivers has
+been as high as 25%).37 Adjusted models will be examined by
+simultaneously controlling for selected factors (variables with p ≤.10
+in bivariate models). We will examine stratified effect of pre-21y/o
+vs. 21-24y/o on the dichotomous outcome variable (driving after
+drinking) among NLSY participants.
+
+• **Power/Sample Size:** The NLSY97 study had a nationally
+representative probability cohort with adequate power to provide
+population estimates of prevalence of driving after drinking at the 95%
+confidence level. Power was estimated using SAS PROC POWER procedure for
+detecting different odds ratios (OR) for driving after drinking (OR
+0.1-1.0 by 0.1) at pre-21y/o vs. 21-24y/o given the NLSY97 sample size.
+The OR is defined here as the odds of reporting driving after drinking
+for the stage of pre-21y/o divided by the odds given the stage of
+21-24y/o. The allocation ratio of two categories of pre-21y/o
+vs. 21-24y/o is 0.5: 0.5 because they are from the same participant. We
+used the smallest sample size (N=1231) of the cohort age 12 for the
+power calculation. The sample size was further reduced to N=937 at round
+13 due to a 76% retention rate. We use a significance level of α= 0.01
+(0.05/5) to adjust for multiple comparisons (Bonferroni Correction) as
+the analysis will be conducted in each of the five cohort groups.
+Figure 1. shows estimated power given ORs based on parameters described
+above.
+
+• **Plan for Missing Data:** Missingness will be examined for each
+variable. Patterns of missing data will be visualized with cluster
+analysis. Logistic regression will be used to identify variables
+(including outcome) associated with the likelihood of missingness.
+Variables with homogenous distributions or a high degree of missingness
+will be excluded from further analyses. After inspection of missing
+data, multiple imputation may be employed to accommodate substantial
+reductions in sample size from missing values or evidence that
+missingness is not completely at random (MCAR).
+
+• **Statement of Confidence in Analysis:** The rich NLSY97 dataset
+provides the viable and proper temporal framework to assess the impact
+of turning 21y/o on reported driving after drinking. In this
+observational cohort, we will control for known potential confounders.
+The large sample size and high-retention rates in the NLSY97 dataset as
+well as vast experience of our study team in statistics will help ensure
+success in testing H1.a.
+
+• **Potential Obstacles and Contingency Plans:** Despite a large sample
+size, the relatively smaller prevalence of driving after drinking may
+challenge the proposed analysis approach (i.e., GEE). If so, we will
+conduct analysis in combined data rather than stratifying by cohort age
+group. Also, subgroup analyses based on variables like gender,
+ethnicity, and driving experience will be conducted, offering detailed
+view within the 21-24 age range and sensitivity analyses will ensure
+result robustness against various assumptions or methodological choices.
+
+Analyses were conducted in R using tidyverse and \[packages\] tools.
+
+## Reproducibility
+
+All analyses can be reproduced by running the scripts in the `/Scripts`
+directory.  
+Order of analyses are sequential, following 01_Cleaning to 03_Analysis.
