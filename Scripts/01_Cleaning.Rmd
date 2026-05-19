@@ -23,7 +23,7 @@ library(viridis)
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
 
 #importing functions
-source("functions.r")
+#source("functions.r")
 ``` 
 
 # Introduction 
@@ -42,9 +42,20 @@ Functions used to clean the datasets may be accessed from the `/Scripts/function
 We will clean up these variables, applying formats and renaming them for ease of future use.  
 
 ```{r alcuse}
+alcuse <-  read.table('../RawData/ALCUSE.dat', sep=' ')
+names(alcuse)<- c('id',
+  'cv_samp',
+  'drank_since_interview_02',
+  'num_days_drink_02',
+  'num_drinks_p_day_02',
+  'num_days_drink_p_school_week') 
+head(alcuse) 
+dim(alcuse)
+```  
 
+# R6_2 Data 
 
-``` 
+This dataset contains a whole bunch of variables, many of which we do not need. We are only going to focus on retaining the variables pertaining to our study.
 
 
 
