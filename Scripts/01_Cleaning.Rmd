@@ -42,20 +42,360 @@ Functions used to clean the datasets may be accessed from the `/Scripts/function
 We will clean up these variables, applying formats and renaming them for ease of future use.  
 
 ```{r alcuse}
-alcuse <-  read.table('../RawData/ALCUSE.dat', sep=' ')
+new_data <-  read.table('../RawData/ALCUSE.dat', sep=' ') 
+names(new_data) <- c('R0000100', #Id
+  'R1235800', #Cv samp
+  'S0922200', #Drank since interview 02
+  'S0922300', #Days drinking alc in last 30 
+  'S0922400', #Num drinks per day
+  'S0922600') #Num days drinking alc during school week
+
+# Handle missing values
+
+new_data[new_data == -1] = NA  # Refused
+new_data[new_data == -2] = NA  # Dont know
+new_data[new_data == -3] = NA  # Invalid missing
+new_data[new_data == -4] = NA  # Valid missing
+new_data[new_data == -5] = NA  # Non-interview
+
+#Factor variables 
+
+#CV Sample
+new_data$R1235800 <- factor(new_data$R1235800,
+    levels=c(0.0,1.0),
+    labels=c("Oversample",
+      "Cross-sectional")
+  )
+
+#Drank since last interview
+new_data$S0922200 <- factor(new_data$S0922200,
+    levels=c(0.0,1.0),
+    labels=c("NO",
+      "YES")
+  )
+
+#Num drinks per day in last 30 days  
+range(new_data$S0922400, na.rm=TRUE) 
+  #we have the option to change this into a factor variable, but this is probably better as a numeric descriptive stat.
+
+```   
+
+There are two variables that are factor variables according to the NLSY97 data dictionary and codes provided, but these variables are stored numerically, and there is not a whole lot of use in making them into categories. Below is the code to change them into factor variables, if we end up deciding to use them. 
+
+```{r alcuse_factor_variables, eval = FALSE}  
+#Factor option for Number of drinks per day
+new_data$S0922400 <- factor(new_data$S0922400,
+    levels=c(0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0,8.0,9.0,10.0,11.0,12.0,13.0,14.0,15.0),
+    labels=c("0",
+      "1",
+      "2",
+      "3",
+      "4",
+      "5",
+      "6",
+      "7",
+      "8",
+      "9",
+      "10",
+      "11",
+      "12",
+      "13",
+      "14",
+      "15+")
+  ) 
+
+#Factor option for number of days drinking alc during school week 
+new_data <- new_data %>%
+  mutate(
+    S0922600 = case_when(
+      between(S0922600, 1, 4)   ~ 1,
+      between(S0922600, 5, 9)   ~ 5,
+      between(S0922600, 10, 14) ~ 10,
+      between(S0922600, 15, 19) ~ 15,
+      between(S0922600, 20, 24) ~ 20,
+      between(S0922600, 25, 29) ~ 25,
+      TRUE ~ S0922600
+    )
+  )
+
+  new_data$S0922600 <- factor(new_data$S0922600,
+    levels=c(0.0,1.0,5.0,10.0,15.0,20.0,25.0,30.0),
+    labels=c("0",
+      "1 TO 4",
+      "5 TO 9",
+      "10 TO 14",
+      "15 TO 19",
+      "20 TO 24",
+      "25 TO 29",
+      "30")
+  )
+
+  #Factor option for number days drinking 
+ new_data <- new_data %>%
+  mutate(
+    S0922300 = case_when(
+      between(S0922300, 1, 4)   ~ 1,
+      between(S0922300, 5, 9)   ~ 5,
+      between(S0922300, 10, 14) ~ 10,
+      between(S0922300, 15, 19) ~ 15,
+      between(S0922300, 20, 24) ~ 20,
+      between(S0922300, 25, 29) ~ 25,
+      TRUE ~ S0922300
+    )
+  ) 
+new_data$S0922300 <- factor(new_data$S0922300,
+    levels=c(0.0,1.0,5.0,10.0,15.0,20.0,25.0,30.0),
+    labels=c("0",
+      "1 TO 4",
+      "5 TO 9",
+      "10 TO 14",
+      "15 TO 19",
+      "20 TO 24",
+      "25 TO 29",
+      "30")
+  )
+
+```
+ 
+ 
+Lastly, we will rename our variable names with clearer naming conventions and save to a dataset called "alcuse" that we can then use when we merge our datasets. 
+
+```{r renaming_alcuse_variables}
+alcuse <- new_data
 names(alcuse)<- c('id',
   'cv_samp',
   'drank_since_interview_02',
   'num_days_drink_02',
   'num_drinks_p_day_02',
   'num_days_drink_p_school_week') 
-head(alcuse) 
-dim(alcuse)
-```  
-
+head(alcuse)
+glimpse(alcuse)
+```
+ 
 # R6_2 Data 
 
-This dataset contains a whole bunch of variables, many of which we do not need. We are only going to focus on retaining the variables pertaining to our study.
+This dataset contains a whole bunch of variables, many of which we do not need. We are only going to focus on retaining the variables pertaining to our study (there are some others included that I suspect may be useful descriptors or confounders).
 
+```{r r6_2_dat} 
+#variables we want 
+vars_R6 <- c('R0000100', #id
+          'R0536300', #sex
+          'R0536401', #bdate month
+          'R0536402', #bdate year
+          'R0538600', #ethnicity
+          'R0538700', #race
+          'R1204500', #annual income, 97
+          'R1485700', #mom's monitor, 97
+          'R1485800', #dad's monitor, 97
+          'R1486500', #mom's parent style, 97
+          'R1486600', #dad's parent style, 97
+          'R1487000', #fam/home risk index 97
+          'R1487100', #physical environment risk index 97
+          'R1487800', #substance use index 1997
+          'S0921800', # Num cigs smoked/day last 30 days
+          'S0923900',#Age 1st time use oth drugs 2002
+          'R1482600')  #Race_ethnicity combined
+
+new_data <- read.table('../RawData/R6_2.dat', sep=' ')
+names(new_data) <- c('R0000100',
+  'R0536300',
+  'R0536401',
+  'R0536402',
+  'R0538600',
+  'R0538700',
+  'R1201300',
+  'R1204500',
+  'R1204700',
+  'R1204900',
+  'R1235800',
+  'R1302400',
+  'R1302500',
+  'R1302600',
+  'R1302700',
+  'R1482600',
+  'R1485700',
+  'R1485800',
+  'R1485900',
+  'R1486000',
+  'R1486100',
+  'R1486200',
+  'R1486300',
+  'R1486400',
+  'R1486500',
+  'R1486600',
+  'R1486700',
+  'R1486800',
+  'R1486900',
+  'R1487000',
+  'R1487100',
+  'R1487200',
+  'R1487300',
+  'R1487400',
+  'R1487500',
+  'R1487600',
+  'R1487700',
+  'R1487800',
+  'S0201500',
+  'S0202000',
+  'S0921600',
+  'S0921700',
+  'S0921800',
+  'S0923700',
+  'S0923900',
+  'S0924000',
+  'S0924100',
+  'S0924200',
+  'S1055500',
+  'S1055600',
+  'S1055800',
+  'S1055900',
+  'S1057000',
+  'S1057100',
+  'S1225600',
+  'S1225700',
+  'S1225800',
+  'S1240700',
+  'S1240800',
+  'S1240801',
+  'S1240802',
+  'S1240803',
+  'S1240804',
+  'S1240805',
+  'S1242800',
+  'S1243100',
+  'S1243200',
+  'S1243201',
+  'S1243202',
+  'S1243203',
+  'S1243204',
+  'S1243205',
+  'S1243206',
+  'S1243207',
+  'S1246500',
+  'S1246600',
+  'S1246601',
+  'S1246602',
+  'S1246603',
+  'S1249300',
+  'S1249400',
+  'S1249401',
+  'S1249402',
+  'S1249600',
+  'S1249900',
+  'S1250100',
+  'S1250200',
+  'S1250300',
+  'S1250400',
+  'S1250500',
+  'S1250600',
+  'S1250700',
+  'S1338900',
+  'S1339000',
+  'S1339200',
+  'S1339300',
+  'S1339400',
+  'S1339500',
+  'S1339600',
+  'S1339700',
+  'S1339800',
+  'S1339900',
+  'S1340000',
+  'S1340100',
+  'S1541200',
+  'S1541400',
+  'S1541700',
+  'S1541900',
+  'S1542400',
+  'S1542500',
+  'S1604500',
+  'S1604600',
+  'S1604700',
+  'S1604800',
+  'S1604900',
+  'S1609200')
+
+#Subsetting to just the variables we want
+new_data <- new_data %>% 
+  select(vars_R6) 
+
+#Missing values
+new_data[new_data == -1] = NA  # Refused
+new_data[new_data == -2] = NA  # Dont know
+new_data[new_data == -3] = NA  # Invalid missing
+new_data[new_data == -4] = NA  # Valid missing
+new_data[new_data == -5] = NA  # Non-interview 
+
+#Factor variables  
+
+#Sex
+new_data$R0536300 <- factor(new_data$R0536300,
+    levels=c(0.0,1.0,2.0),
+    labels=c("No Information",
+      "Male",
+      "Female")
+  )
+
+#Birthdate 
+  #We don't have the date for their DOB, we will set to 1 for all participants.
+new_data <- new_data %>%
+  mutate(
+    birthdate = make_date(
+      year = R0536402,
+      month = R0536401,
+      day = 1
+    )
+  )  
+
+unique(new_data$R0538600) 
+
+#Ethnicity 
+new_data$R0538600 <- factor(new_data$R0538600,
+    levels=c(0.0,1.0),
+    labels=c("Non-Hispanic",
+      "Hispanic")
+  ) 
+
+#Race 
+new_data$R0538700 <- factor(new_data$R0538700,
+    levels=c(0.0,1.0,2.0,3.0,4.0,5.0),
+    labels=c("No information",
+      "White",
+      "Black or African American",
+      "American Indian or Alaska Native",
+      "Asian or Pacific Islander",
+      "Other")
+  ) 
+
+#Race/ethnicity combined 
+new_data$R1482600 <- factor(new_data$R1482600,
+    levels=c(1.0,2.0,3.0,4.0),
+    labels=c("Black",
+      "Hispanic",
+      "Mixed Race (Non-Hispanic)",
+      "Non-Black / Non-Hispanic")
+  ) 
+
+#Mom parenting style 
+new_data$R1486700 <- new_factor(data$R1486700,
+    levels=c(1.0,2.0,3.0,4.0),
+    labels=c("Uninvolved",
+      "Permissive",
+      "Authoritarian",
+      "Authoritative")
+  ) 
+
+#Dad parenting style 
+new_data$R1486800 <- factor(new_data$R1486800,
+    levels=c(1.0,2.0,3.0,4.0),
+    labels=c("Uninvolved",
+      "Permissive",
+      "Authoritarian",
+      "Authoritative")
+  )
+
+``` 
+
+
+# Self Reported Drinking/Driving Data 
 
 
