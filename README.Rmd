@@ -19,7 +19,11 @@ Details about the dataset are available at [this link](https://www.bls.gov/nls/n
 ## Data Files
 Raw datafiles are in the `/RawData` directory.
 
-- `"Datafile name"`  and details about it
+- `"ALCUSE.dat"` contains descriptive variables about alcohol use. `R1235800` (Primary CV Sample Type), `S0922200` (Drank Since Last Interview 2002), `S0922300` (# Days drinking alcohol in last 30 days 2002), `S0922400` (# Drinks per day in last 30 days 2002), and `S0922600`(# Days drinking alcohol during school week 2002). None of these variables are intended to be in our models, but they may be useful for descriptive statistics. 
+
+- `"Round6Weight.dat"`  and details about it  
+- `"Self_Report_Drinking_Driving.dat"`  and details about it  
+- `"R6_2.dat"`  and details about it 
 
 
 ## Methods
