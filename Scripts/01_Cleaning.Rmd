@@ -328,7 +328,7 @@ new_data[new_data == -5] = NA  # Non-interview
 #Factor variables  
 
 #Sex
-new_data$R0536300 <- factor(new_data$R0536300,
+new_data$sex <- factor(new_data$R0536300,
     levels=c(0.0,1.0,2.0),
     labels=c("No Information",
       "Male",
@@ -349,14 +349,14 @@ new_data <- new_data %>%
 unique(new_data$R0538600) 
 
 #Ethnicity 
-new_data$R0538600 <- factor(new_data$R0538600,
+new_data$eth <- factor(new_data$R0538600,
     levels=c(0.0,1.0),
     labels=c("Non-Hispanic",
       "Hispanic")
   ) 
 
 #Race 
-new_data$R0538700 <- factor(new_data$R0538700,
+new_data$race <- factor(new_data$R0538700,
     levels=c(0.0,1.0,2.0,3.0,4.0,5.0),
     labels=c("No information",
       "White",
@@ -367,7 +367,7 @@ new_data$R0538700 <- factor(new_data$R0538700,
   ) 
 
 #Race/ethnicity combined 
-new_data$R1482600 <- factor(new_data$R1482600,
+new_data$race_eth <- factor(new_data$R1482600,
     levels=c(1.0,2.0,3.0,4.0),
     labels=c("Black",
       "Hispanic",
@@ -376,7 +376,7 @@ new_data$R1482600 <- factor(new_data$R1482600,
   ) 
 
 #Mom parenting style 
-new_data$R1486700 <- new_factor(data$R1486700,
+new_data$mom_style <- factor(new_data$R1486500,
     levels=c(1.0,2.0,3.0,4.0),
     labels=c("Uninvolved",
       "Permissive",
@@ -385,17 +385,108 @@ new_data$R1486700 <- new_factor(data$R1486700,
   ) 
 
 #Dad parenting style 
-new_data$R1486800 <- factor(new_data$R1486800,
+new_data$dad_style <- factor(new_data$R1486600,
     levels=c(1.0,2.0,3.0,4.0),
     labels=c("Uninvolved",
       "Permissive",
       "Authoritarian",
       "Authoritative")
   )
+ 
+#Parental Monitoring 
+  #Note: It is cleaned in a way to make these variables categorical, but in the future we may need to have a numeric version so we could take an average over multiple years. We will therefore make two versions, one that is categorical and one that is numeric  
+
+#Mom PMK   
+new_data <- new_data %>%
+  mutate(
+    mom_pmk_97 = as.numeric(R1485700),
+    mom_pmk_97_cat = case_when(
+      between(mom_pmk_97, 0, 4) ~ "0 TO 4",
+      between(mom_pmk_97, 5, 8) ~ "5 TO 8",
+      between(mom_pmk_97, 9, 12) ~ "9 TO 12",
+      between(mom_pmk_97, 13, 16) ~ "13 TO 16",
+      TRUE ~ NA_character_
+    ),
+    mom_pmk_97_cat = factor(
+      mom_pmk_97_cat,
+      levels = c("0 TO 4", "5 TO 8", "9 TO 12", "13 TO 16")
+    )
+  )
+  
+#Dad PMK 
+new_data <- new_data %>%
+  mutate(
+    dad_pmk_97 = as.numeric(R1485800),
+    dad_pmk_97_cat = case_when(
+      between(dad_pmk_97 , 0, 4) ~ "0 TO 4",
+      between(dad_pmk_97 , 5, 8) ~ "5 TO 8",
+      between(dad_pmk_97 , 9, 12) ~ "9 TO 12",
+      between(dad_pmk_97 , 13, 16) ~ "13 TO 16",
+      TRUE ~ NA_character_
+    ),
+    dad_pmk_97_cat = factor(
+      dad_pmk_97_cat,
+      levels = c("0 TO 4", "5 TO 8", "9 TO 12", "13 TO 16")
+    )
+  ) 
+
+# Family/Home Risk Index 1997 
+new_data <- new_data %>% 
+  mutate(family_home_risk_cat = case_when(
+          between(R1487000, 0, 399) ~ "0 TO 399", 
+          between(R1487000, 400, 699) ~ "400 TO 699",
+          between(R1487000, 700, 999) ~ "700 TO 999",
+          between(R1487000, 1000, 1299) ~ "1000 TO 1299",
+          between(R1487000, 1300, 1599) ~ "1300 TO 1599", 
+          between(R1487000, 1600, 1899) ~ "1600 TO 1899", 
+          between(R1487000, 1900, 2100) ~ "1900 TO 2100",
+           TRUE ~ NA_character_
+    ), 
+      family_home_risk_num = as.numeric(R1487000)
+         )
+
+# Physical Environment Risk Index 1997 
+new_data <- new_data %>% 
+  mutate(physical_env_risk_cat = case_when(
+          between(R1487100, 100, 299) ~ "100 TO 299", 
+          between(R1487100, 300, 499) ~ "300 TO 499",
+          between(R1487100, 500, 700) ~ "500 TO 700",
+           TRUE ~ NA_character_
+    ), 
+      physical_env_risk_num = as.numeric(R1487100)
+         )
+
+# Substance Use Index 1997 
+new_data$substance_use_index_cat <- factor(new_data$R1487800,
+    levels=c(0.0,1.0,2.0,3.0),
+    labels=c("0",
+      "1",
+      "2",
+      "3")
+  ) 
+
+# Num Cigs Smoked/Day Last 30 Days 2002
+new_data <- new_data %>% 
+  rename(num_cigs_02 = S0921800)
+
+#Age 1st Time Use other drugs 2002 
+new_data <- new_data %>% 
+  rename(age_first_drug_02 = S0923900) 
+
+glimpse(new_data)
+
+r6_2 <- new_data %>% 
+  rename(id = R0000100) %>% 
+  select(id, sex, birthdate, eth, race, race_eth,
+         mom_pmk_97, mom_pmk_97_cat, dad_pmk_97, dad_pmk_97_cat, mom_style, dad_style, family_home_risk_cat, family_home_risk_num, physical_env_risk_cat, physical_env_risk_num, substance_use_index_cat, num_cigs_02, age_first_drug_02
+         )
+
+glimpse(r6_2) 
 
 ``` 
 
 
 # Self Reported Drinking/Driving Data 
 
+The self-reported drinking and driving data contains variables about 
 
