@@ -18,6 +18,8 @@ library(readxl)
 library(lubridate)
 library(broom)
 library(viridis)
+library(haven)
+
 
 # Global options
 knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
@@ -2732,6 +2734,33 @@ primary <- data2 %>%
          ) 
 
 ```
+
+Before we move on to the weighting variable, let's do a quick check to see how many observations we have for our baseline pmk vs. average, to see whether there is merit in keeping one or the other. 
+
+```{r pmk_exploration}
+data2 %>% 
+  summarize(
+    n_dad_b   = sum(is.na(baseline_dad_pmk)),
+    n_mom_b   = sum(is.na(baseline_mom_pmk)),
+    n_dad_avg = sum(is.na(avg_dad_pmk)),
+    n_mom_avg = sum(is.na(avg_mom_pmk)), 
+    
+    both_missing_baseline = sum(
+      is.na(baseline_mom_pmk) & is.na(baseline_dad_pmk)
+    ),
+    
+    both_missing_avg = sum(
+      is.na(avg_mom_pmk) & is.na(avg_dad_pmk)
+    )
+  )
+
+```
+It looks like for our baseline participants, 5,025 are missing dad, 3,769 are missing mom, and 3,622 are missing both. 
+
+When we take the average, 4,665 are missing dad, 3,642 are missing mom, and 3,572 are missing both.  
+
+That means that for the *baseline* pmk data, we are missing **~40-55%** of data, whereas for the *average* pmk data, we are missing **39-52%** of data.
+
 ## Weighting variable 
 
 This data seems relatively simple, just the two columns, one for ID and one for the weight. 
@@ -2809,4 +2838,15 @@ merged4 %>%
 
 There are no missing values for these criteria, so we don't need to exclude any observations here. 
 
+# Saving final dataset  
 
+We will save two versions, one as a .csv and one as a sas file. 
+
+```{r save} 
+write_csv(merged4, "../CleanData/study_dat.csv")
+
+write_sas(
+  merged4,
+  "../CleanData/study_dat.sas7bdat"
+)
+```
