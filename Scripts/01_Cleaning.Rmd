@@ -188,8 +188,6 @@ vars_R6 <- c('R0000100', #id
           'R0538600', #ethnicity
           'R0538700', #race
           'R1204500', #annual income, 97
-          'R1485700', #mom's monitor, 97
-          'R1485800', #dad's monitor, 97
           'R1486500', #mom's parent style, 97
           'R1486600', #dad's parent style, 97
           'R1487000', #fam/home risk index 97
@@ -397,42 +395,6 @@ new_data$dad_style <- factor(new_data$R1486600,
       "Authoritative")
   )
  
-#Parental Monitoring 
-  #Note: It is cleaned in a way to make these variables categorical, but in the future we may need to have a numeric version so we could take an average over multiple years. We will therefore make two versions, one that is categorical and one that is numeric  
-
-#Mom PMK   
-new_data <- new_data %>%
-  mutate(
-    mom_pmk = as.numeric(R1485700),
-    mom_pmk_cat = case_when(
-      between(mom_pmk, 0, 4) ~ "0 TO 4",
-      between(mom_pmk, 5, 8) ~ "5 TO 8",
-      between(mom_pmk, 9, 12) ~ "9 TO 12",
-      between(mom_pmk, 13, 16) ~ "13 TO 16",
-      TRUE ~ NA_character_
-    ),
-    mom_pmk_cat = factor(
-      mom_pmk_cat,
-      levels = c("0 TO 4", "5 TO 8", "9 TO 12", "13 TO 16")
-    )
-  )
-  
-#Dad PMK 
-new_data <- new_data %>%
-  mutate(
-    dad_pmk = as.numeric(R1485800),
-    dad_pmk_cat = case_when(
-      between(dad_pmk , 0, 4) ~ "0 TO 4",
-      between(dad_pmk , 5, 8) ~ "5 TO 8",
-      between(dad_pmk , 9, 12) ~ "9 TO 12",
-      between(dad_pmk , 13, 16) ~ "13 TO 16",
-      TRUE ~ NA_character_
-    ),
-    dad_pmk_cat = factor(
-      dad_pmk_cat,
-      levels = c("0 TO 4", "5 TO 8", "9 TO 12", "13 TO 16")
-    )
-  ) 
 
 # Family/Home Risk Index 1997 
 new_data <- new_data %>% 
@@ -509,8 +471,7 @@ glimpse(new_data)
 
 r6_2 <- new_data %>% 
   rename(id = R0000100) %>% 
-  select(id, sex, birthdate, eth, race, race_eth,
-         mom_pmk, mom_pmk_cat, dad_pmk, dad_pmk_cat, mom_style, dad_style, family_home_risk_cat, family_home_risk_num, physical_env_risk_cat, physical_env_risk_num, substance_use_index_cat, num_cigs_02, age_first_drug_02, education, ride_drink_2002
+  select(id, sex, birthdate, eth, race, race_eth, mom_style, dad_style, family_home_risk_cat, family_home_risk_num, physical_env_risk_cat, physical_env_risk_num, substance_use_index_cat, num_cigs_02, age_first_drug_02, education, ride_drink_2002
          )
 
 glimpse(r6_2) 
@@ -2627,7 +2588,15 @@ primary_vars <- c("R0000100", #ID
                   "S0923300", #Marijuana use 
                   "S1541700", #Annual household income 2002 
                   "R1489700", #Stratum
-                  "R1489800" #PSU
+                  "R1489800", #PSU
+                  "R1485700", #mom pmk 97 
+                  "R2601000", #mom pmk 98 
+                  "R3924400", #mom pmk 99 
+                  "R5510900", #mom pmk 00 
+                  "R1485800", #dad pmk 97 
+                  "R2601100", #dad pmk 98 
+                  "R3924500", #dad pmk 99 
+                  "R5511000"  #dad pmk 00
                   ) 
 
 data2 <- data %>% 
@@ -2681,7 +2650,74 @@ data2 <- data2 %>%
       )
     )
   )
+ 
+#Parental Monitoring 
 
+#We are going to retain 4 versions of pmk, which we will later decide what to do with. We will have our baseline pmk scores for mom and dad, and our average pmk scores. We will also further categorize these scores as categorical, to have that option. 
+
+
+#Renaming Variables 
+data2 <- data2 %>%
+  rename(
+mom_pmk_97	= R1485700,
+mom_pmk_98 =	R2601000,
+mom_pmk_99 =	R3924400,
+mom_pmk_00 =	R5510900,
+dad_pmk_97 =	R1485800, 
+dad_pmk_98 =	R2601100,
+dad_pmk_99 =	R3924500, 
+dad_pmk_00 =	R5511000
+)
+ 
+#Making average pmk variables 
+data2 <- data2 %>% 
+  mutate(
+    avg_mom_pmk = rowMeans(
+      select(., mom_pmk_97, mom_pmk_98, mom_pmk_99, mom_pmk_00),
+      na.rm = TRUE
+    ),
+    avg_dad_pmk = rowMeans(
+      select(., dad_pmk_97, dad_pmk_98, dad_pmk_99, dad_pmk_00),
+      na.rm = TRUE
+    ),
+    
+    avg_mom_pmk = na_if(avg_mom_pmk, NaN),
+    avg_dad_pmk = na_if(avg_dad_pmk, NaN)
+  ) %>% 
+  rename(
+    baseline_mom_pmk = mom_pmk_97,
+    baseline_dad_pmk = dad_pmk_97
+  )
+
+
+
+#Categorical variable function  
+recat_pmk <- function(df, var, var_cat) {
+  df %>%
+    mutate(
+      {{ var_cat }} := case_when(
+        between({{ var }}, 0, 4) ~ "0 TO 4",
+        between({{ var }}, 5, 8) ~ "5 TO 8",
+        between({{ var }}, 9, 12) ~ "9 TO 12",
+        between({{ var }}, 13, 16) ~ "13 TO 16",
+        TRUE ~ NA_character_
+      ),
+      {{ var_cat }} := factor(
+        {{ var_cat }},
+        levels = c("0 TO 4", "5 TO 8", "9 TO 12", "13 TO 16")
+      )
+    )
+}
+
+data2 <- recat_pmk(data2,avg_mom_pmk, avg_mom_pmk_cat)
+data2 <- recat_pmk(data2,avg_dad_pmk, avg_dad_pmk_cat)
+data2 <- recat_pmk(data2,baseline_mom_pmk, baseline_mom_pmk_cat)
+data2 <- recat_pmk(data2,baseline_dad_pmk, baseline_dad_pmk_cat)
+  
+data2 %>% 
+  select(avg_mom_pmk, avg_mom_pmk_cat, baseline_mom_pmk,
+         baseline_dad_pmk, baseline_mom_pmk_cat, baseline_dad_pmk_cat) %>% 
+  slice(1:10)
 
 #renaming variables and subsetting 
 
@@ -2689,7 +2725,11 @@ primary <- data2 %>%
   rename(id = R0000100, 
          stratum = R1489700, 
          psu = R1489800) %>% 
-  select(id,psu,stratum,age,age_group,binge,marijuana,income) 
+  select(id,psu,stratum,age,age_group,
+         binge,marijuana,income,
+         avg_mom_pmk, avg_mom_pmk_cat, baseline_mom_pmk,
+         baseline_dad_pmk, baseline_mom_pmk_cat, baseline_dad_pmk_cat
+         ) 
 
 ```
 ## Weighting variable 
@@ -2748,7 +2788,25 @@ We previously applied exclusion criteria pertaining to our outcome variable of i
 
 We started with 8,984 observations. 
   We removed **1098** NA values for driving after drinking, and **288** individuals who did not report driving in the past 30 days. 
-  
 
+Additional inclusion criteria: 
+
+- Had the survey design variables 
+
+- Had the Round 6 weight  
+
+```{r inclusion}
+#how many have survey design var 
+merged4 %>% 
+  filter(is.na(cv_samp)) %>% 
+  nrow()
+
+#how many have round 6 weight
+merged4 %>% 
+  filter(is.na(weight)) %>% 
+  nrow()
+```
+
+There are no missing values for these criteria, so we don't need to exclude any observations here. 
 
 
