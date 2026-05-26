@@ -1,0 +1,215 @@
+---
+title: "02_Exploration"
+output:
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    toc_float: true
+    code_folding: hide  
+---
+
+```{r setup, include = FALSE}
+# Load packages
+library(tidyverse)
+library(ggplot2) 
+library(readxl) 
+library(lubridate)
+library(broom)
+library(viridis)
+library(haven) 
+library(labelled)
+
+
+# Global options
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Load data 
+study_dat <- read.csv("../CleanData/study_dat.csv") 
+
+# Variable Labels  
+
+var_label(study_dat$id) <- "Respondent ID"
+
+var_label(study_dat$stratum) <- "Sampling stratum"
+var_label(study_dat$psu) <- "Primary sampling unit"
+var_label(study_dat$weight) <- "Round 6 survey weight"
+
+var_label(study_dat$age) <- "Age at Round 6 (2002)"
+var_label(study_dat$age_group) <- "Age group"
+
+var_label(study_dat$drive_after_drink) <- 
+  "Drove after drinking alcohol in past 30 days"
+
+var_label(study_dat$binge) <- 
+  "Consumed 5+ drinks on one occasion in past 30 days"
+
+var_label(study_dat$marijuana) <- 
+  "Used marijuana in past 30 days"
+
+var_label(study_dat$sex) <- "Biological sex"
+var_label(study_dat$eth) <- "Ethnicity"
+var_label(study_dat$race) <- "Race"
+var_label(study_dat$race_eth) <- "Combined race/ethnicity"
+
+var_label(study_dat$income) <- 
+  "Annual household income (previous year)"
+
+var_label(study_dat$education) <- 
+  "Highest educational attainment"
+
+var_label(study_dat$ride_drink_2002) <- 
+  "Rode with drinking driver in 2002"
+
+var_label(study_dat$family_home_risk_num) <- 
+  "Family/home risk index (numeric)"
+
+var_label(study_dat$family_home_risk_cat) <- 
+  "Family/home risk index category"
+
+var_label(study_dat$physical_env_risk_num) <- 
+  "Physical environment risk index (numeric)"
+
+var_label(study_dat$physical_env_risk_cat) <- 
+  "Physical environment risk index category"
+
+var_label(study_dat$substance_use_index_cat) <- 
+  "Substance use index"
+
+var_label(study_dat$num_cigs_02) <- 
+  "Number of cigarettes smoked in past 30 days (2002)"
+
+var_label(study_dat$age_first_drug_02) <- 
+  "Age first used other drugs"
+
+var_label(study_dat$baseline_mom_pmk) <- 
+  "Baseline maternal parental monitoring knowledge score (1997)"
+
+var_label(study_dat$baseline_dad_pmk) <- 
+  "Baseline paternal parental monitoring knowledge score (1997)"
+
+var_label(study_dat$baseline_mom_pmk_cat) <- 
+  "Baseline maternal PMK category"
+
+var_label(study_dat$baseline_dad_pmk_cat) <- 
+  "Baseline paternal PMK category"
+
+var_label(study_dat$avg_mom_pmk) <- 
+  "Average maternal parental monitoring knowledge score (1997-2000)"
+
+var_label(study_dat$avg_dad_pmk) <- 
+  "Average paternal parental monitoring knowledge score (1997-2000)"
+
+var_label(study_dat$avg_mom_pmk_cat) <- 
+  "Average maternal PMK category"
+
+var_label(study_dat$avg_dad_pmk_cat) <- 
+  "Average paternal PMK category"
+
+var_label(study_dat$birthdate) <- 
+  "Approximate birthdate (day set to 1)"
+
+# Binary Variable Labels 
+
+study_dat <- study_dat %>%
+  mutate(
+
+    drive_after_drink = labelled(
+      drive_after_drink,
+      labels = c(
+        "No" = 0,
+        "Yes" = 1
+      )
+    ),
+
+    binge = labelled(
+      binge,
+      labels = c(
+        "No" = 0,
+        "Yes" = 1
+      )
+    ),
+
+    marijuana = labelled(
+      marijuana,
+      labels = c(
+        "No" = 0,
+        "Yes" = 1
+      )
+    )
+
+  )
+
+# Ordered Factors 
+study_dat <- study_dat %>%
+  mutate(
+
+    age_group = factor(
+      age_group,
+      levels = c("Pre-21", "21-24")
+    ),
+
+    income = factor(
+      income,
+      levels = c(
+        "<=$10,000",
+        "$10,001 - $30,000",
+        "$30,001 - $50,000",
+        "$50,001 - $80,000",
+        ">$80,000"
+      ),
+      ordered = TRUE
+    ),
+
+    baseline_mom_pmk_cat = factor(
+      baseline_mom_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    ),
+
+    baseline_dad_pmk_cat = factor(
+      baseline_dad_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    ),
+
+    avg_mom_pmk_cat = factor(
+      avg_mom_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    ),
+
+    avg_dad_pmk_cat = factor(
+      avg_dad_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    )
+
+  )
+
+``` 
+
+
+# Introduction 
+
+
