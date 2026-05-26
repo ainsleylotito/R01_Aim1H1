@@ -18,7 +18,8 @@ library(readxl)
 library(lubridate)
 library(broom)
 library(viridis)
-library(haven)
+library(haven) 
+library(labelled)
 
 
 # Global options
@@ -2620,7 +2621,8 @@ data2 <- data2 %>%
   mutate(age_group = case_when(
     age < 21 ~ "Pre-21" ,
     age >= 21 ~ "21-24"
-  ))
+  )) 
+
 
 #Marijuana Use  
 data2 <- data2 %>% 
@@ -2727,11 +2729,21 @@ primary <- data2 %>%
   rename(id = R0000100, 
          stratum = R1489700, 
          psu = R1489800) %>% 
-  select(id,psu,stratum,age,age_group,
-         binge,marijuana,income,
-         avg_mom_pmk, avg_mom_pmk_cat, baseline_mom_pmk,
-         baseline_dad_pmk, baseline_mom_pmk_cat, baseline_dad_pmk_cat
-         ) 
+  select(
+  id, psu, stratum,
+  age, age_group,
+  binge, marijuana, income,
+
+  avg_mom_pmk,
+  avg_mom_pmk_cat,
+  avg_dad_pmk,
+  avg_dad_pmk_cat,
+
+  baseline_mom_pmk,
+  baseline_mom_pmk_cat,
+  baseline_dad_pmk,
+  baseline_dad_pmk_cat
+)
 
 ```
 
@@ -2836,7 +2848,69 @@ merged4 %>%
   nrow()
 ```
 
-There are no missing values for these criteria, so we don't need to exclude any observations here. 
+There are no missing values for these criteria, so we don't need to exclude any observations here.  
+
+# Variable Labeling/Informats  
+
+Before moving on to saving our dataset, we will apply some labeling and informats to them. 
+
+```{r var_labels}
+var_label(merged4$id) <- "Respondent ID"
+var_label(merged4$drive_after_drink) <- "Drove after drinking alcohol in past 30 days (2002)"
+var_label(merged4$age) <- "Age at Round 6 (2002)"
+var_label(merged4$binge) <- "Binge Drinking - Consumed 5+ drinks on one occasion in past 30 days"
+var_label(merged4$marijuana) <- "Used marijuana in past 30 days"
+var_label(merged4$weight) <- "Round 6 survey weight"
+var_label(merged4$stratum) <- "Sampling stratum"
+var_label(merged4$psu) <- "Primary sampling unit" 
+
+# PMK Variables  
+var_label(merged4$baseline_dad_pmk) <- "Baseline (1997) Parental Monitoring Knowledge -- Residential Fathers"
+var_label(merged4$baseline_mom_pmk) <- "Baseline (1997) Parental Monitoring Knowledge -- Residential Mothers" 
+var_label(merged4$avg_dad_pmk) <- "Average Parental Monitoring Knowledge (1997-2000) -- Residential Fathers" 
+var_label(merged4$avg_mom_pmk) <- "Average Parental Monitoring Knowledge (1997-2000) -- Residential Mothers"  
+
+
+
+ 
+#Recategorizing Age Group for SAS 
+merged4 <- merged4 %>%
+  mutate(
+    age_group = labelled(
+      ifelse(age < 21, 1, 2),
+      labels = c(
+        "Pre-21" = 1,
+        "21-24" = 2
+      )
+    )
+  )
+
+#Labelling binary vars
+merged4$drive_after_drink <- labelled(
+  merged4$drive_after_drink,
+  labels = c(
+    "No" = 0,
+    "Yes" = 1
+  )
+) 
+
+merged4$binge <- labelled(
+  merged4$binge,
+  labels = c(
+    "No times" = 0,
+    "≥ 1 time" = 1
+  )
+) 
+
+merged4$marijuana <- labelled(
+  merged4$marijuana,
+  labels = c(
+    "No times" = 0,
+    "≥ 1 time" = 1
+  )
+)
+
+```
 
 # Saving final dataset  
 
@@ -2848,5 +2922,10 @@ write_csv(merged4, "../CleanData/study_dat.csv")
 write_sas(
   merged4,
   "../CleanData/study_dat.sas7bdat"
+)
+
+write_xpt(
+  merged4,
+  "../CleanData/study_dat.xpt"
 )
 ```
