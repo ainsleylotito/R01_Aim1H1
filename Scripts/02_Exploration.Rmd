@@ -19,7 +19,8 @@ library(broom)
 library(viridis)
 library(haven) 
 library(labelled) 
-library(finalfit)
+library(finalfit) 
+library(naniar)
 
 
 # Global options
@@ -115,11 +116,12 @@ var_label(study_dat$birthdate) <-
 study_dat <- study_dat %>%
   mutate(
 
-    drive_after_drink = labelled(
+    drive_after_drink = factor(
       drive_after_drink,
+      levels = c(0,1),
       labels = c(
-        "No" = 0,
-        "Yes" = 1
+        "No",
+        "Yes"
       )
     ),
 
@@ -247,13 +249,63 @@ study_dat %>%
 
 #secondary variables 
 study_dat %>% 
-  ff_glimpse(dependent, explanatory2)  
+  ff_glimpse(dependent, explanatory2)   
+
+#Missing data information 
+miss_var_summary(study_dat) 
+
+#Mcar test  
+mcar_vars <- study_dat %>% 
+  select(age_group, sex, race_eth, education, binge, income, marijuana, avg_mom_pmk, avg_dad_pmk, drive_after_drink)
+mcar_test(mcar_vars)  
+
+``` 
+
+
+We got a significant MCAR test among our **primary variables** (x^2 = 9,055.96, p~0, missing patterns = 32). This indicates that we might be better off using multiple imputation, which was also mentioned as a method in the study protocol.   
+
+## 1.1 Cluster Analysis  
+
+We are going to use the naniar's package to make some data visualizations to help understand the patterns of missingness. 
+
+```{r missing_2} 
+#Headmap of dataset 
+vis_miss(study_dat) 
+
+# Sorting columns by missingness and cluster rows 
+#Headmap of dataset 
+vis_miss(study_dat, sort_miss = TRUE, cluster = TRUE)  
+
+#Which variables have the most missing values? 
+gg_miss_var(study_dat, show_pct = TRUE) 
+
+#What about in terms of driving and drinking?
+gg_miss_var(study_dat, facet = drive_after_drink, show_pct = TRUE) 
+
+#Missing data visualization  
+gg_miss_fct(study_dat, drive_after_drink)
 
 ```
 
-## 1.1 Cluster Analysis 
+When we look at the missing data by our outcome, driving after drinking, we see that there are some differences in missingness by **parental monitoring, binge drinking, family home risk, marijuana use, number of cigs in 02, number days drinking in 02, and phys environment risk.** 
 
-## 1.2 Logistic regression
+
+## 1.2 Logistic regression  
+
+Next, we want to fit logistic regression models that identify variables (including our outcome) that are associated with the likelihood of missingness. 
+
+```{r missing_logistic}
+# Missingness indicator for outcome
+study_dat <- study_dat %>%
+  mutate(
+    miss_drive_after_drink =
+      if_else(is.na(drive_after_drink), 1, 0)
+  )  
+
+
+
+
+```
 
 # 2. Variable Distributions  
 
