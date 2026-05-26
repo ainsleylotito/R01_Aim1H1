@@ -2872,19 +2872,6 @@ var_label(merged4$avg_mom_pmk) <- "Average Parental Monitoring Knowledge (1997-2
 
 
 
- 
-#Recategorizing Age Group for SAS 
-merged4 <- merged4 %>%
-  mutate(
-    age_group = labelled(
-      ifelse(age < 21, 1, 2),
-      labels = c(
-        "Pre-21" = 1,
-        "21-24" = 2
-      )
-    )
-  )
-
 #Labelling binary vars
 merged4$drive_after_drink <- labelled(
   merged4$drive_after_drink,

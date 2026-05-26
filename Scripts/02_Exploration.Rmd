@@ -18,7 +18,8 @@ library(lubridate)
 library(broom)
 library(viridis)
 library(haven) 
-library(labelled)
+library(labelled) 
+library(finalfit)
 
 
 # Global options
@@ -211,5 +212,61 @@ study_dat <- study_dat %>%
 
 
 # Introduction 
+
+This script contains the code used to explore the NLSY97 data that was previously cleaned in the `"01_Cleaning.rmd"` file. The primary goals of this script are to: 
+
+1. Explore patterns of **missingness**, using cluster analysis and logistic regression to identify variables (including outcome) associated with the likelihood of missingness. 
+
+2. Examine **variable distribution**, paying attention to possible outliers or colinear patterns.  This will help us decide which variables to include in our Table 1. It will also help us understand whether our variables meet the assumptions of the logistic regression models we plan to use later on. 
+
+3. **Descriptive statistics** of population. We will retain some of these same descriptive statistics later on in our formal Analysis, but we will start by being more thorough in this document.  
+
+# 1. Missingness   
+
+To start, we are going to explore whether we have any missing data that depends on our outcome of interest (driving after drinking). We are going to have two explanatory vectors, the first containing our primary explanatory variable of interest and participant demographics, the second containing virtually all variables.
+
+```{r missing_1}
+# Examine with ff_glimpse
+explanatory1 = c("age_group", "sex", 
+  "race_eth", "education",  
+  "binge", "marijuana", "income", "avg_mom_pmk", 
+  "avg_dad_pmk")
+dependent = "drive_after_drink" 
+
+#other descriptive variables
+explanatory2 = c("drank_since_interview_02", "num_days_drink_02", 
+  "num_drinks_p_day_02", "num_days_drink_p_school_week",  
+  "eth", "race", "mom_style", "dad_style", 
+  "family_home_risk_num", "physical_env_risk_num",
+  "substance_use_index_cat", "num_cigs_02", "age_first_drug_02", "ride_drink_2002")
+
+
+#primary variables
+study_dat %>% 
+  ff_glimpse(dependent, explanatory1)  
+
+#secondary variables 
+study_dat %>% 
+  ff_glimpse(dependent, explanatory2)  
+
+```
+
+## 1.1 Cluster Analysis 
+
+## 1.2 Logistic regression
+
+# 2. Variable Distributions  
+
+## 2.1 Variable exploration 
+
+## 2.2 Logistic regression assumptions 
+
+# 3. Descriptive Statistics 
+
+## 3.1 Entire Sample 
+
+## 3.2 Age-Group Specific 
+
+## 3.3 Drinking while driving specific
 
 
