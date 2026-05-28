@@ -295,20 +295,91 @@ When we look at the missing data by our outcome, driving after drinking, we see 
 
 ## 1.2 Logistic regression  
 
-Next, we want to fit logistic regression models that identify variables (including our outcome) that are associated with the likelihood of missingness. 
+Next, we want to fit logistic regression models that identify variables (including our outcome) that are associated with the likelihood of missingness.  
+
+There are no missing data for our outcome variable, so we fortunately do not need to worry about that. However, we do want to check on whether the levels of drive after drink is associated with our other predictors. If our demographic/substance variables predict missingness, then missingness will be related to the observed data (consistent with MAR). If drive after drink predicts missingness, then it will depend on the outcome, and we will need to handle our values with multiple imputation or possibly deletion. 
 
 ```{r missing_logistic}
 # Missingness indicator for outcome
-study_dat <- study_dat %>%
-  mutate(
-    miss_drive_after_drink =
-      if_else(is.na(drive_after_drink), 1, 0)
-  )  
+vars_to_check <- c(
+  "age_group", "sex", "race_eth", "education",
+  "binge", "marijuana", "income",
+  "avg_mom_pmk", "avg_dad_pmk", "avg_pmk",
+  "drank_since_interview_02",
+  "num_days_drink_02",
+  "num_drinks_p_day_02",
+  "num_days_drink_p_school_week",
+  "eth", "race", "mom_style", "dad_style",
+  "family_home_risk_num",
+  "physical_env_risk_num",
+  "substance_use_index_cat",
+  "num_cigs_02",
+  "age_first_drug_02",
+  "ride_drink_2002"
+) 
+
+results <- list()
+
+for(v in vars_to_check){
+
+  # Skip variables with no missingness
+  if(sum(is.na(study_dat[[v]])) == 0) next
+
+  miss_var <- paste0("miss_", v)
+
+  study_dat[[miss_var]] <- ifelse(
+    is.na(study_dat[[v]]),
+    1, 0
+  )
+
+  form <- as.formula(
+    paste(
+      miss_var,
+      "~ drive_after_drink + age_group + sex + race_eth"
+    )
+  )
+
+  model <- glm(
+    form,
+    data = study_dat,
+    family = binomial
+  )
+
+  results[[v]] <- summary(model)
+
+  cat("\n========================\n")
+  cat("Missingness model for:", v, "\n")
+  print(summary(model))
+}
 
 
-```
+``` 
 
-# 2. Variable Distributions  
+When we look at the results, we have some evidence to suggest that our data are not MCAR, because the missingness is associated with participant characteristics or the outcome. This is supported by our visual inspections earlier. 
+
+Our missingness is likely MAR, supporting the use of multiple imputation.   
+
+**Exposure-related missingness**
+
+We saw consistent significance for age groups, for instance. Participants aged 21-24 had different probabilities of missingness than younger participants. Older participants may have been less likely to complete certain measures (for example, the parent/family measures of PMK).  
+
+**Outcome-related missingness**  
+Binge, marijuana, number days drinking, number cigs, and dad style are variables that had missingness associated with drive after drink. 
+
+For instance, with binge drinking, participants who drove after drinking were less likely to have missing binge data. Perhaps participants were more forthcoming about their substance use than others, leading to this pattern. 
+
+**Race/Ethnicity Patterns** 
+
+Race/ethnicity predicted missingness for binge variables, dad pmk and parenting style, and alcohol use variables. 
+
+
+**Summary** 
+
+Missingness for several explanatory variables was associated with demographic characteristics and for some variables, our outcome. Data were unlikely to be missing at random (MCAR), and are more consistent with missing at random (MAR) mechanism. 
+
+# 2. Variable Distributions 
+
+Next we are going to take a glimpse at our variable distributions. 
 
 ## 2.1 Variable exploration 
 

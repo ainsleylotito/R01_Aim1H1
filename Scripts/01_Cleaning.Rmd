@@ -2622,7 +2622,12 @@ data2 <- data2 %>%
   mutate(age_group = case_when(
     age < 21 ~ "Pre-21" ,
     age >= 21 ~ "21-24"
-  )) 
+  ))  
+
+data2 %>% 
+  summarize(n_miss_age = sum(is.na(age))) 
+
+#we are missing some data here for age group, need to recalculate for the missing obs and fill in 
 
 
 #Marijuana Use  
@@ -2784,7 +2789,17 @@ data2 %>%
     both_missing_avg = sum(
       is.na(avg_mom_pmk) & is.na(avg_dad_pmk)
     )
-  )
+  ) 
+
+data2 %>% 
+  group_by(age_group) %>% 
+  summarize(
+    n_dad_baseline   = sum(is.na(baseline_dad_pmk)),
+    n_mom_baseline   = sum(is.na(baseline_mom_pmk)),
+    n_dad_avg = sum(is.na(avg_dad_pmk)),
+    n_mom_avg = sum(is.na(avg_mom_pmk)),  
+    n_avg = sum(is.na(avg_pmk))
+  ) 
 
 ```
 It looks like for our baseline participants, 5,025 are missing dad, 3,769 are missing mom, and 3,622 are missing both. 
@@ -2868,7 +2883,8 @@ merged4 %>%
   nrow()
 ```
 
-There are no missing values for these criteria, so we don't need to exclude any observations here.  
+There are no missing values for these criteria, so we don't need to exclude any observations here.   
+
 
 # Variable Labeling/Informats  
 
@@ -2917,12 +2933,13 @@ merged4$marijuana <- labelled(
   )
 ) 
 
-#we don't need birthdate 
 
-merged4 <- merged4 %>% 
-  select(-birthdate)
 
 ```
+
+
+
+
 
 # Saving final dataset  
 
