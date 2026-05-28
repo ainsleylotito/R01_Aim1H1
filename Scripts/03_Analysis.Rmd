@@ -229,9 +229,19 @@ design <- svydesign(
  
  This script contains the code used to explore the NLSY97 data that was previously cleaned in the `"01_Cleaning.rmd"` file. The primary goals of this script are to: 
 
-1. **Descriptive Statistics** of the sample stratified by the exposure (age group), producing a table 1 with weighted values 
+1. Apply **multiple imputation methods to missing data**
 
-2. Apply **multiple imputation methods to missing data**
+2. **Descriptive Statistics** of the sample stratified by the exposure (age group), producing a table 1 with weighted values 
 
 3. **Sequential logistic models** to analyze the relationship between age group and reported driving after drinking.  
 
+
+# 1. Multiple Imputation 
+
+We are following some of the methodology considerations as laid out in this [Github Textbook](https://gilliandebra.github.io/R_Core_Basics_Unleashed-Data-Preprocessing_Visualization_and_Analysis_using_R/missing-data-and-multiple-imputation.html).  
+
+The first consideration is the pattern of missingness; based on our previous exploration in `"02_Exploration.rmd"`, our best guess is that our data is Missing At Random (MAR), supporting the choice to use multiple imputation.
+
+The second consideration is whether to use joint modeling or fully conditional specification (FCS). Our data contains a mix of categorical and continuous variables, so FCS is preferred in this case. 
+
+FCS will "[specify] a regression model in which missing values are predicted by taking the other variables from your dataset as predictors. This missing value procedure is repeated until convergence."
