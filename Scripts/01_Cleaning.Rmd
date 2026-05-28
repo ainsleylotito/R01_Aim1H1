@@ -2599,7 +2599,8 @@ primary_vars <- c("R0000100", #ID
                   "R1485800", #dad pmk 97 
                   "R2601100", #dad pmk 98 
                   "R3924500", #dad pmk 99 
-                  "R5511000"  #dad pmk 00
+                  "R5511000",  #dad pmk 00 
+                  "S1290100" # driver's license status
                   ) 
 
 data2 <- data %>% 
@@ -2691,7 +2692,16 @@ data2 <- data2 %>%
   rename(
     baseline_mom_pmk = mom_pmk_97,
     baseline_dad_pmk = dad_pmk_97
-  )
+  ) 
+
+# Making an average of both mom and dad pmk 
+
+data2 <- data2 %>% 
+  mutate(
+    avg_pmk = rowMeans(
+      select(., avg_mom_pmk, avg_dad_pmk),
+      na.rm = TRUE
+    ))
 
 
 
@@ -2717,11 +2727,18 @@ data2 <- recat_pmk(data2,avg_mom_pmk, avg_mom_pmk_cat)
 data2 <- recat_pmk(data2,avg_dad_pmk, avg_dad_pmk_cat)
 data2 <- recat_pmk(data2,baseline_mom_pmk, baseline_mom_pmk_cat)
 data2 <- recat_pmk(data2,baseline_dad_pmk, baseline_dad_pmk_cat)
-  
+data2 <- recat_pmk(data2,avg_pmk, avg_pmk_cat)
+
+ 
 data2 %>% 
   select(avg_mom_pmk, avg_mom_pmk_cat, baseline_mom_pmk,
          baseline_dad_pmk, baseline_mom_pmk_cat, baseline_dad_pmk_cat) %>% 
-  slice(1:10)
+  slice(1:10) 
+
+#driver's license 
+data2 <- data2 %>% 
+  rename(license = S1290100) 
+  
 
 #renaming variables and subsetting 
 
@@ -2742,7 +2759,8 @@ primary <- data2 %>%
   baseline_mom_pmk,
   baseline_mom_pmk_cat,
   baseline_dad_pmk,
-  baseline_dad_pmk_cat
+  baseline_dad_pmk_cat, 
+  license
 )
 
 ```
@@ -2798,9 +2816,9 @@ dim(self_reported_drinking_driving)
 dim(alcuse) 
   #6 cols, 8,984 rows
 dim(r6_2) 
-  #21 cols, 8,984 rows
+  #17 cols, 8,984 rows
 dim(primary) 
-  #8 cols, 8,984 rows
+  #17 cols, 8,984 rows
 
 merged <- left_join(self_reported_drinking_driving, alcuse, by = "id")  
 dim(merged)
