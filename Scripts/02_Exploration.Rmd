@@ -108,8 +108,11 @@ var_label(study_dat$avg_mom_pmk_cat) <-
 var_label(study_dat$avg_dad_pmk_cat) <- 
   "Average paternal PMK category"
 
-var_label(study_dat$birthdate) <- 
-  "Approximate birthdate (day set to 1)"
+var_label(study_dat$license) <- 
+  "Driver's License Status"  
+
+var_label(study_dat$avg_pmk) <- 
+  "Average PMK both Parents 1999-2000"
 
 # Binary Variable Labels 
 
@@ -232,7 +235,7 @@ To start, we are going to explore whether we have any missing data that depends 
 explanatory1 = c("age_group", "sex", 
   "race_eth", "education",  
   "binge", "marijuana", "income", "avg_mom_pmk", 
-  "avg_dad_pmk")
+  "avg_dad_pmk", "avg_pmk")
 dependent = "drive_after_drink" 
 
 #other descriptive variables
@@ -301,8 +304,6 @@ study_dat <- study_dat %>%
     miss_drive_after_drink =
       if_else(is.na(drive_after_drink), 1, 0)
   )  
-
-
 
 
 ```

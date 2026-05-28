@@ -2760,6 +2760,8 @@ primary <- data2 %>%
   baseline_mom_pmk_cat,
   baseline_dad_pmk,
   baseline_dad_pmk_cat, 
+  avg_pmk, 
+  avg_pmk_cat,
   license
 )
 
@@ -2913,7 +2915,12 @@ merged4$marijuana <- labelled(
     "No times" = 0,
     "≥ 1 time" = 1
   )
-)
+) 
+
+#we don't need birthdate 
+
+merged4 <- merged4 %>% 
+  select(-birthdate)
 
 ```
 
