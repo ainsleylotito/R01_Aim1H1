@@ -609,12 +609,48 @@ We are going to compare our sample statistics before and after applying weightin
 
 ## 3.1 Entire Sample  
 
-### Unweighted 
+### Unweighted  
 
-### Weighted
+```{r}
+#How many observations in the data? 
+nrow(study_dat) 
 
-## 3.2 Age-Group Specific 
 
-## 3.3 Drinking while driving specific
+#How many in each age group? 
+study_dat %>% 
+  group_by(age_group) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+
+#How many driving after drinking? 
+study_dat %>% 
+  group_by(drive_after_drink) %>% 
+   count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+```
+
+### Weighted 
+
+```{r}
+# Weighted total sample size 
+design <- svydesign(
+  ids = ~id,
+  weights = ~weight,
+  data = study_dat
+) 
+
+# Weighted proportions for age group
+svytable(~age_group, design)
+prop.table(svytable(~age_group, design))
+
+ # Weighted proportions for drive_after_drink
+svytable(~drive_after_drink, design)
+prop.table(svytable(~drive_after_drink, design))
+```
+
 
 
