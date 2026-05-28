@@ -2621,7 +2621,7 @@ data2 <- data2 %>%
   rename(age = S1531400) %>% 
   mutate(age_group = case_when(
     age < 21 ~ "Pre-21" ,
-    age >= 21 ~ "21-24"
+    age >= 21 & age <= 24 ~ "21-24"
   ))  
 
 data2 %>% 

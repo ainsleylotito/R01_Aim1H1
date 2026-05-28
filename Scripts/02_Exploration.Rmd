@@ -20,7 +20,11 @@ library(viridis)
 library(haven) 
 library(labelled) 
 library(finalfit) 
-library(naniar)
+library(naniar) 
+library(purrr)
+library(janitor)
+library(skimr) 
+library(survey)
 
 
 # Global options
@@ -377,17 +381,237 @@ Race/ethnicity predicted missingness for binge variables, dad pmk and parenting 
 
 Missingness for several explanatory variables was associated with demographic characteristics and for some variables, our outcome. Data were unlikely to be missing at random (MCAR), and are more consistent with missing at random (MAR) mechanism. 
 
-# 2. Variable Distributions 
+# 2. Variable Exploration 
+
+## 2.1 Variable Distributions 
 
 Next we are going to take a glimpse at our variable distributions. 
 
-## 2.1 Variable exploration 
+```{r var_skim} 
+skim(study_dat) 
+``` 
+
+Let's take a closer look at some of our key variables.  
+
+### Driving after Drinking (Outcome)
+
+```{r}
+ggplot(study_dat, aes(x = drive_after_drink)) +
+  geom_bar() +
+  labs(
+    title = "Driving After Drinking",
+    x = "Response",
+    y = "Count"
+  ) +
+  theme_minimal() 
+
+study_dat %>% 
+  group_by(drive_after_drink) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+
+```
+
+### Age Group (Exposure)
+
+```{r}
+ggplot(study_dat, aes(x = age_group)) +
+  geom_bar() +
+  labs(
+    title = "Age Group",
+    x = "Age",
+    y = "Count"
+  ) +
+  theme_minimal() 
+
+study_dat %>% 
+  group_by(age_group) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+
+```
+
+### Demographic Factors
+
+```{r}
+study_dat %>% 
+  group_by(race_eth) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(sex) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(education) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+
+study_dat %>% 
+  group_by(income) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+
+```
+
+**Summary** 
+
+- Majority Non-Black/Non-Hispanic (52%), followed by Black (25%). Will be accounted for with weighting. 
+- Almost even sex split 
+- Majority high school diplomat (69%), followed by None, which would likely account for those still in high school? Need to double check. 
+- Income Majority NA, which would make sense for younger respondents not knowing the answer. After that, relatively even split betwen 10k-30k and >80k.
+
+### Substance Use Factors
+
+```{r}
+study_dat %>% 
+  group_by(ride_drink_2002) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(age_first_drug_02) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(num_cigs_02) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(substance_use_index_cat) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(num_days_drink_02) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(marijuana) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(binge) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+
+```
+**Summary** 
+
+- Majority didn't report RWI 
+- Missing basically all data (99.9%) of age of first drug use (reported in 2002). Going to exclude this variable from analysis due to that. 
+- Num of cigs most frequent is NA (rather than 0, people most likely are skipping this question in this instance). We are missing data on 62% of respondents because of this. It may be more useful to categorize this information as smoker vs. non-smoker, as the exact number is likely due to all sorts of recall and social desirability biases.  
+- Most are in the substance use index category of 0 (46%), and we are actually not missing much data (0.22%). This index is unfortunately only useful inasmuch as people also reported using marijuana, as this question more broadly pertains to whether respondents have increased using substances since the last round. 
+- Num days drinking is majority missing (31%). 
+- Missing a lott of data for marijuana (75%), which is unfortunate because we wanted to use it as an explanatory variable.
+- Binge drinking also has a lot of missing data (42%), but there are more resondents who reported binge drinking than not binge drinking in the last 30 days. 
+
+
+### Familial/Environmental Factors 
+
+
+```{r}
+study_dat %>% 
+  group_by(avg_pmk_cat) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total= sum(n), 
+         percent = (n/total)*100)
+
+study_dat %>% 
+  group_by(mom_style) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(dad_style) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(family_home_risk_cat) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100) 
+
+study_dat %>% 
+  group_by(physical_env_risk_cat) %>% 
+  count() %>% 
+  ungroup() %>% 
+  mutate(total = sum(n), 
+         percent = (n/total)*100)
+```
+**Summary** 
+
+- 50% Missing PMK information. Of that available, 23% is 9-12 (second highest monitoring), followed by 5 to 8 (second lowest monitoring). So right in the middle. 
+- Majority authoritative mom parenting style, which is nice. Second highest is permissive, though, which is interesting for this sample in terms of if that differed for driving and drinking outcomes. 
+- Dad style follows same trends as maternal, however we have a lot more NAs for this. 
+- Lots of missing data for family home risk category, however highest cateogry is the lowest risk. 
+- Physical risk environment also lots of missing data, but highest proportion is the lowest risk range. 
 
 ## 2.2 Logistic regression assumptions 
 
-# 3. Descriptive Statistics 
+To run our logistic regression models, we need to meet the following assumptions: 
 
-## 3.1 Entire Sample 
+**1. Binary outcome** -- our outcome of driving after drinking meets this assumption
+
+**2. Independence of observations** -- this is not a repeated measures model, each observation corresponds to one resondent and their answers during round 6 of the interview (unless looking at items collected historically/at baseline like race/ethnicity)
+
+**3. No perfect multicollinearity** -- no variables can be perfectly colinear. We will check for colinearity of predictors that are naturally occurring, and we will keep in mind that many of our variables that we created by hand need to only include one version (ex, not including both baseline and avg PMK). 
+
+We cann test this assumption by obtaining a VIF number from our model object after we have fit it (VIF > 5-10 indicates problematic multicollinearity). To do this, we will need to use the package `car`. 
+
+**4. Linearity of the logit** -- the relationship between continuous predictors and the log-odds must be linear  
+
+We can test this assumption after fitting the model with the Box-Tidwell test, where a p-value < 0.05 indicates a violation of the linearity assumption. 
+To do this, we will need to use the package `ResourceSelection`. 
+
+# 3. Descriptive Statistics  
+
+We are going to compare our sample statistics before and after applying weighting variables for our variables of interest. 
+
+## 3.1 Entire Sample  
+
+### Unweighted 
+
+### Weighted
 
 ## 3.2 Age-Group Specific 
 
