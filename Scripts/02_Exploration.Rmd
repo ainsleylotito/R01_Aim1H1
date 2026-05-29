@@ -132,19 +132,21 @@ study_dat <- study_dat %>%
       )
     ),
 
-    binge = labelled(
+    binge = factor(
       binge,
+      levels = c(0,1),
       labels = c(
-        "No" = 0,
-        "Yes" = 1
+        "No",
+        "Yes"
       )
     ),
 
-    marijuana = labelled(
+    marijuana = factor(
       marijuana,
+      levels = c(0,1),
       labels = c(
-        "No" = 0,
-        "Yes" = 1
+        "No",
+        "Yes"
       )
     )
 
@@ -214,7 +216,7 @@ study_dat <- study_dat %>%
       ),
       ordered = TRUE
     )
-
+    
   )
 
 ``` 
@@ -537,7 +539,44 @@ study_dat %>%
 - Num days drinking is majority missing (31%). 
 - Missing a lott of data for marijuana (75%), which is unfortunate because we wanted to use it as an explanatory variable.
 - Binge drinking also has a lot of missing data (42%), but there are more resondents who reported binge drinking than not binge drinking in the last 30 days. 
+ 
+#### Comparing num drinks variables 
 
+We have a lot of "number of drinks per..." variables, which are most definitely colinear. We want to plot this, confirm that they are colinear, and find the variable with the fewest misisng data to keep for our study. 
+
+```{r num_drinks_exploration}
+num_drink_dat <- study_dat %>% 
+  mutate(
+    drive_after_drink = ifelse(drive_after_drink == "Yes", 1, 0)
+  ) %>% 
+  select(drive_after_drink, num_days_drink_02, num_drinks_p_day_02, num_days_drink_p_school_week) 
+
+cor_matrix <- cor(num_drink_dat) 
+corrplot::corrplot(cor_matrix, method = "circle")
+```
+
+Next we will use linear regression to see the relationship. 
+```{r}
+# Fit a linear regression model
+lm_model <- lm(drive_after_drink ~ ., data = num_drink_dat)
+
+# Display model summary
+summary(lm_model) 
+
+# Calculate VIF for predictor variables
+vif_values <- car::vif(lm_model)
+print(vif_values)
+```
+Since all three condition index values are close to 1, it suggests that there is relatively low multicollinearity among the predictor variables in the regression model. This is a positive indication as it implies that the predictor variables are not highly correlated with each other, which can lead to more stable and reliable estimates of regression coefficients. 
+
+Let's see how much missing data is present for each var: 
+```{r}
+num_drink_dat %>% 
+  summarize(miss_num_days_drink = sum(is.na(num_days_drink_02)),
+            miss_p_day = sum(is.na(num_drinks_p_day_02)), 
+            miss_school = sum(is.na(num_days_drink_p_school_week)))
+```
+Looks like we are missing the least amount of data for number of days drinking. We will retain this variable for analysis.
 
 ### Familial/Environmental Factors 
 

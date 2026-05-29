@@ -2937,10 +2937,37 @@ merged4$marijuana <- labelled(
 
 ```
 
+We also know from later exploration that we will need to create a variable that is a binary indicator of whether the person reports smoking or not, as the numeric number of cigarettes is problematic for our modeling purposes. 
 
+```{r}
+merged4 <- merged4 %>% 
+  mutate(smoker = case_when(
+    num_cigs_02 == 0 ~ 0, 
+    num_cigs_02 >= 1 ~ 1, 
+    TRUE ~ NA_real_
+  ))
+```
 
-
-
+Lastly, we have some variables that are character that we will need to be binary numbers instead.  
+- drank_since_interview_02 (currently character, need to refactor) (26 missing)
+- sex (currently character, need to refactor) (0 miss)
+-  ride_drink_2002 (character, need to refactor)  (9 miss)
+```{r}
+merged4 <- merged4 %>% 
+   mutate(
+      sex = case_when(
+        sex == "Female" ~ 0, 
+        sex == "Male" ~ 1, 
+        TRUE ~ NA_real_
+      ), 
+    ride_drink_2002 = case_when(
+      ride_drink_2002 == "No" ~ 0, 
+      ride_drink_2002 == "Yes" ~ 1, 
+      TRUE ~ NA_real_
+    )
+    ) %>% 
+  select(-drank_since_interview_02)
+```
 # Saving final dataset  
 
 We will save two versions, one as a .csv and one as a sas file. 
