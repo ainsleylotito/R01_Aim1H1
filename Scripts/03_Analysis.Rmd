@@ -26,7 +26,10 @@ library(purrr)
 library(janitor)
 library(skimr) 
 library(survey) 
-library(mice)
+library(mice) 
+library(psych) 
+library(table1) 
+library(tableone)
 
 
 # Global options
@@ -150,6 +153,12 @@ study_dat <- study_dat %>%
         "No",
         "Yes"
       )
+    ) , 
+    
+    sex = factor(
+      sex, 
+      levels = c(1,2), 
+      labels = c("Male", "Female")
     )
 
   )
@@ -267,7 +276,7 @@ overall_missing <- sum(is.na(imputation_dat)) / (nrow(imputation_dat) * ncol(imp
 round(overall_missing, 2)
 ``` 
 
-It looks like overall, we are missing ~18.07% of data. We are going to start off with this number initially when running the mice, but we will repeat and see if obtained results are similar after increasing the number of impuations. 
+It looks like overall, we are missing ~20% of data. We are going to start off with this number initially when running the mice, but we will repeat and see if obtained results are similar after increasing the number of impuations. 
 
 ### Predictor Matrix 
 
@@ -290,29 +299,47 @@ colSums(is.na(imputation_dat))
 colnames(imputation_dat)
 ``` 
 
-Numeric Variables: 
+**Numeric Variables: **
+
 - family_home_risk_num (3412 missing)
+
 - physical_env_risk_num (3455 missing)
+
 - avg_pmk (2905 missing)
+
 - num_days_drink_02 (2417 missing)
 
 
-Binary Variables: 
+**Binary Variables: **
+
 - drive_after_drink (0 miss)
+
 - drank_since_interview_02  (26 missing)
+
 - sex  (0 miss)
+
 - ride_drink_2002  (9 miss)
+
 - age_group (0 miss) 
+
 - binge (3203 miss)
+
 - marijuana (5732 miss)
+
 - license (27 miss)
+
 - smoker (4775 miss)
 
-Ordered Factor Variables: 
+**Ordered Factor Variables: **
+
 - race_eth (0 miss)
+
 - mom_style (321 miss)
+
 - dad_style (2122 miss)
+
 - education  (0 miss)
+
 - income (1824 miss)  
 
 Next, let's put in our impuation method, corresponding with the order of each variable in our dataset.  
@@ -343,17 +370,17 @@ imputation_method = c("", #drive after drink - no miss
                       )
 ```
 
-Next, we decide on the number of imputed datasets. We are going to start with 18, then try increasing to see whether it changes substantially with a higher number. 
+Next, we decide on the number of imputed datasets. We are going to start with 20, then try increasing to see whether it changes substantially with a higher number. 
 
 ```{r}
-n_imputations = 18
+n_imputations = 20
 ``` 
 
 #### Mice 18 imputations
 
-Now, it's time to run the mice function.  
+Now, it's time to run the mice function. We are going to omit the output for this one since it is a doozy.
 
-```{r}
+```{r, results = FALSE}
 mice_data = mice(
   data = imputation_dat,
   m = n_imputations,
@@ -370,4 +397,103 @@ Now we can check the convergence of the imputation algorithm.
 
 ```{r}
 plot(mice_data)
-```
+``` 
+
+We are looking on the line overlap to see whether they show a similar extent of variability. 
+
+We are also looking to see whether the range of the mean and sd of the numeric variables and the proportions of the binary/categorical/factor variables resemble the distribution of the observed variables. 
+
+We are also going to combine all of the factor variables to be character to simplify their distribution description. 
+
+```{r}
+
+num_vars <- c(
+  "family_home_risk_num",
+  "physical_env_risk_num",
+  "avg_pmk",
+  "num_days_drink_02"
+)
+
+fac_vars <- c(
+  "drive_after_drink", "sex",
+  "ride_drink_2002", "age_group", "binge", "marijuana",
+  "license", "smoker", "race_eth", "mom_style",
+  "dad_style", "education", "income"
+) 
+
+study_dat <- study_dat %>%
+  mutate(across(all_of(fac_vars), as.factor))
+
+table1(
+  ~ family_home_risk_num +
+    physical_env_risk_num +
+    avg_pmk +
+    num_days_drink_02 +
+    drive_after_drink +
+    sex +
+    ride_drink_2002 +
+    age_group +
+    binge +
+    marijuana +
+    license +
+    smoker +
+    race_eth +
+    mom_style +
+    dad_style +
+    education +
+    income,
+  data = study_dat
+)
+``` 
+
+
+
+
+Comparing the observed means/standard deviations with the imputed values, we can see that there are some larger differences in variables with more missing data, as we would expect, but overall things seem relatively normal. However, looking through the actual convergence plots, there are some concerns where different iterations show potential trends of increasing or decreasing. 
+
+These may not be significant, but it may be worthwhile for us to try using a larger number of iterations next to see how things change this time.  
+
+
+#### Pooling the results 
+ 
+We have no missing values in the outcome, so we can move forward to specifying the imputation model. 
+
+"our imputation should have at least the main effects of predictor1 and predictor2, and their interaction effect, on the same outcome. Important to note, the imputation model is allowed to have extra variables and this is the moment where I finally spoil the purpose of my auxiliary variable. Auxiliary variables are usually not of interest for your analysis per se but these variables may relate to missingness and missing variables. Therefore they may aid to approximate more the assumption of MAR. You could especially consider to add auxiliary variables when your pattern of missingness resembles more the missing not at random state. Of course, later on, you could always run mice with and without auxiliary variables to check whether results remain similar. In our example I will add the auxiliary variable to my imputation model." 
+
+```{r}
+#dummy code won't work for example only 
+
+my_mice_model = with(mice_data, 
+     lm( outcome ~ predictor1 * predictor2 + auxiliary )) # we have to use "with" since mice_data is a mids object
+
+summary(my_mice_model)  
+
+#pooling 
+pooled_estimates = pool(my_mice_model) 
+
+#put above results in separate df and computing confidence intervals  
+
+pooled_results = data.frame(
+  summary(pooled_estimates)     
+                              ) %>%
+  mutate(CI_lower =  estimate - 1.96*(sqrt(pooled_estimates$pooled$ubar)),
+         CI_upper = estimate + 1.96*(sqrt(pooled_estimates$pooled$ubar))) 
+
+# check to see whether results resemble what we would obtain without multiple imputation 
+
+mymodel_no_mice = lm( outcome ~ predictor1 * predictor2 + auxiliary ) # The model with automatically drop missing values so we do not need to do it ourselves
+
+data.frame(
+estimate = mymodel_no_mice$coefficients,
+std.error = summary(mymodel_no_mice)$coefficients[, "Std. Error"],
+statistic = summary(mymodel_no_mice)$coefficients[, "t value"],
+p.value = summary(mymodel_no_mice)$coefficients[, "Pr(>|t|)"],
+CI_lower = confint(mymodel_no_mice)[,1],
+CI_upper = confint(mymodel_no_mice)[,2]
+) 
+
+``` 
+
+## Checking the robustness of the results 
+
+Next, we need to check what happens if we increase the number of iterations. 
