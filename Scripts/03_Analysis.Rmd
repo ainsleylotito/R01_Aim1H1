@@ -25,7 +25,8 @@ library(naniar)
 library(purrr)
 library(janitor)
 library(skimr) 
-library(survey)
+library(survey) 
+library(mice)
 
 
 # Global options
@@ -133,19 +134,21 @@ study_dat <- study_dat %>%
       )
     ),
 
-    binge = labelled(
+    binge = factor(
       binge,
+      levels = c(0,1),
       labels = c(
-        "No" = 0,
-        "Yes" = 1
+        "No",
+        "Yes"
       )
     ),
 
-    marijuana = labelled(
+    marijuana = factor(
       marijuana,
+      levels = c(0,1),
       labels = c(
-        "No" = 0,
-        "Yes" = 1
+        "No",
+        "Yes"
       )
     )
 
@@ -215,8 +218,9 @@ study_dat <- study_dat %>%
       ),
       ordered = TRUE
     )
-
+    
   )
+
 
 design <- svydesign(
   ids = ~id,
@@ -244,4 +248,126 @@ The first consideration is the pattern of missingness; based on our previous exp
 
 The second consideration is whether to use joint modeling or fully conditional specification (FCS). Our data contains a mix of categorical and continuous variables, so FCS is preferred in this case. 
 
-FCS will "[specify] a regression model in which missing values are predicted by taking the other variables from your dataset as predictors. This missing value procedure is repeated until convergence."
+FCS will "[specify] a regression model in which missing values are predicted by taking the other variables from your dataset as predictors. This missing value procedure is repeated until convergence." 
+
+### Number of imputations 
+
+A general guideline can be to take the percentage of missingness in the dataset across our variables of interest as the number of imputation. 
+
+There is one variable (age first using marijuana/drug) we know ahead of time we do not want to use in our analysis, as it is majority missing. We will first exclude that variable, and subset to only the versions of variables we want to use for analysis, then quantify the exact number of missingness. 
+
+We are going to opt to use the numeric variables for some of our environmentla/familial values, as it may be easier to interpret changes on a continuous scale. This may be changed later on. 
+
+```{r pct_missing}
+imputation_dat <- study_dat %>% 
+  select(-age_first_drug_02, -age, -race, -eth, -family_home_risk_cat, -physical_env_risk_cat, -substance_use_index_cat, -num_cigs_02, -baseline_mom_pmk, -baseline_mom_pmk_cat, -baseline_dad_pmk, -baseline_dad_pmk_cat,
+         -avg_dad_pmk, -avg_dad_pmk_cat, -avg_mom_pmk, -avg_mom_pmk_cat, -avg_pmk_cat, -birthdate, -num_drinks_p_day_02, -num_days_drink_p_school_week) 
+
+overall_missing <- sum(is.na(imputation_dat)) / (nrow(imputation_dat) * ncol(imputation_dat)) * 100
+round(overall_missing, 2)
+``` 
+
+It looks like overall, we are missing ~18.07% of data. We are going to start off with this number initially when running the mice, but we will repeat and see if obtained results are similar after increasing the number of impuations. 
+
+### Predictor Matrix 
+
+To start, we need to define a predictor matrix with the variables we want to include as predictors for the missing values. We are going to to use every variable we have in the data we specified in the last step for this. However, there are some variables that will be completely not useful as a predictor of missing values (the survey design and id variables), so we will make sure to exclude these from our predictors. 
+
+```{r predictor_matrix}
+predictor_matrix = make.predictorMatrix(imputation_dat) 
+
+predictor_matrix[, c("id", "cv_samp", "psu", "weight", "stratum")] <- 0
+``` 
+
+Now, mice will have us select what imputation method to use per variable in the dataset, folowing the same order as the variables in the dataset. 
+
+We can choose between **"pmm"** (predictive mean matching for **numeric variables**), **"logreg"** (logistic regression for **binary variables**), **“polreg”** (polytomous regression for unordered factor variables having three levels or more), **"polyr** (proportional odds models for **ordered factors having three levels or more**). 
+In addition, we can use "" for variables that have no missing values. We will start by identifying our variable types and which ones have missing data. 
+
+```{r, include= FALSE}
+glimpse(imputation_dat)   
+colSums(is.na(imputation_dat))  
+colnames(imputation_dat)
+``` 
+
+Numeric Variables: 
+- family_home_risk_num (3412 missing)
+- physical_env_risk_num (3455 missing)
+- avg_pmk (2905 missing)
+- num_days_drink_02 (2417 missing)
+
+
+Binary Variables: 
+- drive_after_drink (0 miss)
+- drank_since_interview_02  (26 missing)
+- sex  (0 miss)
+- ride_drink_2002  (9 miss)
+- age_group (0 miss) 
+- binge (3203 miss)
+- marijuana (5732 miss)
+- license (27 miss)
+- smoker (4775 miss)
+
+Ordered Factor Variables: 
+- race_eth (0 miss)
+- mom_style (321 miss)
+- dad_style (2122 miss)
+- education  (0 miss)
+- income (1824 miss)  
+
+Next, let's put in our impuation method, corresponding with the order of each variable in our dataset.  
+
+```{r imputation_method}
+imputation_method = c("", #drive after drink - no miss
+                      "", # id -- not including
+                      "", # cv samp -- not including
+                      "pmm", # num_days_drink_02 
+                      "", #sex -- no misisng values
+                      "", #race_eth -- no miss
+                      "polreg", #mom_style 
+                      "polreg", #dad_style 
+                      "pmm", #family_home_risk_num 
+                      "pmm", #physical_env_risk_num 
+                      "", #education  -- 0 miss
+                      "logreg", #ride_drink_2002 
+                      "", #psu -- no miss
+                      "", #stratum -- no miss
+                      "", #age_group  -- no miss
+                      "logreg", #binge 
+                      "logreg", #marijuana 
+                      "polyr", #income
+                      "pmm", #avg_pmk 
+                      "logreg", #license
+                      "", #weight -- no miss, not including
+                      "logreg" #smoker
+                      )
+```
+
+Next, we decide on the number of imputed datasets. We are going to start with 18, then try increasing to see whether it changes substantially with a higher number. 
+
+```{r}
+n_imputations = 18
+``` 
+
+#### Mice 18 imputations
+
+Now, it's time to run the mice function.  
+
+```{r}
+mice_data = mice(
+  data = imputation_dat,
+  m = n_imputations,
+  seed = 97531,
+  predictorMatrix = predictor_matrix
+)
+
+``` 
+
+#### Convergence checks
+
+
+Now we can check the convergence of the imputation algorithm. 
+
+```{r}
+plot(mice_data)
+```
