@@ -26,10 +26,9 @@ library(purrr)
 library(janitor)
 library(skimr) 
 library(survey) 
-library(mice) 
-library(psych) 
 library(table1) 
 library(tableone)
+library(gtsummary)
 
 
 # Global options
@@ -157,10 +156,28 @@ study_dat <- study_dat %>%
     
     sex = factor(
       sex, 
-      levels = c(1,2), 
+      levels = c(1,0), 
       labels = c("Male", "Female")
-    )
+    ), 
+    
+    smoker = factor(
+      smoker, 
+      levels = c(0,1), 
+      labels = c("No", "≥ 1 Cig in Last 30 Days")
+    ), 
 
+    license = factor(
+      license, 
+      levels = c(0,1), 
+      labels = c("Unlicensed", "Licensed")
+    ), 
+    
+   ride_drink_2002 =factor(
+      ride_drink_2002, 
+      levels = c(0,1), 
+      labels = c("No", "Yes")
+    )
+    
   )
 
 # Ordered Factors 
@@ -247,6 +264,14 @@ design <- svydesign(
 2. **Sequential logistic models** to analyze the relationship between age group and reported driving after drinking.  
 
 
+#1. Descriptive Statistics 
+
+To start, we are going to compare our sample distribution overall with the `table1` package (version 1.5.1), comparing how our results change with and without weighting. We will apply weighting with the `survey` package (version 4.5). 
+
+We are going to start with the overall distribution (though this will also be included in our (total) column later on once we stratify.) 
+
+##Overall Sample
+### Unweighted
 
 ```{r}
 
@@ -289,4 +314,105 @@ table1(
 )
 ``` 
 
+Next, we need to apply weighting to make this nationally representative. While we can use the `survey` package to achieve this in model fit, it becomes hard to do this for the table1 package we used before that gave us such nice output. 
 
+###  Weighted 
+
+We already specified our design in the loading chunk at the beginning. To fit the table and make this output look nicer, we will use `gtsummary`.
+
+```{r overall_weighted}
+vars <- c(
+  num_vars,
+  fac_vars
+)
+
+design_table_1 <- svydesign(
+  ids = ~id,
+  weights = ~weight,
+  data = study_dat
+)
+
+tbl1_overall_weighted <- tbl_svysummary(
+  design_table_1,
+  include = c(
+    all_of(num_vars),
+    all_of(fac_vars)
+  ),
+   type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+)
+
+tbl1_overall_weighted
+
+```
+
+## Age-Group Stratified
+
+Next, we want to stratify by our exposure, age_group, to check whether the distributions of all these variables differ by age at baseline.  
+
+We are going to apply this to our weighted values only this time.  
+
+```{r stratified_weighted_table_1}
+
+tbl1_weighted <- tbl_svysummary(
+  design_table_1,
+  by = age_group,
+  include = c(all_of(num_vars), all_of(fac_vars)),
+  type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+) %>%
+  add_p() 
+
+tbl1_weighted
+```
+
+### Categorical Option 
+
+We are going to do the same thing, this time replacing some of our variables with their categorical counterparts (family/home risk index, physical environment risk index, and parental monitoring knowledge).
+
+
+```{r categorical_version_table_1} 
+num_vars_v2 <- c(
+  "num_days_drink_02"
+)
+
+fac_vars_cat <- c(
+  "drive_after_drink", "sex",
+  "ride_drink_2002", "age_group", "binge", "marijuana",
+  "license", "smoker", "race_eth", "mom_style",
+  "dad_style", "education", "income", "family_home_risk_cat", "physical_env_risk_cat",
+  "avg_pmk_cat"
+) 
+
+tbl1_cat <- tbl_svysummary(
+  design_table_1,
+  by = age_group,
+  include = c(all_of(num_vars_v2), all_of(fac_vars_cat)),
+  type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+) %>%
+  add_p() 
+
+tbl1_cat
+```
