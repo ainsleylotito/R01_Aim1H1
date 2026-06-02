@@ -1,0 +1,499 @@
+---
+title: "02.5_Missing_Data_Exploration"
+  html_document:
+    toc: true
+    toc_depth: 3
+    number_sections: true
+    toc_float: true
+    code_folding: hide
+---
+
+
+```{r setup, include = FALSE}
+# Load packages
+library(tidyverse)
+library(ggplot2) 
+library(readxl) 
+library(lubridate)
+library(broom)
+library(viridis)
+library(haven) 
+library(labelled) 
+library(finalfit) 
+library(naniar) 
+library(purrr)
+library(janitor)
+library(skimr) 
+library(survey) 
+library(mice) 
+library(psych) 
+library(table1) 
+library(tableone)
+
+
+# Global options
+knitr::opts_chunk$set(echo = TRUE, warning = FALSE, message = FALSE)
+
+# Load data 
+study_dat <- read.csv("../CleanData/study_dat.csv") 
+
+# Variable Labels  
+
+var_label(study_dat$id) <- "Respondent ID"
+
+var_label(study_dat$stratum) <- "Sampling stratum"
+var_label(study_dat$psu) <- "Primary sampling unit"
+var_label(study_dat$weight) <- "Round 6 survey weight"
+
+var_label(study_dat$age) <- "Age at Round 6 (2002)"
+var_label(study_dat$age_group) <- "Age group"
+
+var_label(study_dat$drive_after_drink) <- 
+  "Drove after drinking alcohol in past 30 days"
+
+var_label(study_dat$binge) <- 
+  "Consumed 5+ drinks on one occasion in past 30 days"
+
+var_label(study_dat$marijuana) <- 
+  "Used marijuana in past 30 days"
+
+var_label(study_dat$sex) <- "Biological sex"
+var_label(study_dat$eth) <- "Ethnicity"
+var_label(study_dat$race) <- "Race"
+var_label(study_dat$race_eth) <- "Combined race/ethnicity"
+
+var_label(study_dat$income) <- 
+  "Annual household income (previous year)"
+
+var_label(study_dat$education) <- 
+  "Highest educational attainment"
+
+var_label(study_dat$ride_drink_2002) <- 
+  "Rode with drinking driver in 2002"
+
+var_label(study_dat$family_home_risk_num) <- 
+  "Family/home risk index (numeric)"
+
+var_label(study_dat$family_home_risk_cat) <- 
+  "Family/home risk index category"
+
+var_label(study_dat$physical_env_risk_num) <- 
+  "Physical environment risk index (numeric)"
+
+var_label(study_dat$physical_env_risk_cat) <- 
+  "Physical environment risk index category"
+
+var_label(study_dat$substance_use_index_cat) <- 
+  "Substance use index"
+
+var_label(study_dat$num_cigs_02) <- 
+  "Number of cigarettes smoked in past 30 days (2002)"
+
+var_label(study_dat$age_first_drug_02) <- 
+  "Age first used other drugs"
+
+var_label(study_dat$baseline_mom_pmk) <- 
+  "Baseline maternal parental monitoring knowledge score (1997)"
+
+var_label(study_dat$baseline_dad_pmk) <- 
+  "Baseline paternal parental monitoring knowledge score (1997)"
+
+var_label(study_dat$baseline_mom_pmk_cat) <- 
+  "Baseline maternal PMK category"
+
+var_label(study_dat$baseline_dad_pmk_cat) <- 
+  "Baseline paternal PMK category"
+
+var_label(study_dat$avg_mom_pmk) <- 
+  "Average maternal parental monitoring knowledge score (1997-2000)"
+
+var_label(study_dat$avg_dad_pmk) <- 
+  "Average paternal parental monitoring knowledge score (1997-2000)"
+
+var_label(study_dat$avg_mom_pmk_cat) <- 
+  "Average maternal PMK category"
+
+var_label(study_dat$avg_dad_pmk_cat) <- 
+  "Average paternal PMK category"
+
+var_label(study_dat$license) <- 
+  "Driver's License Status"  
+
+var_label(study_dat$avg_pmk) <- 
+  "Average PMK both Parents 1999-2000"
+
+# Binary Variable Labels 
+
+study_dat <- study_dat %>%
+  mutate(
+
+    drive_after_drink = factor(
+      drive_after_drink,
+      levels = c(0,1),
+      labels = c(
+        "No",
+        "Yes"
+      )
+    ),
+
+    binge = factor(
+      binge,
+      levels = c(0,1),
+      labels = c(
+        "No",
+        "Yes"
+      )
+    ),
+
+    marijuana = factor(
+      marijuana,
+      levels = c(0,1),
+      labels = c(
+        "No",
+        "Yes"
+      )
+    ) , 
+    
+    sex = factor(
+      sex, 
+      levels = c(1,2), 
+      labels = c("Male", "Female")
+    )
+
+  )
+
+# Ordered Factors 
+study_dat <- study_dat %>%
+  mutate(
+
+    age_group = factor(
+      age_group,
+      levels = c("Pre-21", "21-24")
+    ),
+
+    income = factor(
+      income,
+      levels = c(
+        "<=$10,000",
+        "$10,001 - $30,000",
+        "$30,001 - $50,000",
+        "$50,001 - $80,000",
+        ">$80,000"
+      ),
+      ordered = TRUE
+    ),
+
+    baseline_mom_pmk_cat = factor(
+      baseline_mom_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    ),
+
+    baseline_dad_pmk_cat = factor(
+      baseline_dad_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    ),
+
+    avg_mom_pmk_cat = factor(
+      avg_mom_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    ),
+
+    avg_dad_pmk_cat = factor(
+      avg_dad_pmk_cat,
+      levels = c(
+        "0 TO 4",
+        "5 TO 8",
+        "9 TO 12",
+        "13 TO 16"
+      ),
+      ordered = TRUE
+    )
+    
+  )
+
+
+design <- svydesign(
+  ids = ~id,
+  weights = ~weight,
+  data = study_dat
+) 
+``` 
+
+# Introduction  
+
+**NOTE: This script was used to explore multiple imputation as an option for this analysis, which ultimately was not used in the end.**
+ 
+ This script contains the code used to explore the NLSY97 data that was previously cleaned in the `"01_Cleaning.rmd"` file. The primary goals of this script are to:
+
+1. Explore **multiple imputation methods to missing data** 
+
+2. Generate imputated data and explore.
+
+
+
+# 1. Multiple Imputation Methods
+
+We are following some of the methodology considerations as laid out in this [Github Textbook](https://gilliandebra.github.io/R_Core_Basics_Unleashed-Data-Preprocessing_Visualization_and_Analysis_using_R/missing-data-and-multiple-imputation.html).  
+
+The first consideration is the pattern of missingness; based on our previous exploration in `"02_Exploration.rmd"`, our best guess is that our data is Missing At Random (MAR), supporting the choice to use multiple imputation.
+
+The second consideration is whether to use joint modeling or fully conditional specification (FCS). Our data contains a mix of categorical and continuous variables, so FCS is preferred in this case. 
+
+FCS will "[specify] a regression model in which missing values are predicted by taking the other variables from your dataset as predictors. This missing value procedure is repeated until convergence." 
+
+### Number of imputations 
+
+A general guideline can be to take the percentage of missingness in the dataset across our variables of interest as the number of imputation. 
+
+There is one variable (age first using marijuana/drug) we know ahead of time we do not want to use in our analysis, as it is majority missing. We will first exclude that variable, and subset to only the versions of variables we want to use for analysis, then quantify the exact number of missingness. 
+
+We are going to opt to use the numeric variables for some of our environmentla/familial values, as it may be easier to interpret changes on a continuous scale. This may be changed later on. 
+
+```{r pct_missing}
+imputation_dat <- study_dat %>% 
+  select(-age_first_drug_02, -age, -race, -eth, -family_home_risk_cat, -physical_env_risk_cat, -substance_use_index_cat, -num_cigs_02, -baseline_mom_pmk, -baseline_mom_pmk_cat, -baseline_dad_pmk, -baseline_dad_pmk_cat,
+         -avg_dad_pmk, -avg_dad_pmk_cat, -avg_mom_pmk, -avg_mom_pmk_cat, -avg_pmk_cat, -birthdate, -num_drinks_p_day_02, -num_days_drink_p_school_week) 
+
+overall_missing <- sum(is.na(imputation_dat)) / (nrow(imputation_dat) * ncol(imputation_dat)) * 100
+round(overall_missing, 2)
+``` 
+
+It looks like overall, we are missing ~20% of data. We are going to start off with this number initially when running the mice, but we will repeat and see if obtained results are similar after increasing the number of impuations. 
+
+### Predictor Matrix 
+
+To start, we need to define a predictor matrix with the variables we want to include as predictors for the missing values. We are going to to use every variable we have in the data we specified in the last step for this. However, there are some variables that will be completely not useful as a predictor of missing values (the survey design and id variables), so we will make sure to exclude these from our predictors. 
+
+```{r predictor_matrix}
+predictor_matrix = make.predictorMatrix(imputation_dat) 
+
+predictor_matrix[, c("id", "cv_samp", "psu", "weight", "stratum")] <- 0
+``` 
+
+Now, mice will have us select what imputation method to use per variable in the dataset, folowing the same order as the variables in the dataset. 
+
+We can choose between **"pmm"** (predictive mean matching for **numeric variables**), **"logreg"** (logistic regression for **binary variables**), **“polreg”** (polytomous regression for unordered factor variables having three levels or more), **"polyr** (proportional odds models for **ordered factors having three levels or more**). 
+In addition, we can use "" for variables that have no missing values. We will start by identifying our variable types and which ones have missing data. 
+
+```{r, include= FALSE}
+glimpse(imputation_dat)   
+colSums(is.na(imputation_dat))  
+colnames(imputation_dat)
+``` 
+
+**Numeric Variables: **
+
+- family_home_risk_num (3412 missing)
+
+- physical_env_risk_num (3455 missing)
+
+- avg_pmk (2905 missing)
+
+- num_days_drink_02 (2417 missing)
+
+
+**Binary Variables: **
+
+- drive_after_drink (0 miss)
+
+- drank_since_interview_02  (26 missing)
+
+- sex  (0 miss)
+
+- ride_drink_2002  (9 miss)
+
+- age_group (0 miss) 
+
+- binge (3203 miss)
+
+- marijuana (5732 miss)
+
+- license (27 miss)
+
+- smoker (4775 miss)
+
+**Ordered Factor Variables: **
+
+- race_eth (0 miss)
+
+- mom_style (321 miss)
+
+- dad_style (2122 miss)
+
+- education  (0 miss)
+
+- income (1824 miss)  
+
+Next, let's put in our impuation method, corresponding with the order of each variable in our dataset.  
+
+```{r imputation_method}
+imputation_method = c("", #drive after drink - no miss
+                      "", # id -- not including
+                      "", # cv samp -- not including
+                      "pmm", # num_days_drink_02 
+                      "", #sex -- no misisng values
+                      "", #race_eth -- no miss
+                      "polreg", #mom_style 
+                      "polreg", #dad_style 
+                      "pmm", #family_home_risk_num 
+                      "pmm", #physical_env_risk_num 
+                      "", #education  -- 0 miss
+                      "logreg", #ride_drink_2002 
+                      "", #psu -- no miss
+                      "", #stratum -- no miss
+                      "", #age_group  -- no miss
+                      "logreg", #binge 
+                      "logreg", #marijuana 
+                      "polyr", #income
+                      "pmm", #avg_pmk 
+                      "logreg", #license
+                      "", #weight -- no miss, not including
+                      "logreg" #smoker
+                      )
+```
+
+Next, we decide on the number of imputed datasets. We are going to start with 20, then try increasing to see whether it changes substantially with a higher number. 
+
+```{r}
+n_imputations = 20
+``` 
+
+#### Mice 18 imputations
+
+Now, it's time to run the mice function. We are going to omit the output for this one since it is a doozy.
+
+```{r, results = FALSE}
+mice_data = mice(
+  data = imputation_dat,
+  m = n_imputations,
+  seed = 97531,
+  predictorMatrix = predictor_matrix
+)
+
+``` 
+
+#### Convergence checks
+
+
+Now we can check the convergence of the imputation algorithm. 
+
+```{r}
+plot(mice_data)
+``` 
+
+We are looking on the line overlap to see whether they show a similar extent of variability. 
+
+We are also looking to see whether the range of the mean and sd of the numeric variables and the proportions of the binary/categorical/factor variables resemble the distribution of the observed variables. 
+
+We are also going to combine all of the factor variables to be character to simplify their distribution description. 
+
+```{r}
+
+num_vars <- c(
+  "family_home_risk_num",
+  "physical_env_risk_num",
+  "avg_pmk",
+  "num_days_drink_02"
+)
+
+fac_vars <- c(
+  "drive_after_drink", "sex",
+  "ride_drink_2002", "age_group", "binge", "marijuana",
+  "license", "smoker", "race_eth", "mom_style",
+  "dad_style", "education", "income"
+) 
+
+study_dat <- study_dat %>%
+  mutate(across(all_of(fac_vars), as.factor))
+
+table1(
+  ~ family_home_risk_num +
+    physical_env_risk_num +
+    avg_pmk +
+    num_days_drink_02 +
+    drive_after_drink +
+    sex +
+    ride_drink_2002 +
+    age_group +
+    binge +
+    marijuana +
+    license +
+    smoker +
+    race_eth +
+    mom_style +
+    dad_style +
+    education +
+    income,
+  data = study_dat
+)
+``` 
+
+
+
+
+Comparing the observed means/standard deviations with the imputed values, we can see that there are some larger differences in variables with more missing data, as we would expect, but overall things seem relatively normal. However, looking through the actual convergence plots, there are some concerns where different iterations show potential trends of increasing or decreasing. 
+
+These may not be significant, but it may be worthwhile for us to try using a larger number of iterations next to see how things change this time.  
+
+
+#### Pooling the results 
+ 
+We have no missing values in the outcome, so we can move forward to specifying the imputation model. 
+
+"our imputation should have at least the main effects of predictor1 and predictor2, and their interaction effect, on the same outcome. Important to note, the imputation model is allowed to have extra variables and this is the moment where I finally spoil the purpose of my auxiliary variable. Auxiliary variables are usually not of interest for your analysis per se but these variables may relate to missingness and missing variables. Therefore they may aid to approximate more the assumption of MAR. You could especially consider to add auxiliary variables when your pattern of missingness resembles more the missing not at random state. Of course, later on, you could always run mice with and without auxiliary variables to check whether results remain similar. In our example I will add the auxiliary variable to my imputation model." 
+
+```{r}
+#dummy code won't work for example only 
+
+my_mice_model = with(mice_data, 
+     lm( outcome ~ predictor1 * predictor2 + auxiliary )) # we have to use "with" since mice_data is a mids object
+
+summary(my_mice_model)  
+
+#pooling 
+pooled_estimates = pool(my_mice_model) 
+
+#put above results in separate df and computing confidence intervals  
+
+pooled_results = data.frame(
+  summary(pooled_estimates)     
+                              ) %>%
+  mutate(CI_lower =  estimate - 1.96*(sqrt(pooled_estimates$pooled$ubar)),
+         CI_upper = estimate + 1.96*(sqrt(pooled_estimates$pooled$ubar))) 
+
+# check to see whether results resemble what we would obtain without multiple imputation 
+
+mymodel_no_mice = lm( outcome ~ predictor1 * predictor2 + auxiliary ) # The model with automatically drop missing values so we do not need to do it ourselves
+
+data.frame(
+estimate = mymodel_no_mice$coefficients,
+std.error = summary(mymodel_no_mice)$coefficients[, "Std. Error"],
+statistic = summary(mymodel_no_mice)$coefficients[, "t value"],
+p.value = summary(mymodel_no_mice)$coefficients[, "Pr(>|t|)"],
+CI_lower = confint(mymodel_no_mice)[,1],
+CI_upper = confint(mymodel_no_mice)[,2]
+) 
+
+``` 
+
+## Checking the robustness of the results 
+
+Next, we need to check what happens if we increase the number of iterations. 
