@@ -443,17 +443,19 @@ new_data <- new_data %>%
   rename(age_first_drug_02 = S0923900)  
  
 #Highest Education level 
-new_data$education <- factor(new_data$S1542400,
-    levels=c(0.0,1.0,2.0,3.0,4.0,5.0,6.0,7.0),
-    labels=c("None",
-      "GED",
-      "High school diploma (Regular 12 year program)",
-      "Associate/Junior college (AA)",
-      "Bachelor's degree (BA, BS)",
-      "Master's degree (MA, MS)",
-      "PhD",
-      "Professional degree (DDS, JD, MD)")
+new_data$education <- factor(
+  ifelse(new_data$S1542400 == 0, NA, new_data$S1542400),
+  levels = c(1.0, 2.0, 3.0, 4.0, 5.0, 6.0, 7.0),
+  labels = c(
+    "GED",
+    "High school diploma (Regular 12 year program)",
+    "Associate/Junior college (AA)",
+    "Bachelor's degree (BA, BS)",
+    "Master's degree (MA, MS)",
+    "PhD",
+    "Professional degree (DDS, JD, MD)"
   )
+)
    
 
 #Rode with drinking driver 

@@ -1591,7 +1591,12 @@ results change with and without weighting. We will apply weighting with
 the <code>survey</code> package (version 4.5).</p>
 <p>We are going to start with the overall distribution (though this will
 also be included in our (total) column later on once we stratify.)</p>
-<p>##Overall Sample ### Unweighted</p>
+<div id="overall-sample" class="section level2" number="1.1">
+<h2><span class="header-section-number">1.1</span> 1.1 Overall
+Sample</h2>
+<div id="unweighted" class="section level3" number="1.1.1">
+<h3><span class="header-section-number">1.1.1</span> 1.1.1
+Unweighted</h3>
 <pre class="r"><code>num_vars &lt;- c(
   &quot;family_home_risk_num&quot;,
   &quot;physical_env_risk_num&quot;,
@@ -1952,8 +1957,9 @@ table1(
 representative. While we can use the <code>survey</code> package to
 achieve this in model fit, it becomes hard to do this for the table1
 package we used before that gave us such nice output.</p>
-<div id="weighted" class="section level3" number="1.0.1">
-<h3><span class="header-section-number">1.0.1</span> Weighted</h3>
+</div>
+<div id="weighted" class="section level3" number="1.1.2">
+<h3><span class="header-section-number">1.1.2</span> 1.1.2 Weighted</h3>
 <p>We already specified our design in the loading chunk at the
 beginning. To fit the table and make this output look nicer, we will use
 <code>gtsummary</code>.</p>
@@ -1974,6 +1980,11 @@ tbl1_overall_weighted &lt;- tbl_svysummary(
     all_of(num_vars),
     all_of(fac_vars)
   ),
+   type = list(
+    binge ~ &quot;categorical&quot;,
+    marijuana ~ &quot;categorical&quot;,
+    ride_drink_2002 ~ &quot;categorical&quot;
+  ),
   statistic = list(
     all_continuous() ~ &quot;{mean} ({sd})&quot;,
     all_categorical() ~ &quot;{n} ({p}%)&quot;
@@ -1981,20 +1992,20 @@ tbl1_overall_weighted &lt;- tbl_svysummary(
 )
 
 tbl1_overall_weighted</code></pre>
-<div id="ckqvmkzxbl" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#ckqvmkzxbl table {
+<div id="vfrvjoevyu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#vfrvjoevyu table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#ckqvmkzxbl thead, #ckqvmkzxbl tbody, #ckqvmkzxbl tfoot, #ckqvmkzxbl tr, #ckqvmkzxbl td, #ckqvmkzxbl th {
+#vfrvjoevyu thead, #vfrvjoevyu tbody, #vfrvjoevyu tfoot, #vfrvjoevyu tr, #vfrvjoevyu td, #vfrvjoevyu th {
 border-style: none;
 }
-#ckqvmkzxbl p {
+#vfrvjoevyu p {
 margin: 0;
 padding: 0;
 }
-#ckqvmkzxbl .gt_table {
+#vfrvjoevyu .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -2019,11 +2030,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_caption {
+#vfrvjoevyu .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#ckqvmkzxbl .gt_title {
+#vfrvjoevyu .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -2034,7 +2045,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#ckqvmkzxbl .gt_subtitle {
+#vfrvjoevyu .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -2045,7 +2056,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#ckqvmkzxbl .gt_heading {
+#vfrvjoevyu .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -2056,12 +2067,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_bottom_border {
+#vfrvjoevyu .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_col_headings {
+#vfrvjoevyu .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2075,7 +2086,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_col_heading {
+#vfrvjoevyu .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2094,7 +2105,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#ckqvmkzxbl .gt_column_spanner_outer {
+#vfrvjoevyu .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2105,13 +2116,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#ckqvmkzxbl .gt_column_spanner_outer:first-child {
+#vfrvjoevyu .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#ckqvmkzxbl .gt_column_spanner_outer:last-child {
+#vfrvjoevyu .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#ckqvmkzxbl .gt_column_spanner {
+#vfrvjoevyu .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -2122,10 +2133,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#ckqvmkzxbl .gt_spanner_row {
+#vfrvjoevyu .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#ckqvmkzxbl .gt_group_heading {
+#vfrvjoevyu .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2150,7 +2161,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#ckqvmkzxbl .gt_empty_group_heading {
+#vfrvjoevyu .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -2164,13 +2175,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#ckqvmkzxbl .gt_from_md > :first-child {
+#vfrvjoevyu .gt_from_md > :first-child {
 margin-top: 0;
 }
-#ckqvmkzxbl .gt_from_md > :last-child {
+#vfrvjoevyu .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#ckqvmkzxbl .gt_row {
+#vfrvjoevyu .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2188,7 +2199,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#ckqvmkzxbl .gt_stub {
+#vfrvjoevyu .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2200,7 +2211,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ckqvmkzxbl .gt_stub_row_group {
+#vfrvjoevyu .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2213,13 +2224,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#ckqvmkzxbl .gt_row_group_first td {
+#vfrvjoevyu .gt_row_group_first td {
 border-top-width: 2px;
 }
-#ckqvmkzxbl .gt_row_group_first th {
+#vfrvjoevyu .gt_row_group_first th {
 border-top-width: 2px;
 }
-#ckqvmkzxbl .gt_summary_row {
+#vfrvjoevyu .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2228,14 +2239,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ckqvmkzxbl .gt_first_summary_row {
+#vfrvjoevyu .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_first_summary_row.thick {
+#vfrvjoevyu .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#ckqvmkzxbl .gt_last_summary_row {
+#vfrvjoevyu .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2244,7 +2255,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_grand_summary_row {
+#vfrvjoevyu .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2253,7 +2264,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ckqvmkzxbl .gt_first_grand_summary_row {
+#vfrvjoevyu .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2262,7 +2273,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_last_grand_summary_row_top {
+#vfrvjoevyu .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2271,10 +2282,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_striped {
+#vfrvjoevyu .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#ckqvmkzxbl .gt_table_body {
+#vfrvjoevyu .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2282,7 +2293,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_footnotes {
+#vfrvjoevyu .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2295,7 +2306,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_footnote {
+#vfrvjoevyu .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -2303,7 +2314,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ckqvmkzxbl .gt_sourcenotes {
+#vfrvjoevyu .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2316,64 +2327,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#ckqvmkzxbl .gt_sourcenote {
+#vfrvjoevyu .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#ckqvmkzxbl .gt_left {
+#vfrvjoevyu .gt_left {
 text-align: left;
 }
-#ckqvmkzxbl .gt_center {
+#vfrvjoevyu .gt_center {
 text-align: center;
 }
-#ckqvmkzxbl .gt_right {
+#vfrvjoevyu .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#ckqvmkzxbl .gt_font_normal {
+#vfrvjoevyu .gt_font_normal {
 font-weight: normal;
 }
-#ckqvmkzxbl .gt_font_bold {
+#vfrvjoevyu .gt_font_bold {
 font-weight: bold;
 }
-#ckqvmkzxbl .gt_font_italic {
+#vfrvjoevyu .gt_font_italic {
 font-style: italic;
 }
-#ckqvmkzxbl .gt_super {
+#vfrvjoevyu .gt_super {
 font-size: 65%;
 }
-#ckqvmkzxbl .gt_footnote_marks {
+#vfrvjoevyu .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#ckqvmkzxbl .gt_asterisk {
+#vfrvjoevyu .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#ckqvmkzxbl .gt_indent_1 {
+#vfrvjoevyu .gt_indent_1 {
 text-indent: 5px;
 }
-#ckqvmkzxbl .gt_indent_2 {
+#vfrvjoevyu .gt_indent_2 {
 text-indent: 10px;
 }
-#ckqvmkzxbl .gt_indent_3 {
+#vfrvjoevyu .gt_indent_3 {
 text-indent: 15px;
 }
-#ckqvmkzxbl .gt_indent_4 {
+#vfrvjoevyu .gt_indent_4 {
 text-indent: 20px;
 }
-#ckqvmkzxbl .gt_indent_5 {
+#vfrvjoevyu .gt_indent_5 {
 text-indent: 25px;
 }
-#ckqvmkzxbl .katex-display {
+#vfrvjoevyu .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#ckqvmkzxbl div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#vfrvjoevyu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2410,6 +2421,10 @@ height: 0px !important;
     <tr><td headers="label" class="gt_row gt_left">    Female</td>
 <td headers="stat_0" class="gt_row gt_center">923,599,623 (49%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">ride_drink_2002</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">1,540,717,367 (82%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
 <td headers="stat_0" class="gt_row gt_center">344,285,980 (18%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">1,700,435</td></tr>
@@ -2420,10 +2435,18 @@ height: 0px !important;
     <tr><td headers="label" class="gt_row gt_left">    21-24</td>
 <td headers="stat_0" class="gt_row gt_center">746,758,060 (40%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">binge</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">464,843,567 (40%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
 <td headers="stat_0" class="gt_row gt_center">707,106,203 (60%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">714,754,012</td></tr>
     <tr><td headers="label" class="gt_row gt_left">marijuana</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">117,580,536 (24%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
 <td headers="stat_0" class="gt_row gt_center">377,809,764 (76%)</td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
 <td headers="stat_0" class="gt_row gt_center">1,391,313,482</td></tr>
@@ -2516,13 +2539,17 @@ height: 0px !important;
 </table>
 </div>
 </div>
-<div id="age-group-stratified" class="section level2" number="1.1">
-<h2><span class="header-section-number">1.1</span> Age-Group
+</div>
+<div id="age-group-stratified" class="section level2" number="1.2">
+<h2><span class="header-section-number">1.2</span> 1.2 Age-Group
 Stratified</h2>
 <p>Next, we want to stratify by our exposure, age_group, to check
 whether the distributions of all these variables differ by age at
 baseline.</p>
 <p>We are going to apply this to our weighted values only this time.</p>
+<div id="numeric-option" class="section level3" number="1.2.1">
+<h3><span class="header-section-number">1.2.1</span> 1.2.1 Numeric
+Option</h3>
 <pre class="r"><code>tbl1_weighted &lt;- tbl_svysummary(
   design_table_1,
   by = age_group,
@@ -2540,20 +2567,20 @@ baseline.</p>
   add_p() 
 
 tbl1_weighted</code></pre>
-<div id="obdkxskqqs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#obdkxskqqs table {
+<div id="yhcnkpbijs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#yhcnkpbijs table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#obdkxskqqs thead, #obdkxskqqs tbody, #obdkxskqqs tfoot, #obdkxskqqs tr, #obdkxskqqs td, #obdkxskqqs th {
+#yhcnkpbijs thead, #yhcnkpbijs tbody, #yhcnkpbijs tfoot, #yhcnkpbijs tr, #yhcnkpbijs td, #yhcnkpbijs th {
 border-style: none;
 }
-#obdkxskqqs p {
+#yhcnkpbijs p {
 margin: 0;
 padding: 0;
 }
-#obdkxskqqs .gt_table {
+#yhcnkpbijs .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -2578,11 +2605,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#obdkxskqqs .gt_caption {
+#yhcnkpbijs .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#obdkxskqqs .gt_title {
+#yhcnkpbijs .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -2593,7 +2620,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#obdkxskqqs .gt_subtitle {
+#yhcnkpbijs .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -2604,7 +2631,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#obdkxskqqs .gt_heading {
+#yhcnkpbijs .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -2615,12 +2642,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#obdkxskqqs .gt_bottom_border {
+#yhcnkpbijs .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#obdkxskqqs .gt_col_headings {
+#yhcnkpbijs .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2634,7 +2661,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#obdkxskqqs .gt_col_heading {
+#yhcnkpbijs .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2653,7 +2680,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#obdkxskqqs .gt_column_spanner_outer {
+#yhcnkpbijs .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2664,13 +2691,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#obdkxskqqs .gt_column_spanner_outer:first-child {
+#yhcnkpbijs .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#obdkxskqqs .gt_column_spanner_outer:last-child {
+#yhcnkpbijs .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#obdkxskqqs .gt_column_spanner {
+#yhcnkpbijs .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -2681,10 +2708,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#obdkxskqqs .gt_spanner_row {
+#yhcnkpbijs .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#obdkxskqqs .gt_group_heading {
+#yhcnkpbijs .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2709,7 +2736,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#obdkxskqqs .gt_empty_group_heading {
+#yhcnkpbijs .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -2723,13 +2750,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#obdkxskqqs .gt_from_md > :first-child {
+#yhcnkpbijs .gt_from_md > :first-child {
 margin-top: 0;
 }
-#obdkxskqqs .gt_from_md > :last-child {
+#yhcnkpbijs .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#obdkxskqqs .gt_row {
+#yhcnkpbijs .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2747,7 +2774,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#obdkxskqqs .gt_stub {
+#yhcnkpbijs .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2759,7 +2786,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#obdkxskqqs .gt_stub_row_group {
+#yhcnkpbijs .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2772,13 +2799,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#obdkxskqqs .gt_row_group_first td {
+#yhcnkpbijs .gt_row_group_first td {
 border-top-width: 2px;
 }
-#obdkxskqqs .gt_row_group_first th {
+#yhcnkpbijs .gt_row_group_first th {
 border-top-width: 2px;
 }
-#obdkxskqqs .gt_summary_row {
+#yhcnkpbijs .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2787,14 +2814,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#obdkxskqqs .gt_first_summary_row {
+#yhcnkpbijs .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#obdkxskqqs .gt_first_summary_row.thick {
+#yhcnkpbijs .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#obdkxskqqs .gt_last_summary_row {
+#yhcnkpbijs .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2803,7 +2830,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#obdkxskqqs .gt_grand_summary_row {
+#yhcnkpbijs .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2812,7 +2839,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#obdkxskqqs .gt_first_grand_summary_row {
+#yhcnkpbijs .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2821,7 +2848,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#obdkxskqqs .gt_last_grand_summary_row_top {
+#yhcnkpbijs .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2830,10 +2857,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#obdkxskqqs .gt_striped {
+#yhcnkpbijs .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#obdkxskqqs .gt_table_body {
+#yhcnkpbijs .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2841,7 +2868,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#obdkxskqqs .gt_footnotes {
+#yhcnkpbijs .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2854,7 +2881,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#obdkxskqqs .gt_footnote {
+#yhcnkpbijs .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -2862,7 +2889,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#obdkxskqqs .gt_sourcenotes {
+#yhcnkpbijs .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2875,64 +2902,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#obdkxskqqs .gt_sourcenote {
+#yhcnkpbijs .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#obdkxskqqs .gt_left {
+#yhcnkpbijs .gt_left {
 text-align: left;
 }
-#obdkxskqqs .gt_center {
+#yhcnkpbijs .gt_center {
 text-align: center;
 }
-#obdkxskqqs .gt_right {
+#yhcnkpbijs .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#obdkxskqqs .gt_font_normal {
+#yhcnkpbijs .gt_font_normal {
 font-weight: normal;
 }
-#obdkxskqqs .gt_font_bold {
+#yhcnkpbijs .gt_font_bold {
 font-weight: bold;
 }
-#obdkxskqqs .gt_font_italic {
+#yhcnkpbijs .gt_font_italic {
 font-style: italic;
 }
-#obdkxskqqs .gt_super {
+#yhcnkpbijs .gt_super {
 font-size: 65%;
 }
-#obdkxskqqs .gt_footnote_marks {
+#yhcnkpbijs .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#obdkxskqqs .gt_asterisk {
+#yhcnkpbijs .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#obdkxskqqs .gt_indent_1 {
+#yhcnkpbijs .gt_indent_1 {
 text-indent: 5px;
 }
-#obdkxskqqs .gt_indent_2 {
+#yhcnkpbijs .gt_indent_2 {
 text-indent: 10px;
 }
-#obdkxskqqs .gt_indent_3 {
+#yhcnkpbijs .gt_indent_3 {
 text-indent: 15px;
 }
-#obdkxskqqs .gt_indent_4 {
+#yhcnkpbijs .gt_indent_4 {
 text-indent: 20px;
 }
-#obdkxskqqs .gt_indent_5 {
+#yhcnkpbijs .gt_indent_5 {
 text-indent: 25px;
 }
-#obdkxskqqs .katex-display {
+#yhcnkpbijs .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#obdkxskqqs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#yhcnkpbijs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -3214,6 +3241,2250 @@ N = 746,758,060</span><span class="gt_footnote_marks" style="white-space:nowrap;
     </tr>
   </tfoot>
 </table>
+</div>
+<p><strong>Summary</strong></p>
+<p>Among our significant results, we can see that individuals aged 21-24
+have <strong>higher</strong> <em>average PMK</em>, <em>drink more number
+of days in 2002</em>, more reported <em>driving after drinking</em>,
+more reported <em>riding while drinking</em>, more <em>licensed</em>,
+more permissive <em>parenting styles</em>, higher <em>education</em>,
+and proportionally more in the $10k-$30k and $30k-$50k <em>income</em>
+brackets.</p>
+</div>
+<div id="categorical-option" class="section level3" number="1.2.2">
+<h3><span class="header-section-number">1.2.2</span> 1.1.2 Categorical
+Option</h3>
+<p>We are going to do the same thing, this time replacing some of our
+variables with their categorical counterparts (family/home risk index,
+physical environment risk index, and parental monitoring knowledge).</p>
+<pre class="r"><code>num_vars_v2 &lt;- c(
+  &quot;num_days_drink_02&quot;
+)
+
+fac_vars_cat &lt;- c(
+  &quot;drive_after_drink&quot;, &quot;sex&quot;,
+  &quot;ride_drink_2002&quot;, &quot;binge&quot;, &quot;marijuana&quot;,
+  &quot;license&quot;, &quot;smoker&quot;, &quot;race_eth&quot;, &quot;mom_style&quot;,
+  &quot;dad_style&quot;, &quot;education&quot;, &quot;income&quot;, &quot;family_home_risk_cat&quot;, &quot;physical_env_risk_cat&quot;,
+  &quot;avg_pmk_cat&quot;
+) 
+
+tbl1_cat &lt;- tbl_svysummary(
+  design_table_1,
+  by = age_group,
+  include = c(all_of(num_vars_v2), all_of(fac_vars_cat)),
+  type = list(
+    binge ~ &quot;categorical&quot;,
+    marijuana ~ &quot;categorical&quot;,
+    ride_drink_2002 ~ &quot;categorical&quot;
+  ),
+  statistic = list(
+    all_continuous() ~ &quot;{mean} ({sd})&quot;,
+    all_categorical() ~ &quot;{n} ({p}%)&quot;
+  )
+) %&gt;%
+  add_p() 
+
+tbl1_cat</code></pre>
+<div id="iyhdzfypzz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#iyhdzfypzz table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#iyhdzfypzz thead, #iyhdzfypzz tbody, #iyhdzfypzz tfoot, #iyhdzfypzz tr, #iyhdzfypzz td, #iyhdzfypzz th {
+border-style: none;
+}
+#iyhdzfypzz p {
+margin: 0;
+padding: 0;
+}
+#iyhdzfypzz .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#iyhdzfypzz .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#iyhdzfypzz .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#iyhdzfypzz .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#iyhdzfypzz .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#iyhdzfypzz .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#iyhdzfypzz .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#iyhdzfypzz .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#iyhdzfypzz .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#iyhdzfypzz .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#iyhdzfypzz .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#iyhdzfypzz .gt_from_md > :first-child {
+margin-top: 0;
+}
+#iyhdzfypzz .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#iyhdzfypzz .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#iyhdzfypzz .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#iyhdzfypzz .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#iyhdzfypzz .gt_row_group_first td {
+border-top-width: 2px;
+}
+#iyhdzfypzz .gt_row_group_first th {
+border-top-width: 2px;
+}
+#iyhdzfypzz .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#iyhdzfypzz .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#iyhdzfypzz .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#iyhdzfypzz .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#iyhdzfypzz .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#iyhdzfypzz .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#iyhdzfypzz .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#iyhdzfypzz .gt_left {
+text-align: left;
+}
+#iyhdzfypzz .gt_center {
+text-align: center;
+}
+#iyhdzfypzz .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#iyhdzfypzz .gt_font_normal {
+font-weight: normal;
+}
+#iyhdzfypzz .gt_font_bold {
+font-weight: bold;
+}
+#iyhdzfypzz .gt_font_italic {
+font-style: italic;
+}
+#iyhdzfypzz .gt_super {
+font-size: 65%;
+}
+#iyhdzfypzz .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#iyhdzfypzz .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#iyhdzfypzz .gt_indent_1 {
+text-indent: 5px;
+}
+#iyhdzfypzz .gt_indent_2 {
+text-indent: 10px;
+}
+#iyhdzfypzz .gt_indent_3 {
+text-indent: 15px;
+}
+#iyhdzfypzz .gt_indent_4 {
+text-indent: 20px;
+}
+#iyhdzfypzz .gt_indent_5 {
+text-indent: 25px;
+}
+#iyhdzfypzz .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#iyhdzfypzz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class="gt_from_md"><strong>Pre-21</strong><br />
+N = 1,139,945,722</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class="gt_from_md"><strong>21-24</strong><br />
+N = 746,758,060</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">num_days_drink_02</td>
+<td headers="stat_1" class="gt_row gt_center">5 (6)</td>
+<td headers="stat_2" class="gt_row gt_center">7 (7)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">369,368,883</td>
+<td headers="stat_2" class="gt_row gt_center">146,610,762</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">drive_after_drink</td>
+<td headers="stat_1" class="gt_row gt_center">71,882,472 (6.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">108,913,249 (15%)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">sex</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">580,381,848 (51%)</td>
+<td headers="stat_2" class="gt_row gt_center">382,722,311 (51%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">559,563,874 (49%)</td>
+<td headers="stat_2" class="gt_row gt_center">364,035,749 (49%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">ride_drink_2002</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">962,960,110 (85%)</td>
+<td headers="stat_2" class="gt_row gt_center">577,757,257 (77%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">175,617,712 (15%)</td>
+<td headers="stat_2" class="gt_row gt_center">168,668,268 (23%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,367,900</td>
+<td headers="stat_2" class="gt_row gt_center">332,535</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">binge</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">253,604,947 (39%)</td>
+<td headers="stat_2" class="gt_row gt_center">211,238,620 (40%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">388,792,673 (61%)</td>
+<td headers="stat_2" class="gt_row gt_center">318,313,530 (60%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">497,548,102</td>
+<td headers="stat_2" class="gt_row gt_center">217,205,910</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">marijuana</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.9</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">73,816,698 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">43,763,838 (24%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">235,762,553 (76%)</td>
+<td headers="stat_2" class="gt_row gt_center">142,047,211 (76%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">830,366,471</td>
+<td headers="stat_2" class="gt_row gt_center">560,947,011</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">license</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unlicensed</td>
+<td headers="stat_1" class="gt_row gt_center">233,095,442 (20%)</td>
+<td headers="stat_2" class="gt_row gt_center">111,607,428 (15%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Licensed</td>
+<td headers="stat_1" class="gt_row gt_center">904,184,018 (80%)</td>
+<td headers="stat_2" class="gt_row gt_center">631,157,754 (85%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">2,666,262</td>
+<td headers="stat_2" class="gt_row gt_center">3,992,878</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">smoker</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.4</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">14,510,585 (3.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">8,894,021 (2.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    ≥ 1 Cig in Last 30 Days</td>
+<td headers="stat_1" class="gt_row gt_center">423,273,440 (97%)</td>
+<td headers="stat_2" class="gt_row gt_center">312,243,276 (97%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">702,161,697</td>
+<td headers="stat_2" class="gt_row gt_center">425,620,763</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">race_eth</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Black</td>
+<td headers="stat_1" class="gt_row gt_center">171,118,333 (15%)</td>
+<td headers="stat_2" class="gt_row gt_center">107,681,029 (14%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">140,599,132 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">97,117,953 (13%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Mixed Race (Non-Hispanic)</td>
+<td headers="stat_1" class="gt_row gt_center">14,102,044 (1.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">8,386,685 (1.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Non-Black / Non-Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">814,126,213 (71%)</td>
+<td headers="stat_2" class="gt_row gt_center">533,572,393 (71%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">mom_style</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritarian</td>
+<td headers="stat_1" class="gt_row gt_center">146,176,805 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">71,185,806 (10%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritative</td>
+<td headers="stat_1" class="gt_row gt_center">461,794,639 (42%)</td>
+<td headers="stat_2" class="gt_row gt_center">287,631,455 (40%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Permissive</td>
+<td headers="stat_1" class="gt_row gt_center">364,019,813 (33%)</td>
+<td headers="stat_2" class="gt_row gt_center">288,710,859 (41%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Uninvolved</td>
+<td headers="stat_1" class="gt_row gt_center">124,164,239 (11%)</td>
+<td headers="stat_2" class="gt_row gt_center">63,567,747 (8.9%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">43,790,226</td>
+<td headers="stat_2" class="gt_row gt_center">35,662,193</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">dad_style</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritarian</td>
+<td headers="stat_1" class="gt_row gt_center">181,657,086 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">96,420,876 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritative</td>
+<td headers="stat_1" class="gt_row gt_center">357,333,778 (41%)</td>
+<td headers="stat_2" class="gt_row gt_center">198,450,194 (36%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Permissive</td>
+<td headers="stat_1" class="gt_row gt_center">241,310,759 (27%)</td>
+<td headers="stat_2" class="gt_row gt_center">180,918,951 (33%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Uninvolved</td>
+<td headers="stat_1" class="gt_row gt_center">100,488,177 (11%)</td>
+<td headers="stat_2" class="gt_row gt_center">80,051,468 (14%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">259,155,922</td>
+<td headers="stat_2" class="gt_row gt_center">190,916,571</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">education</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Associate/Junior college (AA)</td>
+<td headers="stat_1" class="gt_row gt_center">7,444,108 (0.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">20,615,225 (2.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Bachelor&#39;s degree (BA, BS)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">33,018,840 (4.4%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    GED</td>
+<td headers="stat_1" class="gt_row gt_center">51,196,566 (4.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">45,330,022 (6.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High school diploma (Regular 12 year program)</td>
+<td headers="stat_1" class="gt_row gt_center">781,767,505 (69%)</td>
+<td headers="stat_2" class="gt_row gt_center">562,641,810 (75%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Master&#39;s degree (MA, MS)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">96,365 (&lt;0.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    None</td>
+<td headers="stat_1" class="gt_row gt_center">299,537,543 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">84,675,691 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    PhD</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">380,107 (&lt;0.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">income</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &lt;=$10,000</td>
+<td headers="stat_1" class="gt_row gt_center">136,527,477 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">98,142,984 (15%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $10,001 - $30,000</td>
+<td headers="stat_1" class="gt_row gt_center">151,444,596 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">151,767,372 (24%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $30,001 - $50,000</td>
+<td headers="stat_1" class="gt_row gt_center">135,236,170 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">121,658,460 (19%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $50,001 - $80,000</td>
+<td headers="stat_1" class="gt_row gt_center">162,192,690 (20%)</td>
+<td headers="stat_2" class="gt_row gt_center">110,460,581 (17%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &gt;$80,000</td>
+<td headers="stat_1" class="gt_row gt_center">230,126,390 (28%)</td>
+<td headers="stat_2" class="gt_row gt_center">151,612,732 (24%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">324,418,399</td>
+<td headers="stat_2" class="gt_row gt_center">113,115,931</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Family/home risk index category</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.010</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0 TO 399</td>
+<td headers="stat_1" class="gt_row gt_center">740,200,819 (74%)</td>
+<td headers="stat_2" class="gt_row gt_center">8,612,913 (68%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1000 TO 1299</td>
+<td headers="stat_1" class="gt_row gt_center">7,486,486 (0.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">663,467 (5.2%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1300 TO 1599</td>
+<td headers="stat_1" class="gt_row gt_center">850,249 (&lt;0.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    400 TO 699</td>
+<td headers="stat_1" class="gt_row gt_center">205,190,008 (20%)</td>
+<td headers="stat_2" class="gt_row gt_center">3,078,431 (24%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    700 TO 999</td>
+<td headers="stat_1" class="gt_row gt_center">49,677,314 (5.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">356,679 (2.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">136,540,846</td>
+<td headers="stat_2" class="gt_row gt_center">734,046,570</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Physical environment risk index category</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    100 TO 299</td>
+<td headers="stat_1" class="gt_row gt_center">408,099,321 (73%)</td>
+<td headers="stat_2" class="gt_row gt_center">5,885,118 (70%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    300 TO 499</td>
+<td headers="stat_1" class="gt_row gt_center">132,415,140 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">1,973,460 (23%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    500 TO 700</td>
+<td headers="stat_1" class="gt_row gt_center">21,187,109 (3.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">566,766 (6.7%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">578,244,152</td>
+<td headers="stat_2" class="gt_row gt_center">738,332,716</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">avg_pmk_cat</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0 TO 4</td>
+<td headers="stat_1" class="gt_row gt_center">47,260,104 (5.3%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,324,956 (19%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    13 TO 16</td>
+<td headers="stat_1" class="gt_row gt_center">65,874,193 (7.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">673,006 (5.6%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5 TO 8</td>
+<td headers="stat_1" class="gt_row gt_center">335,330,910 (38%)</td>
+<td headers="stat_2" class="gt_row gt_center">5,182,358 (43%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    9 TO 12</td>
+<td headers="stat_1" class="gt_row gt_center">435,538,717 (49%)</td>
+<td headers="stat_2" class="gt_row gt_center">3,935,402 (32%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">255,941,798</td>
+<td headers="stat_2" class="gt_row gt_center">734,642,338</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+  </tbody>
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">Mean (SD); n (%)</span></td>
+    </tr>
+    <tr class="gt_footnotes">
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class="gt_from_md">Design-based KruskalWallis test; Pearson’s X^2: Rao &amp; Scott adjustment</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+<p>Now we have a good idea about what variables might be associated with
+our exposure. We also can check what is associated with our outcome
+briefly to see if multiple variables are popping up, warranting their
+inclusion as covariates.</p>
+</div>
+</div>
+<div id="driving-after-drinking-stratified" class="section level2" number="1.3">
+<h2><span class="header-section-number">1.3</span> 1.3 Driving after
+Drinking Stratified</h2>
+<div id="numeric-option-1" class="section level3" number="1.3.1">
+<h3><span class="header-section-number">1.3.1</span> 1.3.1 Numeric
+option</h3>
+<pre class="r"><code>tbl1_w_outcome_numeric &lt;- tbl_svysummary(
+  design_table_1,
+  by = drive_after_drink,
+  include = c(all_of(num_vars), all_of(fac_vars)),
+  type = list(
+    binge ~ &quot;categorical&quot;,
+    marijuana ~ &quot;categorical&quot;,
+    ride_drink_2002 ~ &quot;categorical&quot;
+  ),
+  statistic = list(
+    all_continuous() ~ &quot;{mean} ({sd})&quot;,
+    all_categorical() ~ &quot;{n} ({p}%)&quot;
+  )
+) %&gt;%
+  add_p() 
+
+tbl1_w_outcome_numeric </code></pre>
+<div id="kjxvukusyx" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#kjxvukusyx table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#kjxvukusyx thead, #kjxvukusyx tbody, #kjxvukusyx tfoot, #kjxvukusyx tr, #kjxvukusyx td, #kjxvukusyx th {
+border-style: none;
+}
+#kjxvukusyx p {
+margin: 0;
+padding: 0;
+}
+#kjxvukusyx .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#kjxvukusyx .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#kjxvukusyx .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#kjxvukusyx .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#kjxvukusyx .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#kjxvukusyx .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#kjxvukusyx .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#kjxvukusyx .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#kjxvukusyx .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#kjxvukusyx .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#kjxvukusyx .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#kjxvukusyx .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#kjxvukusyx .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#kjxvukusyx .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#kjxvukusyx .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#kjxvukusyx .gt_from_md > :first-child {
+margin-top: 0;
+}
+#kjxvukusyx .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#kjxvukusyx .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#kjxvukusyx .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#kjxvukusyx .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#kjxvukusyx .gt_row_group_first td {
+border-top-width: 2px;
+}
+#kjxvukusyx .gt_row_group_first th {
+border-top-width: 2px;
+}
+#kjxvukusyx .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#kjxvukusyx .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#kjxvukusyx .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#kjxvukusyx .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#kjxvukusyx .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#kjxvukusyx .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#kjxvukusyx .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#kjxvukusyx .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#kjxvukusyx .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#kjxvukusyx .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#kjxvukusyx .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#kjxvukusyx .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#kjxvukusyx .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#kjxvukusyx .gt_left {
+text-align: left;
+}
+#kjxvukusyx .gt_center {
+text-align: center;
+}
+#kjxvukusyx .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#kjxvukusyx .gt_font_normal {
+font-weight: normal;
+}
+#kjxvukusyx .gt_font_bold {
+font-weight: bold;
+}
+#kjxvukusyx .gt_font_italic {
+font-style: italic;
+}
+#kjxvukusyx .gt_super {
+font-size: 65%;
+}
+#kjxvukusyx .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#kjxvukusyx .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#kjxvukusyx .gt_indent_1 {
+text-indent: 5px;
+}
+#kjxvukusyx .gt_indent_2 {
+text-indent: 10px;
+}
+#kjxvukusyx .gt_indent_3 {
+text-indent: 15px;
+}
+#kjxvukusyx .gt_indent_4 {
+text-indent: 20px;
+}
+#kjxvukusyx .gt_indent_5 {
+text-indent: 25px;
+}
+#kjxvukusyx .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#kjxvukusyx div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class="gt_from_md"><strong>No</strong><br />
+N = 1,705,908,061</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class="gt_from_md"><strong>Yes</strong><br />
+N = 180,795,721</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">Family/home risk index (numeric)</td>
+<td headers="stat_1" class="gt_row gt_center">249 (224)</td>
+<td headers="stat_2" class="gt_row gt_center">258 (230)</td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">754,225,776</td>
+<td headers="stat_2" class="gt_row gt_center">116,361,640</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Physical environment risk index (numeric)</td>
+<td headers="stat_1" class="gt_row gt_center">117 (132)</td>
+<td headers="stat_2" class="gt_row gt_center">97 (120)</td>
+<td headers="p.value" class="gt_row gt_center">0.033</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">763,859,966</td>
+<td headers="stat_2" class="gt_row gt_center">116,361,640</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Average PMK both Parents 1999-2000</td>
+<td headers="stat_1" class="gt_row gt_center">8.89 (2.70)</td>
+<td headers="stat_2" class="gt_row gt_center">8.30 (2.64)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">647,783,234</td>
+<td headers="stat_2" class="gt_row gt_center">108,978,264</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">num_days_drink_02</td>
+<td headers="stat_1" class="gt_row gt_center">5 (6)</td>
+<td headers="stat_2" class="gt_row gt_center">11 (8)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">511,361,368</td>
+<td headers="stat_2" class="gt_row gt_center">4,618,277</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">sex</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">847,860,575 (50%)</td>
+<td headers="stat_2" class="gt_row gt_center">115,243,584 (64%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">858,047,486 (50%)</td>
+<td headers="stat_2" class="gt_row gt_center">65,552,137 (36%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">ride_drink_2002</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">1,471,224,143 (86%)</td>
+<td headers="stat_2" class="gt_row gt_center">69,493,224 (39%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">233,316,018 (14%)</td>
+<td headers="stat_2" class="gt_row gt_center">110,969,962 (61%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,367,900</td>
+<td headers="stat_2" class="gt_row gt_center">332,535</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">age_group</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Pre-21</td>
+<td headers="stat_1" class="gt_row gt_center">1,068,063,250 (63%)</td>
+<td headers="stat_2" class="gt_row gt_center">71,882,472 (40%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    21-24</td>
+<td headers="stat_1" class="gt_row gt_center">637,844,811 (37%)</td>
+<td headers="stat_2" class="gt_row gt_center">108,913,249 (60%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">binge</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">441,424,049 (44%)</td>
+<td headers="stat_2" class="gt_row gt_center">23,419,518 (13%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">555,662,251 (56%)</td>
+<td headers="stat_2" class="gt_row gt_center">151,443,952 (87%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">708,821,761</td>
+<td headers="stat_2" class="gt_row gt_center">5,932,251</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">marijuana</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">96,296,189 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">21,284,347 (23%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">305,024,263 (76%)</td>
+<td headers="stat_2" class="gt_row gt_center">72,785,501 (77%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,304,587,609</td>
+<td headers="stat_2" class="gt_row gt_center">86,725,873</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">license</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unlicensed</td>
+<td headers="stat_1" class="gt_row gt_center">331,199,697 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">13,503,173 (7.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Licensed</td>
+<td headers="stat_1" class="gt_row gt_center">1,368,539,670 (81%)</td>
+<td headers="stat_2" class="gt_row gt_center">166,802,102 (93%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">6,168,694</td>
+<td headers="stat_2" class="gt_row gt_center">490,446</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">smoker</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">19,519,167 (3.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">3,885,439 (3.4%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    ≥ 1 Cig in Last 30 Days</td>
+<td headers="stat_1" class="gt_row gt_center">623,679,226 (97%)</td>
+<td headers="stat_2" class="gt_row gt_center">111,837,490 (97%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,062,709,668</td>
+<td headers="stat_2" class="gt_row gt_center">65,072,792</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">race_eth</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Black</td>
+<td headers="stat_1" class="gt_row gt_center">264,939,138 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">13,860,224 (7.7%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">217,853,693 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">19,863,392 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Mixed Race (Non-Hispanic)</td>
+<td headers="stat_1" class="gt_row gt_center">19,835,942 (1.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,652,787 (1.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Non-Black / Non-Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">1,203,279,288 (71%)</td>
+<td headers="stat_2" class="gt_row gt_center">144,419,318 (80%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">mom_style</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritarian</td>
+<td headers="stat_1" class="gt_row gt_center">195,964,575 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">21,398,036 (12%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritative</td>
+<td headers="stat_1" class="gt_row gt_center">680,791,240 (42%)</td>
+<td headers="stat_2" class="gt_row gt_center">68,634,854 (39%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Permissive</td>
+<td headers="stat_1" class="gt_row gt_center">588,208,002 (36%)</td>
+<td headers="stat_2" class="gt_row gt_center">64,522,670 (37%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Uninvolved</td>
+<td headers="stat_1" class="gt_row gt_center">167,591,946 (10%)</td>
+<td headers="stat_2" class="gt_row gt_center">20,140,040 (12%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">73,352,298</td>
+<td headers="stat_2" class="gt_row gt_center">6,100,121</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">dad_style</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritarian</td>
+<td headers="stat_1" class="gt_row gt_center">250,239,726 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">27,838,236 (19%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritative</td>
+<td headers="stat_1" class="gt_row gt_center">500,706,634 (39%)</td>
+<td headers="stat_2" class="gt_row gt_center">55,077,338 (37%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Permissive</td>
+<td headers="stat_1" class="gt_row gt_center">378,515,095 (29%)</td>
+<td headers="stat_2" class="gt_row gt_center">43,714,615 (30%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Uninvolved</td>
+<td headers="stat_1" class="gt_row gt_center">160,254,142 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">20,285,503 (14%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">416,192,464</td>
+<td headers="stat_2" class="gt_row gt_center">33,880,029</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">education</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Associate/Junior college (AA)</td>
+<td headers="stat_1" class="gt_row gt_center">25,086,618 (1.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,972,715 (1.6%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Bachelor&#39;s degree (BA, BS)</td>
+<td headers="stat_1" class="gt_row gt_center">28,900,013 (1.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">4,118,827 (2.3%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    GED</td>
+<td headers="stat_1" class="gt_row gt_center">86,055,155 (5.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">10,471,433 (5.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High school diploma (Regular 12 year program)</td>
+<td headers="stat_1" class="gt_row gt_center">1,200,313,527 (70%)</td>
+<td headers="stat_2" class="gt_row gt_center">144,095,788 (80%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Master&#39;s degree (MA, MS)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">96,365 (&lt;0.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    None</td>
+<td headers="stat_1" class="gt_row gt_center">365,172,641 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">19,040,593 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    PhD</td>
+<td headers="stat_1" class="gt_row gt_center">380,107 (&lt;0.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">income</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.007</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &lt;=$10,000</td>
+<td headers="stat_1" class="gt_row gt_center">218,133,463 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">16,536,998 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $10,001 - $30,000</td>
+<td headers="stat_1" class="gt_row gt_center">274,309,186 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">28,902,782 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $30,001 - $50,000</td>
+<td headers="stat_1" class="gt_row gt_center">230,015,818 (18%)</td>
+<td headers="stat_2" class="gt_row gt_center">26,878,812 (18%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $50,001 - $80,000</td>
+<td headers="stat_1" class="gt_row gt_center">245,612,770 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">27,040,501 (19%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &gt;$80,000</td>
+<td headers="stat_1" class="gt_row gt_center">335,160,898 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">46,578,224 (32%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">402,675,926</td>
+<td headers="stat_2" class="gt_row gt_center">34,858,404</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+  </tbody>
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">Mean (SD); n (%)</span></td>
+    </tr>
+    <tr class="gt_footnotes">
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class="gt_from_md">Design-based KruskalWallis test; Pearson’s X^2: Rao &amp; Scott adjustment</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="categorical-option-1" class="section level3" number="1.3.2">
+<h3><span class="header-section-number">1.3.2</span> 1.3.2 Categorical
+option</h3>
+<pre class="r"><code>num_vars_v2 &lt;- c(
+  &quot;num_days_drink_02&quot;
+)
+
+fac_vars_cat &lt;- c(
+  &quot;age_group&quot;, &quot;sex&quot;,
+  &quot;ride_drink_2002&quot;, &quot;binge&quot;, &quot;marijuana&quot;,
+  &quot;license&quot;, &quot;smoker&quot;, &quot;race_eth&quot;, &quot;mom_style&quot;,
+  &quot;dad_style&quot;, &quot;education&quot;, &quot;income&quot;, &quot;family_home_risk_cat&quot;, &quot;physical_env_risk_cat&quot;,
+  &quot;avg_pmk_cat&quot;
+) 
+
+tbl1_cat_outcome &lt;- tbl_svysummary(
+  design_table_1,
+  by = drive_after_drink,
+  include = c(all_of(num_vars_v2), all_of(fac_vars_cat)),
+  type = list(
+    binge ~ &quot;categorical&quot;,
+    marijuana ~ &quot;categorical&quot;,
+    ride_drink_2002 ~ &quot;categorical&quot;
+  ),
+  statistic = list(
+    all_continuous() ~ &quot;{mean} ({sd})&quot;,
+    all_categorical() ~ &quot;{n} ({p}%)&quot;
+  )
+) %&gt;%
+  add_p() 
+
+tbl1_cat_outcome</code></pre>
+<div id="jqanufzozz" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#jqanufzozz table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#jqanufzozz thead, #jqanufzozz tbody, #jqanufzozz tfoot, #jqanufzozz tr, #jqanufzozz td, #jqanufzozz th {
+border-style: none;
+}
+#jqanufzozz p {
+margin: 0;
+padding: 0;
+}
+#jqanufzozz .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#jqanufzozz .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#jqanufzozz .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#jqanufzozz .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#jqanufzozz .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#jqanufzozz .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jqanufzozz .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#jqanufzozz .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#jqanufzozz .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#jqanufzozz .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#jqanufzozz .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#jqanufzozz .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#jqanufzozz .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#jqanufzozz .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#jqanufzozz .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#jqanufzozz .gt_from_md > :first-child {
+margin-top: 0;
+}
+#jqanufzozz .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#jqanufzozz .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#jqanufzozz .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jqanufzozz .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#jqanufzozz .gt_row_group_first td {
+border-top-width: 2px;
+}
+#jqanufzozz .gt_row_group_first th {
+border-top-width: 2px;
+}
+#jqanufzozz .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jqanufzozz .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#jqanufzozz .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#jqanufzozz .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jqanufzozz .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jqanufzozz .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#jqanufzozz .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#jqanufzozz .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#jqanufzozz .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#jqanufzozz .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#jqanufzozz .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jqanufzozz .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#jqanufzozz .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#jqanufzozz .gt_left {
+text-align: left;
+}
+#jqanufzozz .gt_center {
+text-align: center;
+}
+#jqanufzozz .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#jqanufzozz .gt_font_normal {
+font-weight: normal;
+}
+#jqanufzozz .gt_font_bold {
+font-weight: bold;
+}
+#jqanufzozz .gt_font_italic {
+font-style: italic;
+}
+#jqanufzozz .gt_super {
+font-size: 65%;
+}
+#jqanufzozz .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#jqanufzozz .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#jqanufzozz .gt_indent_1 {
+text-indent: 5px;
+}
+#jqanufzozz .gt_indent_2 {
+text-indent: 10px;
+}
+#jqanufzozz .gt_indent_3 {
+text-indent: 15px;
+}
+#jqanufzozz .gt_indent_4 {
+text-indent: 20px;
+}
+#jqanufzozz .gt_indent_5 {
+text-indent: 25px;
+}
+#jqanufzozz .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#jqanufzozz div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_1"><span class="gt_from_md"><strong>No</strong><br />
+N = 1,705,908,061</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_2"><span class="gt_from_md"><strong>Yes</strong><br />
+N = 180,795,721</span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="p.value"><span class="gt_from_md"><strong>p-value</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">num_days_drink_02</td>
+<td headers="stat_1" class="gt_row gt_center">5 (6)</td>
+<td headers="stat_2" class="gt_row gt_center">11 (8)</td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">511,361,368</td>
+<td headers="stat_2" class="gt_row gt_center">4,618,277</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">age_group</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Pre-21</td>
+<td headers="stat_1" class="gt_row gt_center">1,068,063,250 (63%)</td>
+<td headers="stat_2" class="gt_row gt_center">71,882,472 (40%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    21-24</td>
+<td headers="stat_1" class="gt_row gt_center">637,844,811 (37%)</td>
+<td headers="stat_2" class="gt_row gt_center">108,913,249 (60%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">sex</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">847,860,575 (50%)</td>
+<td headers="stat_2" class="gt_row gt_center">115,243,584 (64%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_1" class="gt_row gt_center">858,047,486 (50%)</td>
+<td headers="stat_2" class="gt_row gt_center">65,552,137 (36%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">ride_drink_2002</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">1,471,224,143 (86%)</td>
+<td headers="stat_2" class="gt_row gt_center">69,493,224 (39%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">233,316,018 (14%)</td>
+<td headers="stat_2" class="gt_row gt_center">110,969,962 (61%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,367,900</td>
+<td headers="stat_2" class="gt_row gt_center">332,535</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">binge</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">441,424,049 (44%)</td>
+<td headers="stat_2" class="gt_row gt_center">23,419,518 (13%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">555,662,251 (56%)</td>
+<td headers="stat_2" class="gt_row gt_center">151,443,952 (87%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">708,821,761</td>
+<td headers="stat_2" class="gt_row gt_center">5,932,251</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">marijuana</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">96,296,189 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">21,284,347 (23%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_1" class="gt_row gt_center">305,024,263 (76%)</td>
+<td headers="stat_2" class="gt_row gt_center">72,785,501 (77%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,304,587,609</td>
+<td headers="stat_2" class="gt_row gt_center">86,725,873</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">license</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unlicensed</td>
+<td headers="stat_1" class="gt_row gt_center">331,199,697 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">13,503,173 (7.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Licensed</td>
+<td headers="stat_1" class="gt_row gt_center">1,368,539,670 (81%)</td>
+<td headers="stat_2" class="gt_row gt_center">166,802,102 (93%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">6,168,694</td>
+<td headers="stat_2" class="gt_row gt_center">490,446</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">smoker</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_1" class="gt_row gt_center">19,519,167 (3.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">3,885,439 (3.4%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    ≥ 1 Cig in Last 30 Days</td>
+<td headers="stat_1" class="gt_row gt_center">623,679,226 (97%)</td>
+<td headers="stat_2" class="gt_row gt_center">111,837,490 (97%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,062,709,668</td>
+<td headers="stat_2" class="gt_row gt_center">65,072,792</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">race_eth</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Black</td>
+<td headers="stat_1" class="gt_row gt_center">264,939,138 (16%)</td>
+<td headers="stat_2" class="gt_row gt_center">13,860,224 (7.7%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">217,853,693 (13%)</td>
+<td headers="stat_2" class="gt_row gt_center">19,863,392 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Mixed Race (Non-Hispanic)</td>
+<td headers="stat_1" class="gt_row gt_center">19,835,942 (1.2%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,652,787 (1.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Non-Black / Non-Hispanic</td>
+<td headers="stat_1" class="gt_row gt_center">1,203,279,288 (71%)</td>
+<td headers="stat_2" class="gt_row gt_center">144,419,318 (80%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">mom_style</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.7</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritarian</td>
+<td headers="stat_1" class="gt_row gt_center">195,964,575 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">21,398,036 (12%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritative</td>
+<td headers="stat_1" class="gt_row gt_center">680,791,240 (42%)</td>
+<td headers="stat_2" class="gt_row gt_center">68,634,854 (39%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Permissive</td>
+<td headers="stat_1" class="gt_row gt_center">588,208,002 (36%)</td>
+<td headers="stat_2" class="gt_row gt_center">64,522,670 (37%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Uninvolved</td>
+<td headers="stat_1" class="gt_row gt_center">167,591,946 (10%)</td>
+<td headers="stat_2" class="gt_row gt_center">20,140,040 (12%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">73,352,298</td>
+<td headers="stat_2" class="gt_row gt_center">6,100,121</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">dad_style</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.8</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritarian</td>
+<td headers="stat_1" class="gt_row gt_center">250,239,726 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">27,838,236 (19%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Authoritative</td>
+<td headers="stat_1" class="gt_row gt_center">500,706,634 (39%)</td>
+<td headers="stat_2" class="gt_row gt_center">55,077,338 (37%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Permissive</td>
+<td headers="stat_1" class="gt_row gt_center">378,515,095 (29%)</td>
+<td headers="stat_2" class="gt_row gt_center">43,714,615 (30%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Uninvolved</td>
+<td headers="stat_1" class="gt_row gt_center">160,254,142 (12%)</td>
+<td headers="stat_2" class="gt_row gt_center">20,285,503 (14%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">416,192,464</td>
+<td headers="stat_2" class="gt_row gt_center">33,880,029</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">education</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">&lt;0.001</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Associate/Junior college (AA)</td>
+<td headers="stat_1" class="gt_row gt_center">25,086,618 (1.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,972,715 (1.6%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Bachelor&#39;s degree (BA, BS)</td>
+<td headers="stat_1" class="gt_row gt_center">28,900,013 (1.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">4,118,827 (2.3%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    GED</td>
+<td headers="stat_1" class="gt_row gt_center">86,055,155 (5.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">10,471,433 (5.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High school diploma (Regular 12 year program)</td>
+<td headers="stat_1" class="gt_row gt_center">1,200,313,527 (70%)</td>
+<td headers="stat_2" class="gt_row gt_center">144,095,788 (80%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Master&#39;s degree (MA, MS)</td>
+<td headers="stat_1" class="gt_row gt_center">0 (0%)</td>
+<td headers="stat_2" class="gt_row gt_center">96,365 (&lt;0.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    None</td>
+<td headers="stat_1" class="gt_row gt_center">365,172,641 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">19,040,593 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    PhD</td>
+<td headers="stat_1" class="gt_row gt_center">380,107 (&lt;0.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">income</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.007</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &lt;=$10,000</td>
+<td headers="stat_1" class="gt_row gt_center">218,133,463 (17%)</td>
+<td headers="stat_2" class="gt_row gt_center">16,536,998 (11%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $10,001 - $30,000</td>
+<td headers="stat_1" class="gt_row gt_center">274,309,186 (21%)</td>
+<td headers="stat_2" class="gt_row gt_center">28,902,782 (20%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $30,001 - $50,000</td>
+<td headers="stat_1" class="gt_row gt_center">230,015,818 (18%)</td>
+<td headers="stat_2" class="gt_row gt_center">26,878,812 (18%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $50,001 - $80,000</td>
+<td headers="stat_1" class="gt_row gt_center">245,612,770 (19%)</td>
+<td headers="stat_2" class="gt_row gt_center">27,040,501 (19%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &gt;$80,000</td>
+<td headers="stat_1" class="gt_row gt_center">335,160,898 (26%)</td>
+<td headers="stat_2" class="gt_row gt_center">46,578,224 (32%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">402,675,926</td>
+<td headers="stat_2" class="gt_row gt_center">34,858,404</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Family/home risk index category</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.6</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0 TO 399</td>
+<td headers="stat_1" class="gt_row gt_center">702,378,722 (74%)</td>
+<td headers="stat_2" class="gt_row gt_center">46,435,010 (72%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1000 TO 1299</td>
+<td headers="stat_1" class="gt_row gt_center">7,184,645 (0.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">965,308 (1.5%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    1300 TO 1599</td>
+<td headers="stat_1" class="gt_row gt_center">850,249 (&lt;0.1%)</td>
+<td headers="stat_2" class="gt_row gt_center">0 (0%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    400 TO 699</td>
+<td headers="stat_1" class="gt_row gt_center">193,675,999 (20%)</td>
+<td headers="stat_2" class="gt_row gt_center">14,592,440 (23%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    700 TO 999</td>
+<td headers="stat_1" class="gt_row gt_center">47,592,670 (5.0%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,441,323 (3.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">754,225,776</td>
+<td headers="stat_2" class="gt_row gt_center">116,361,640</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Physical environment risk index category</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.006</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    100 TO 299</td>
+<td headers="stat_1" class="gt_row gt_center">384,650,271 (72%)</td>
+<td headers="stat_2" class="gt_row gt_center">29,334,168 (84%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    300 TO 499</td>
+<td headers="stat_1" class="gt_row gt_center">130,280,765 (24%)</td>
+<td headers="stat_2" class="gt_row gt_center">4,107,835 (12%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    500 TO 700</td>
+<td headers="stat_1" class="gt_row gt_center">20,427,106 (3.8%)</td>
+<td headers="stat_2" class="gt_row gt_center">1,326,769 (3.8%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">1,170,549,919</td>
+<td headers="stat_2" class="gt_row gt_center">146,026,949</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">avg_pmk_cat</td>
+<td headers="stat_1" class="gt_row gt_center"><br /></td>
+<td headers="stat_2" class="gt_row gt_center"><br /></td>
+<td headers="p.value" class="gt_row gt_center">0.014</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0 TO 4</td>
+<td headers="stat_1" class="gt_row gt_center">46,071,607 (5.5%)</td>
+<td headers="stat_2" class="gt_row gt_center">3,513,453 (6.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    13 TO 16</td>
+<td headers="stat_1" class="gt_row gt_center">64,158,617 (7.7%)</td>
+<td headers="stat_2" class="gt_row gt_center">2,388,582 (4.1%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5 TO 8</td>
+<td headers="stat_1" class="gt_row gt_center">313,003,219 (37%)</td>
+<td headers="stat_2" class="gt_row gt_center">27,510,049 (48%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    9 TO 12</td>
+<td headers="stat_1" class="gt_row gt_center">415,257,722 (50%)</td>
+<td headers="stat_2" class="gt_row gt_center">24,216,397 (42%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_1" class="gt_row gt_center">867,416,896</td>
+<td headers="stat_2" class="gt_row gt_center">123,167,240</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+  </tbody>
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">Mean (SD); n (%)</span></td>
+    </tr>
+    <tr class="gt_footnotes">
+      <td class="gt_footnote" colspan="4"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>2</sup></span> <span class="gt_from_md">Design-based KruskalWallis test; Pearson’s X^2: Rao &amp; Scott adjustment</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
 </div>
 </div>
 </div>

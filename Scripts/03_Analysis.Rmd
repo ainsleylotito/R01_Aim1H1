@@ -270,8 +270,8 @@ To start, we are going to compare our sample distribution overall with the `tabl
 
 We are going to start with the overall distribution (though this will also be included in our (total) column later on once we stratify.) 
 
-##Overall Sample
-### Unweighted
+## 1.1 Overall Sample
+### 1.1.1 Unweighted
 
 ```{r}
 
@@ -316,7 +316,7 @@ table1(
 
 Next, we need to apply weighting to make this nationally representative. While we can use the `survey` package to achieve this in model fit, it becomes hard to do this for the table1 package we used before that gave us such nice output. 
 
-###  Weighted 
+###  1.1.2 Weighted 
 
 We already specified our design in the loading chunk at the beginning. To fit the table and make this output look nicer, we will use `gtsummary`.
 
@@ -353,11 +353,13 @@ tbl1_overall_weighted
 
 ```
 
-## Age-Group Stratified
+## 1.2 Age-Group Stratified
 
 Next, we want to stratify by our exposure, age_group, to check whether the distributions of all these variables differ by age at baseline.  
 
 We are going to apply this to our weighted values only this time.  
+
+### 1.2.1 Numeric Option
 
 ```{r stratified_weighted_table_1}
 
@@ -380,7 +382,13 @@ tbl1_weighted <- tbl_svysummary(
 tbl1_weighted
 ```
 
-### Categorical Option 
+**Summary**
+
+Among our significant results, we can see that individuals aged 21-24 have **higher** *average PMK*, *drink more number of days in 2002*, more reported *driving after drinking*, more reported *riding while drinking*, more *licensed*, more permissive *parenting styles*, higher *education*, and proportionally more in the $10k-$30k and $30k-$50k *income* brackets. 
+
+
+
+### 1.1.2 Categorical Option 
 
 We are going to do the same thing, this time replacing some of our variables with their categorical counterparts (family/home risk index, physical environment risk index, and parental monitoring knowledge).
 
@@ -392,7 +400,7 @@ num_vars_v2 <- c(
 
 fac_vars_cat <- c(
   "drive_after_drink", "sex",
-  "ride_drink_2002", "age_group", "binge", "marijuana",
+  "ride_drink_2002", "binge", "marijuana",
   "license", "smoker", "race_eth", "mom_style",
   "dad_style", "education", "income", "family_home_risk_cat", "physical_env_risk_cat",
   "avg_pmk_cat"
@@ -417,6 +425,69 @@ tbl1_cat <- tbl_svysummary(
 tbl1_cat
 ```
 
-Now we have a good idea about what variables might be associated with our exposure. We also can check what is associated with our outcome briefly to see if multiple variables are popping up, warranting their inclusion as covariates. 
 
+
+
+Now we have a good idea about what variables might be associated with our exposure. We also can check what is associated with our outcome briefly to see if multiple variables are popping up, warranting their inclusion as covariates.  
+
+
+## 1.3 Driving after Drinking Stratified 
+
+### 1.3.1  Numeric option 
+
+```{r outcome_stratified_numeric}
+
+tbl1_w_outcome_numeric <- tbl_svysummary(
+  design_table_1,
+  by = drive_after_drink,
+  include = c(all_of(num_vars), all_of(fac_vars)),
+  type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+) %>%
+  add_p() 
+
+tbl1_w_outcome_numeric 
+```
+
+### 1.3.2 Categorical option
+
+
+```{r categorical_version_outcome} 
+num_vars_v2 <- c(
+  "num_days_drink_02"
+)
+
+fac_vars_cat <- c(
+  "age_group", "sex",
+  "ride_drink_2002", "binge", "marijuana",
+  "license", "smoker", "race_eth", "mom_style",
+  "dad_style", "education", "income", "family_home_risk_cat", "physical_env_risk_cat",
+  "avg_pmk_cat"
+) 
+
+tbl1_cat_outcome <- tbl_svysummary(
+  design_table_1,
+  by = drive_after_drink,
+  include = c(all_of(num_vars_v2), all_of(fac_vars_cat)),
+  type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+) %>%
+  add_p() 
+
+tbl1_cat_outcome
+```
 
