@@ -690,7 +690,7 @@ mod_env1 <- svyglm(
 
 summary(mod_env1)
 
-anova_env <- anova(mod2, #race and sex 
+anova_env1 <- anova(mod2, #race and sex 
                       mod_env1 #with env, cat
                       ) 
 
@@ -753,7 +753,22 @@ tidy(mod4.2, conf.int = TRUE) %>%
     CI_low = exp(conf.low),
     CI_high = exp(conf.high)
   ) %>%
-  select(term, OR, CI_low, CI_high, p.value)
+  select(term, OR, CI_low, CI_high, p.value) 
+
+mod4.3 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + avg_pmk_cat,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod4.3, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value) 
+
 ``` 
 
 **Model Interpretation**   
