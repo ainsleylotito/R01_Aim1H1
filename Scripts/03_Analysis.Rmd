@@ -248,6 +248,8 @@ study_dat <- study_dat %>%
     
   )
 
+#Changing reference level for race/eth 
+study_dat$race_eth <- relevel(study_dat$race_eth, ref = "Non-Black / Non-Hispanic")
 
 design <- svydesign(
   ids = ~id,
@@ -546,5 +548,174 @@ We have a dispersion parameter of about 1, suggesting no evidence of overdispers
 
 **Model Interpretation** 
 
-In the survey-weighted unadjusted logistic regression model, individuals aged 21-24 years old had significantly higher odds (OR = 2.5, 95% CI: 2.13, 3.02 , p < .001) of reporting driving after drinking compared with individuals >21 years. 
+In the survey-weighted unadjusted logistic regression model, individuals aged 21-24 years old had significantly higher odds (OR = 2.5, 95% CI: 2.13, 3.02 , p < .001) of reporting driving after drinking compared with individuals >21 years.  
 
+## 2.2 Demographics
+
+Next, we are going to add some demographic characteristics. We are going to start with sex and race/ethnicity.
+
+```{r 2.2}
+mod2 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod2, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+``` 
+
+**Model Interpretation**   
+
+After adjusting for sex and race/ethnicity, individuals aged 21-24 had 2.56x the odds of reporting driving after drinking (95% CI: 2.15 to 3.05). 
+
+Looking at individual estimates, females had reduced odds of driving after drinking, while Hispanics, Mixed Race (Non-Hispanic), and Non-Black/Non-Hispanic had increased odds relative to Blacks -- need to change the reference category for this one. Let's keep trekking on while we figure out what we want to do.
+
+## 2.3 Adding Risk/Socioeconomic Contexts
+
+Next, we are going to add the family and physical environment risk contexts. We are going to start with the numeric versions.
+
+```{r 2.3}
+mod3 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth +
+  family_home_risk_num +
+  physical_env_risk_num,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod3, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+``` 
+
+**Model Interpretation** 
+
+This time, our Odds Ratio for 21-24 year olds changed quite a bit, from ~2.5 to 3.54. This could indicate that the family/home risk and physical/environment risk were confounding the relationship potentially, or that something else is going on... must remember that these two variables had a lot of missingness, and they are also popping up as being statistically significant despite having null effect estimates.... But these are also on the numeric scale. We could consider putting the categorical version in instead to see what pops up? But also, ultimately, they may not be as important for our context... colinear with household income perhaps?? Let's return to this.  
+
+Let's check out household income briefly next: 
+
+```{r 2.3.2}
+mod3.2 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod3.2, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+``` 
+
+
+## 2.4 Parental Monitoring 
+
+```{r 2.4}
+mod4 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth +
+  family_home_risk_num +
+  physical_env_risk_num + avg_pmk,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod4, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+``` 
+
+**Model Interpretation**   
+
+Our age group term also changed a bit from before, jumping up from 2.5 to 3.3 after controlling for all these things. But I am still skeptical when we include the risk categories numerically. 
+
+Let's try again, this time exclusing the risk indicators. 
+
+```{r 2.4.2}
+mod4.2 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + avg_pmk,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod4.2, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+``` 
+
+**Model Interpretation**   
+This looks a lot more realistic, our odds ratio for 21-24 is a lot closer to where it was before, though it did still increase slightly. This time, it appears that each unit increase in PMK is associated with a 10% reduction in the odds of reporting driving while drinking, controlling for age, sex, and race/eth. On the other hand, being 21-24 is associated with 2.6x greater odds of driving after drinking, controlling for sex, race, and parental monitoring knowledge. 
+
+This would be a very intriguing interaction... Let's check it out!
+
+## 2.5 Interaction Testing 
+
+We are going to test a series of models here, this time examining whether our observed effects differ when introducing interaction terms. We are just going to include the interaction terms alone here before introducing them back into the full model, just to see what we can observe.
+
+```{r 2.5}
+#PMK 
+mod_pmk <- svyglm(
+  drive_after_drink ~ age_group*avg_pmk,
+  design = design,
+  family = binomial()
+)
+
+#Sex 
+mod_sex <-  svyglm(
+  drive_after_drink ~ age_group*sex,
+  design = design,
+  family = binomial()
+)  
+
+#Race 
+ mod_race <- svyglm(
+  drive_after_drink ~ age_group*race_eth, 
+  design = design,
+  family = binomial()
+)  
+ 
+  
+#Binge 
+ mod_binge <-   svyglm(
+  drive_after_drink ~ age_group*binge,
+  design = design,
+  family = binomial()
+) 
+
+ regTermTest(mod_race, ~ age_group:race_eth)
+regTermTest(mod_sex, ~ age_group:sex)
+regTermTest(mod_binge, ~ age_group:binge) 
+ regTermTest(mod_pmk, ~ age_group:avg_pmk)
+``` 
+**Interaction Summaries**
+
+It appears that there is a possible interaction effect for parental monitoring knowledge only. 
+
+
+Another consideration: we have a ton of missingness for marijuana, smoker, PMK, family risk, and physical environment, making their inclusion in these models also needing to be carefully considered.  
+
+Potential framework: 
+Mod 1: age (crude) 
+Mod 2: age sex race/eth (income??)
+Mod 3: Mod 2 + family/home risk + phys environment  
+Mod 4: Mod 3 + PMK 
