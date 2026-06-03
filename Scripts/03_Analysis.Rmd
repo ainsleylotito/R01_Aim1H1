@@ -181,7 +181,7 @@ study_dat <- study_dat %>%
     
   )
 
-# Ordered Factors 
+# More Factors 
 study_dat <- study_dat %>%
   mutate(
 
@@ -199,7 +199,7 @@ study_dat <- study_dat %>%
         "$50,001 - $80,000",
         ">$80,000"
       ),
-      ordered = TRUE
+      ordered = FALSE
     ),
 
     baseline_mom_pmk_cat = factor(
@@ -210,7 +210,7 @@ study_dat <- study_dat %>%
         "9 TO 12",
         "13 TO 16"
       ),
-      ordered = TRUE
+      ordered = FALSE
     ),
 
     baseline_dad_pmk_cat = factor(
@@ -221,7 +221,7 @@ study_dat <- study_dat %>%
         "9 TO 12",
         "13 TO 16"
       ),
-      ordered = TRUE
+      ordered = FALSE
     ),
 
     avg_mom_pmk_cat = factor(
@@ -232,7 +232,7 @@ study_dat <- study_dat %>%
         "9 TO 12",
         "13 TO 16"
       ),
-      ordered = TRUE
+      ordered = FALSE
     ),
 
     avg_dad_pmk_cat = factor(
@@ -243,7 +243,7 @@ study_dat <- study_dat %>%
         "9 TO 12",
         "13 TO 16"
       ),
-      ordered = TRUE
+      ordered = FALSE
     )
     
   )
@@ -600,7 +600,44 @@ tidy(mod3, conf.int = TRUE) %>%
 
 **Model Interpretation** 
 
-This time, our Odds Ratio for 21-24 year olds changed quite a bit, from ~2.5 to 3.54. This could indicate that the family/home risk and physical/environment risk were confounding the relationship potentially, or that something else is going on... must remember that these two variables had a lot of missingness, and they are also popping up as being statistically significant despite having null effect estimates.... But these are also on the numeric scale. We could consider putting the categorical version in instead to see what pops up? But also, ultimately, they may not be as important for our context... colinear with household income perhaps?? Let's return to this.  
+This time, our Odds Ratio for 21-24 year olds changed quite a bit, from ~2.5 to 3.54. This could indicate that the family/home risk and physical/environment risk were confounding the relationship potentially, or that something else is going on... must remember that these two variables had a lot of missingness, and they are also popping up as being statistically significant despite having null effect estimates.... But these are also on the numeric scale. We could consider putting the categorical version in instead to see what pops up? But also, ultimately, they may not be as important for our context... colinear with household income perhaps?? Let's return to this.   
+
+We are going to this time just add family and environmental separately as categorical indexes. 
+
+```{r}
+#family 
+fam_mod <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth +
+  family_home_risk_cat ,
+  design = design,
+  family = binomial()
+)  
+tidy(fam_mod, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+#environmental 
+env_mod <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth +
+  physical_env_risk_cat,
+  design = design,
+  family = binomial()
+)  
+
+tidy(env_mod, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+``` 
+For family risk,  the OR for age group went wayyy up for nearly everything? There are no groups with reduced risk in this model. This to me looks extremely unstable, probably due to our missing data.  
+
+The environmental predictor had much more believable estimates, though physical env wasn't a significant predictor at any level. The only significant predictors here were age group, sex, Black race, and Hispanic race. The issue, however, is that env is likely pretty intrinsically involved in income, and to a certain extent other demographic indicators as well... we likely need to select one or the other. I'd lean much more towards income due to its having more complete data.
 
 Let's check out household income briefly next: 
 
@@ -619,7 +656,7 @@ tidy(mod3.2, conf.int = TRUE) %>%
   ) %>%
   select(term, OR, CI_low, CI_high, p.value)
 ``` 
-
+If we hold everything constant and just look at the income levels, it looks like we only have significance for the group that is over $80k (compared to >10k?) with having increased odds of driving after drinking. We also changed this over from an ordered factor for ease of interpretation, but this should in theory just take care of some of the socioeconomic differences.
 
 ## 2.4 Parental Monitoring 
 
@@ -717,5 +754,5 @@ Another consideration: we have a ton of missingness for marijuana, smoker, PMK, 
 Potential framework: 
 Mod 1: age (crude) 
 Mod 2: age sex race/eth (income??)
-Mod 3: Mod 2 + family/home risk + phys environment  
-Mod 4: Mod 3 + PMK 
+Mod 3: Mod 2 + PMK (with interaction?)
+Mod 4: Mod 3 + ??
