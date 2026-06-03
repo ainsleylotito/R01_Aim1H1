@@ -249,7 +249,12 @@ study_dat <- study_dat %>%
   )
 
 #Changing reference level for race/eth 
-study_dat$race_eth <- relevel(study_dat$race_eth, ref = "Non-Black / Non-Hispanic")
+study_dat$race_eth <- factor(study_dat$race_eth)
+
+study_dat$race_eth <- relevel(
+  study_dat$race_eth,
+  ref = "Non-Black / Non-Hispanic"
+)
 
 design <- svydesign(
   ids = ~id,
@@ -656,7 +661,58 @@ tidy(mod3.2, conf.int = TRUE) %>%
   ) %>%
   select(term, OR, CI_low, CI_high, p.value)
 ``` 
-If we hold everything constant and just look at the income levels, it looks like we only have significance for the group that is over $80k (compared to >10k?) with having increased odds of driving after drinking. We also changed this over from an ordered factor for ease of interpretation, but this should in theory just take care of some of the socioeconomic differences.
+If we hold everything constant and just look at the income levels, it looks like we only have significance for the group that is over $80k (compared to >10k?) with having increased odds of driving after drinking. We also changed this over from an ordered factor for ease of interpretation, but this should in theory just take care of some of the socioeconomic differences. 
+
+Let's compare the models using an ANOVA to see whether income helps explain more of the variation here: 
+
+```{r} 
+
+anova_income <- anova(mod2, #race and sex 
+                      mod3.2 #with income
+                      ) 
+
+print(anova_income)
+``` 
+With our anova, we tested whether the inclusion of income adds explanatory power for drive_after_drink after adjusting for other covariates. Our test statistic is 7.28, with a p-value of 0.1226. 
+
+Based on this, the addition of income to the model didn't meaningfully improve our prediction of driving after drinking after accounting for age, sex, and race/ethnicity. 
+
+I am also curious whether the environmental index is a preferable predictor, in this case. Let's try comparing the two, looking both categorically and numerically: 
+
+```{r}  
+#Categorical
+mod_env1 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth +
+  physical_env_risk_cat,
+  design = design,
+  family = binomial()
+)  
+
+summary(mod_env1)
+
+anova_env <- anova(mod2, #race and sex 
+                      mod_env1 #with env, cat
+                      ) 
+
+print(anova_env1) 
+
+#Numerically 
+mod_env2 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth +
+  physical_env_risk_num,
+  design = design,
+  family = binomial()
+)  
+
+summary(mod_env2)
+
+anova_env2 <- anova(mod2, #race and sex 
+                      mod_env2 #with env, numeric
+                      ) 
+
+print(anova_env2)
+```
+Interestingly, while it appears that the numeric version makes more sense intuitively in our model results, its addition doesn't add much in terms of predictivity in our model output. 
 
 ## 2.4 Parental Monitoring 
 
@@ -737,12 +793,20 @@ mod_sex <-  svyglm(
   drive_after_drink ~ age_group*binge,
   design = design,
   family = binomial()
-) 
+)  
+ 
+#Income 
+ mod_income <- svyglm(
+  drive_after_drink ~ age_group*income,
+  design = design,
+  family = binomial()
+)  
 
  regTermTest(mod_race, ~ age_group:race_eth)
 regTermTest(mod_sex, ~ age_group:sex)
 regTermTest(mod_binge, ~ age_group:binge) 
- regTermTest(mod_pmk, ~ age_group:avg_pmk)
+ regTermTest(mod_pmk, ~ age_group:avg_pmk) 
+  regTermTest(mod_income, ~ age_group:income)
 ``` 
 **Interaction Summaries**
 
@@ -754,5 +818,51 @@ Another consideration: we have a ton of missingness for marijuana, smoker, PMK, 
 Potential framework: 
 Mod 1: age (crude) 
 Mod 2: age sex race/eth (income??)
-Mod 3: Mod 2 + PMK (with interaction?)
-Mod 4: Mod 3 + ??
+Mod 3: Mod 2 + PMK (with interaction?), evaluate other variables 
+
+
+### Proposed sequential framework 
+Here is the output following the proposed framework:  
+
+```{r}
+#Mod 1 (Crude)
+tidy(mod1, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value) 
+
+#Mod 2 (Demographics)  
+mod2.1 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod2.1, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+
+#Mod 3 (Evaluate other variables) 
+
+mod3.3 <- svyglm(
+  drive_after_drink ~ age_group*avg_pmk + sex + race_eth + income,
+  design = design,
+  family = binomial()
+)  
+tidy(mod3.3, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+
+```
+
