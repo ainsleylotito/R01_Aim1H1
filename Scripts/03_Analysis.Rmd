@@ -832,9 +832,139 @@ Another consideration: we have a ton of missingness for marijuana, smoker, PMK, 
 
 Potential framework: 
 Mod 1: age (crude) 
-Mod 2: age sex race/eth (income??)
-Mod 3: Mod 2 + PMK (with interaction?), evaluate other variables 
+Mod 2: age, sex, race/eth, and income (demographics)
+Mod 3:protective and risk factor, without parental monitoring knowledge 
+Mod 4: last model add parental monitoring knowledge 
 
+Let's explore just the risk/protective factors that were statistically significant from our table 1 (< .01) in terms of our exposure. 
+
+These variables were: riding with a drinking driver (2002), number of days drinking in 2002, being licensed, education, family/home risk index category. Education may be colinear with income and age generally, so we will include that one only with careful consideration.  
+
+As reminder, the variables that were significant for our outcome were number days drinking 02, riding while drinking 2002, binge drinking, being licensed, the physical environment risk index category. 
+
+So the only variables associated with **both** are: 
+- licensed 
+- number days drinking 02 
+- riding while rinking 02 
+
+We know from before that the family/home risk index category is problematic due to missingness in modeling, so we will consider the other variables. 
+
+```{r} 
+#just adding variables significant in both
+mod_risk1 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+    license + num_days_drink_02 + ride_drink_2002,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_risk1, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+```
+
+Let's take out license, since it had a pretty dramatic impact on our OR: 
+```{r}
+mod_risk2 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_risk2, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value)
+``` 
+
+Let's try adding some other variables and see what happens: 
+
+```{r}
+mod_risk3 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + binge + education,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_risk3, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value) 
+``` 
+
+Let's look at adding the environmental risk index, just out of curiosity: 
+```{r}
+mod_risk4 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + binge + education +
+    physical_env_risk_cat,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_risk4, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value) 
+```
+What's interesting is that the odds ratio for the middle level of physical env level is higher than any other estimate, which also doesn't make sense logically since the more risk you are at physically might work alongside other elements? I think the missingness precludes its' inclusion in this analysis unfortunately. 
+
+Let's try JUST the variables associated with our exposure:
+
+```{r}
+mod_risk5 <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + education + license +
+    family_home_risk_cat,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_risk5, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value) 
+```
+
+
+Next, let's take just the variables associated with the exposure, but add in parental monitoring knowledge, testing for interaction. 
+
+```{r}
+mod_risk6 <- svyglm(
+  drive_after_drink ~ age_group*avg_pmk_cat + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + education + license +
+    family_home_risk_cat,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_risk6, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value) 
+
+```
 
 ### Proposed sequential framework 
 Here is the output following the proposed framework:  
@@ -864,7 +994,7 @@ tidy(mod2.1, conf.int = TRUE) %>%
   ) %>%
   select(term, OR, CI_low, CI_high, p.value)
 
-#Mod 3 (Evaluate other variables) 
+#Mod 3 (Evaluate risk/protective factors variables) 
 
 mod3.3 <- svyglm(
   drive_after_drink ~ age_group*avg_pmk + sex + race_eth + income,
@@ -872,6 +1002,20 @@ mod3.3 <- svyglm(
   family = binomial()
 )  
 tidy(mod3.3, conf.int = TRUE) %>%
+  mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high)
+  ) %>%
+  select(term, OR, CI_low, CI_high, p.value) 
+
+# Mod 4: Add Parental Monitoring Knowledge 
+mod4.4 <- svyglm(
+  drive_after_drink ~ age_group*avg_pmk + sex + race_eth + income,
+  design = design,
+  family = binomial()
+)  
+tidy(mod4.4, conf.int = TRUE) %>%
   mutate(
     OR = exp(estimate),
     CI_low = exp(conf.low),
