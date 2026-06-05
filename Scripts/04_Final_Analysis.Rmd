@@ -530,4 +530,85 @@ tbl1_sens
 
 ``` 
 
-Looks like we now have 1,535,341,772 participants after applying weights.
+Looks like we now have 15,353,418 participants after applying weights. 
+
+We will proceed with the sequential models, and include their output below, with comments on whether anything substantially changed between the models. 
+
+## Mod 1  
+```{r}
+mod1_sens <- svyglm(
+  drive_after_drink ~ age_group,
+  design = design,
+  family = binomial()
+) 
+
+
+tidy(mod1_sens, conf.int = TRUE) %>%
+ mutate(
+    OR = exp(estimate),
+    CI_low = exp(conf.low),
+    CI_high = exp(conf.high),
+     p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
+  ) %>%
+  select(term, OR, CI_low, CI_high, p_value)
+
+```
+
+The odds ratio attentuated very slightly from 2.54 to 2.48; no other change.
+
+## Mod 2  
+
+```{r}
+mod2_sens <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod2_sens, conf.int = TRUE) %>%
+  mutate(
+    OR = round(exp(estimate),2),
+    CI_low = round(exp(conf.low),2),
+    CI_high = round(exp(conf.high),2),
+    p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
+  ) %>%
+  select(term, OR, CI_low, CI_high, p_value)
+``` 
+
+No major changes.
+
+## Mod 3 
+
+
+```{r}
+mod_3_sens <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + binge + marijuana ,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_3_sens, conf.int = TRUE) %>%
+  mutate(
+    OR = round(exp(estimate),2),
+    CI_low = round(exp(conf.low),2),
+    CI_high = round(exp(conf.high),2),
+    p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
+  ) %>%
+  select(term, OR, CI_low, CI_high, p_value)
+``` 
+
+
+The odds ratio attenuated  to 1.69, remains significant at ~ .01. Ride while drunk increased slightly to 4.55. Marijuana became even less significant. 
+
+
+**Overall, it does not appear as though excluding licensed drivers had a meaningful difference on our observed results.**
