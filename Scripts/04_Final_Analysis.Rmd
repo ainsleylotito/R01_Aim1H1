@@ -14,14 +14,11 @@ output:
 # Load packages
 library(tidyverse)
 library(ggplot2) 
-library(readxl) 
 library(lubridate)
 library(broom)
 library(viridis)
 library(haven) 
 library(labelled) 
-library(finalfit) 
-library(naniar) 
 library(purrr)
 library(janitor)
 library(skimr) 
@@ -265,11 +262,19 @@ design <- svydesign(
 
 # Introduction 
  
- This script contains the final output for the final analyses conducted for aim 1. 
+ This script contains the final output for the final analyses conducted for aim 1, which were previously generated in the file `Scripts/03_Analysis.Rmd`. 
+The output in this document will cover: 
 
-We will begin with descriptive statistics for our table 1, then our series of sequential models. 
+1. Descriptive Statistics of the sample stratified by age group **(Table 1)** 
+2. **Sequential Models** used to assess the association between age group and reported driving after drinking.
 
-# Table 1  
+
+
+# Table 1   
+
+We will compare our two age groups among our nationally representative sample (weighting applied) across variables of interest, including demographics, risk factors, and parental monitoring.  
+
+*Note* In analyses from the `03_Analysis.rmd` file we also compared other variables, such as parenting styles and risk categories for physical environment and family/home risk, but these are excluded from this output due to them ultimately not being informative for our models and/or having too much missing data.
 
 ```{r}
 design_table_1 <- svydesign(
@@ -285,8 +290,7 @@ num_vars_v2 <- c(
 fac_vars_cat <- c(
   "drive_after_drink", "sex",
   "ride_drink_2002", "binge", "marijuana",
-  "license", "smoker", "race_eth", "mom_style",
-  "dad_style", "education", "income", "family_home_risk_cat", "physical_env_risk_cat",
+  "license", "smoker", "race_eth", "education", "income",
   "avg_pmk_cat"
 ) 
 
@@ -311,7 +315,11 @@ tbl1_cat
 
 # Sequential Models 
 
-## Model 1: Crude Model 
+## Model 1: Crude Model  
+
+This model evaluates the **crude association** between age group and driving after drinking, applying the weighting and survey design variables as needed to make our sample nationally representative.  
+
+We also assess the model for dispersion to make sure there is no overdispersion, warranting the use of a quasi-binomial specification; no overdispersion is indicated, so we proceeed with using a binomial family.
 
 ```{r}
 mod1 <- svyglm(
@@ -324,18 +332,22 @@ summary(mod1)
 summary(mod1)$dispersion 
 
 tidy(mod1, conf.int = TRUE) %>%
-  mutate(
+ mutate(
     OR = exp(estimate),
     CI_low = exp(conf.low),
-    CI_high = exp(conf.high)
+    CI_high = exp(conf.high),
+     p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
   ) %>%
-  select(term, OR, CI_low, CI_high, p.value)
+  select(term, OR, CI_low, CI_high, p_value)
 
 ```
 
-**Model Interpretation** 
+### Interpretation
 
-In the survey-weighted unadjusted logistic regression model, individuals aged 21-24 years old had significantly higher odds (OR = 2.5, 95% CI: 2.13, 3.02 , p < .001) of reporting driving after drinking compared with individuals >21 years.
+In the survey-weighted unadjusted logistic regression model, individuals aged 21-24 years old had significantly higher odds (OR = 2.5, 95% CI: 2.13 to 3.02 , p < .001) of reporting driving after drinking compared with individuals >21 years.
 
 ## Model 2: Demographics   
 
@@ -350,19 +362,28 @@ mod2 <- svyglm(
 
 tidy(mod2, conf.int = TRUE) %>%
   mutate(
-    OR = exp(estimate),
-    CI_low = exp(conf.low),
-    CI_high = exp(conf.high)
+    OR = round(exp(estimate),2),
+    CI_low = round(exp(conf.low),2),
+    CI_high = round(exp(conf.high),2),
+    p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
   ) %>%
-  select(term, OR, CI_low, CI_high, p.value)
+  select(term, OR, CI_low, CI_high, p_value)
 ``` 
 
-**Model Interpretation**   
+###  Interpretation 
 
-[UPDATE]
-After adjusting for sex and race/ethnicity, individuals aged 21-24 had 2.56x the odds of reporting driving after drinking (95% CI: 2.15 to 3.05). 
+After adjusting for sex, race/ethnicity, and income, individuals aged 21-24 had 2.3x the odds of reporting driving after drinking (95% CI: 1.89 to 2.82, p < .001). 
 
-Looking at individual estimates, females had reduced odds of driving after drinking, while Hispanics, Mixed Race (Non-Hispanic), and Non-Black/Non-Hispanic had increased odds relative to Blacks -- need to change the reference category for this one. Let's keep trekking on while we figure out what we want to do.
+*Independent effects* 
+
+Females had significantly reduced odds of driving after drinking compared to males (OR = 0.54, p < .001), holding age group, race/ethnicity, and income constant. 
+
+Compared to Non-Hispanic Non-Blacks (aka White), Blacks had significantly reduced odds (OR = 0.47, p < .001), Hispanics had significantly reduced odds (OR = 0.76, p = 0.04) of driving after drinking. Mixed Race (Non-Hispanic) individuals had no significant odds (OR = 1.24, p = 0.72). 
+
+For income, there was no significant odds ratios for the income groups compared to the lowest income group *(<$10k)* except for the largest income group *(>$80k)*. We also see that the OR for each income group increases as income goes up. 
 
 
 ## Model 3: Risk Factors  
@@ -372,38 +393,141 @@ Next, we are going to add some risk/protective factors around driving and drinki
 ```{r}
 mod_3 <- svyglm(
   drive_after_drink ~ age_group + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002  + license +
-    family_home_risk_cat,
+     num_days_drink_02 + ride_drink_2002 + binge + marijuana ,
   design = design,
   family = binomial()
 ) 
 
 tidy(mod_3, conf.int = TRUE) %>%
   mutate(
-    OR = exp(estimate),
-    CI_low = exp(conf.low),
-    CI_high = exp(conf.high)
+    OR = round(exp(estimate),2),
+    CI_low = round(exp(conf.low),2),
+    CI_high = round(exp(conf.high),2),
+    p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
   ) %>%
-  select(term, OR, CI_low, CI_high, p.value) 
+  select(term, OR, CI_low, CI_high, p_value)
 ```
 
-## Model 4: Parental Monitoring Knowledge
+###  Interpretation  
+
+After adjusting for sex, race/ethnicity, income, number of days drinking, whether they rode with a drinking driver, whether they have a driver's license, the number of days they drank, whether they reported binge drinking over the past 30 days, and whether they used marijuana in the past 30 days, **individuals aged 21-24 had 1.8x the odds of reporting driving after drinking (95% CI: 1.30 to 2.48, p < .001).** 
+
+*Independent effects*  
+
+The only significant covariates this time were the drinking/substance use indicators. 
+
+Controlling for all other variables, each one unit increase in the number of days drinking was associated with a 1.03x increase in the odds of driving after drinking (p = .01). 
+
+Riding with a drinking driver greatly increased the odds of driving after drinking, controlling for all other variables (OR = 4.10, p < .001). 
+Those who reported binge drinking in the last 30 days had 2.38x greater odds of driving after drinking (p < .001). 
+
+Marijuana use bordered significance, with marijuana users having less odds of reported driving after drinking (p = .08)
+
+
+## Model 4: Parental Monitoring Knowledge 
+
+Lastly, we are going to add our parental monitoring knowledge variable. This is categorized the same way as it is in the NLSY97, with 4 levels of parental monitoring (0 to 4, 5 to 8, 9 to 12, and 13 to 16). The lowest level of parental monitoring is the reference level, so all other groups are comparing to individuals whose parents monitor them/have knowledge of their whereabouts and actions the least. 
+
+Note that this variable is an average of both residential mothers and fathers from the first 4 years of the survey collection.
 
 ```{r}
 mod_4 <- svyglm(
-  drive_after_drink ~ age_group*avg_pmk_cat + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002 + education + license +
-    family_home_risk_cat,
+ drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + binge + marijuana +
+    avg_pmk_cat,
   design = design,
   family = binomial()
 ) 
 
 tidy(mod_4, conf.int = TRUE) %>%
   mutate(
-    OR = exp(estimate),
-    CI_low = exp(conf.low),
-    CI_high = exp(conf.high)
+    OR = round(exp(estimate),2),
+    CI_low = round(exp(conf.low),2),
+    CI_high = round(exp(conf.high),2),
+    p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
   ) %>%
-  select(term, OR, CI_low, CI_high, p.value) 
+  select(term, OR, CI_low, CI_high, p_value)
 ```
 
+###  Interpretation  
+
+It appears that the addition of parental monitoring knowledge is problematic in this model, as it has destabilized our effect estimates and made many effects change in terms of significance. Holding all other covariates constant, for the first time age group is no longer significant, with the model showing that **individuals aged 21-24 had 1.49x the odds of reporting driving after drinking (95% CI: 0.26 to 8.41, p = .65).** 
+
+*Note* that the parental monitoring knowledge variable contains a lot of missing data, and may be hard to use for the purpose of this study, as parental monitoring knowledge is likely to be very dependent on age and not necessarily impact driving while drinking outcomes in a cross-sectional manner (it may serve better in a longitudinal study to see how parental monitoring affects drinking and driving trajectories).
+ 
+**Due to this consideration, and the changes we can see from model 4, it is not recommended to include parental monitoring knowledge as a variable in this analysis.** 
+
+# Sensitivity Analysis 
+
+Licensure popped as a variable that was significantly associated with age group and our outcome in early data explorations. We are going to conduct a brief sensitivity analysis to see how our effect estimates may or may not change after excluding individuals who did not hold a drivers license from the study. 
+
+First, let's check and see what our sample size will become after excluding them and subset the data: 
+
+```{r}
+study_dat %>% 
+  group_by(license) %>% 
+  summarize(n())
+
+```
+
+Once we remove the 1,788 unlicensed individuals and 27 NA's, we are left with 5,783 study participants. Let's apply our weighting and construct a table 1. 
+
+```{r, include = FALSE}
+license_dat <- study_dat %>% 
+  filter(license == "Licensed")
+
+design <- svydesign(
+  ids = ~id,
+  weights = ~weight,
+  data = license_dat
+) 
+
+``` 
+
+## Table 1 
+
+```{r}
+design_table_1_sensitivity <- svydesign(
+  ids = ~id,
+  weights = ~weight,
+  data = license_dat
+)
+
+num_vars_v2 <- c(
+  "num_days_drink_02"
+)
+
+fac_vars_cat <- c(
+  "drive_after_drink", "sex",
+  "ride_drink_2002", "binge", "marijuana",
+  "license", "smoker", "race_eth", "education", "income",
+  "avg_pmk_cat"
+) 
+
+tbl1_sens <- tbl_svysummary(
+  design_table_1_sensitivity,
+  by = age_group,
+  include = c(all_of(num_vars_v2), all_of(fac_vars_cat)),
+  type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+) %>%
+  add_p() 
+
+tbl1_sens
+
+``` 
+
+Looks like we now have 1,535,341,772 participants after applying weights.

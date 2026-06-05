@@ -2812,11 +2812,13 @@ That means that for the *baseline* pmk data, we are missing **~40-55%** of data,
 
 ## Weighting variable 
 
-This data seems relatively simple, just the two columns, one for ID and one for the weight. 
+This data seems relatively simple, just the two columns, one for ID and one for the weight. We also need to divide the weight variable by 100, as there needs to be a decimal point according to NLSY97 documentation *(The weights are stored with two implied decimal places (e.g., 130793 means the respondent represents 1,307.93 people)*.
 
 ```{r weighting_data}
 weight_data <- read_table('../RawData/Round6Weight.dat', col_names = FALSE )
-names(weight_data) <- c("id", "weight") 
+names(weight_data) <- c("id", "weight")  
+weight_data <- weight_data %>%
+  mutate(weight = weight / 100)
 weight_data %>% 
   slice(1:10)
 ```  
