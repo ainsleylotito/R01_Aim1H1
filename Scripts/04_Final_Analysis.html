@@ -1593,6 +1593,566 @@ we also compared other variables, such as parenting styles and risk
 categories for physical environment and family/home risk, but these are
 excluded from this output due to them ultimately not being informative
 for our models and/or having too much missing data.</p>
+<p>We will start with our overall distribution since we cannot add it to
+our stratified table 1 very easily:</p>
+<div id="overall-sample-distribution" class="section level2" number="2.1">
+<h2><span class="header-section-number">2.1</span> Overall Sample
+Distribution</h2>
+<pre class="r"><code>num_vars_v2 &lt;- c(
+  &quot;num_days_drink_02&quot;
+)
+
+fac_vars_cat &lt;- c(
+  &quot;drive_after_drink&quot;, &quot;sex&quot;,
+  &quot;ride_drink_2002&quot;, &quot;binge&quot;, &quot;marijuana&quot;,
+  &quot;license&quot;, &quot;smoker&quot;, &quot;race_eth&quot;, &quot;education&quot;, &quot;income&quot;,
+  &quot;avg_pmk_cat&quot;
+) 
+
+design_table_1 &lt;- svydesign(
+  ids = ~id,
+  weights = ~weight,
+  data = study_dat
+)
+
+tbl1_overall_weighted &lt;- tbl_svysummary(
+  design_table_1,
+  include = c(
+    all_of(num_vars_v2),
+    all_of(fac_vars_cat)
+  ),
+   type = list(
+    binge ~ &quot;categorical&quot;,
+    marijuana ~ &quot;categorical&quot;,
+    ride_drink_2002 ~ &quot;categorical&quot;
+  ),
+  statistic = list(
+    all_continuous() ~ &quot;{mean} ({sd})&quot;,
+    all_categorical() ~ &quot;{n} ({p}%)&quot;
+  )
+)
+
+tbl1_overall_weighted</code></pre>
+<div id="avzkylqmwn" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#avzkylqmwn table {
+font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
+-webkit-font-smoothing: antialiased;
+-moz-osx-font-smoothing: grayscale;
+}
+#avzkylqmwn thead, #avzkylqmwn tbody, #avzkylqmwn tfoot, #avzkylqmwn tr, #avzkylqmwn td, #avzkylqmwn th {
+border-style: none;
+}
+#avzkylqmwn p {
+margin: 0;
+padding: 0;
+}
+#avzkylqmwn .gt_table {
+display: table;
+border-collapse: collapse;
+line-height: normal;
+margin-left: auto;
+margin-right: auto;
+color: #333333;
+font-size: 16px;
+font-weight: normal;
+font-style: normal;
+background-color: #FFFFFF;
+width: auto;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #A8A8A8;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #A8A8A8;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+}
+#avzkylqmwn .gt_caption {
+padding-top: 4px;
+padding-bottom: 4px;
+}
+#avzkylqmwn .gt_title {
+color: #333333;
+font-size: 125%;
+font-weight: initial;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-color: #FFFFFF;
+border-bottom-width: 0;
+}
+#avzkylqmwn .gt_subtitle {
+color: #333333;
+font-size: 85%;
+font-weight: initial;
+padding-top: 3px;
+padding-bottom: 5px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-color: #FFFFFF;
+border-top-width: 0;
+}
+#avzkylqmwn .gt_heading {
+background-color: #FFFFFF;
+text-align: center;
+border-bottom-color: #FFFFFF;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#avzkylqmwn .gt_bottom_border {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#avzkylqmwn .gt_col_headings {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+}
+#avzkylqmwn .gt_col_heading {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 6px;
+padding-left: 5px;
+padding-right: 5px;
+overflow-x: hidden;
+}
+#avzkylqmwn .gt_column_spanner_outer {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: normal;
+text-transform: inherit;
+padding-top: 0;
+padding-bottom: 0;
+padding-left: 4px;
+padding-right: 4px;
+}
+#avzkylqmwn .gt_column_spanner_outer:first-child {
+padding-left: 0;
+}
+#avzkylqmwn .gt_column_spanner_outer:last-child {
+padding-right: 0;
+}
+#avzkylqmwn .gt_column_spanner {
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: bottom;
+padding-top: 5px;
+padding-bottom: 5px;
+overflow-x: hidden;
+display: inline-block;
+width: 100%;
+}
+#avzkylqmwn .gt_spanner_row {
+border-bottom-style: hidden;
+}
+#avzkylqmwn .gt_group_heading {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+text-align: left;
+}
+#avzkylqmwn .gt_empty_group_heading {
+padding: 0.5px;
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+vertical-align: middle;
+}
+#avzkylqmwn .gt_from_md > :first-child {
+margin-top: 0;
+}
+#avzkylqmwn .gt_from_md > :last-child {
+margin-bottom: 0;
+}
+#avzkylqmwn .gt_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+margin: 10px;
+border-top-style: solid;
+border-top-width: 1px;
+border-top-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 1px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 1px;
+border-right-color: #D3D3D3;
+vertical-align: middle;
+overflow-x: hidden;
+}
+#avzkylqmwn .gt_stub {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+}
+#avzkylqmwn .gt_stub_row_group {
+color: #333333;
+background-color: #FFFFFF;
+font-size: 100%;
+font-weight: initial;
+text-transform: inherit;
+border-right-style: solid;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+padding-left: 5px;
+padding-right: 5px;
+vertical-align: top;
+}
+#avzkylqmwn .gt_row_group_first td {
+border-top-width: 2px;
+}
+#avzkylqmwn .gt_row_group_first th {
+border-top-width: 2px;
+}
+#avzkylqmwn .gt_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#avzkylqmwn .gt_first_summary_row {
+border-top-style: solid;
+border-top-color: #D3D3D3;
+}
+#avzkylqmwn .gt_first_summary_row.thick {
+border-top-width: 2px;
+}
+#avzkylqmwn .gt_last_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#avzkylqmwn .gt_grand_summary_row {
+color: #333333;
+background-color: #FFFFFF;
+text-transform: inherit;
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#avzkylqmwn .gt_first_grand_summary_row {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-top-style: double;
+border-top-width: 6px;
+border-top-color: #D3D3D3;
+}
+#avzkylqmwn .gt_last_grand_summary_row_top {
+padding-top: 8px;
+padding-bottom: 8px;
+padding-left: 5px;
+padding-right: 5px;
+border-bottom-style: double;
+border-bottom-width: 6px;
+border-bottom-color: #D3D3D3;
+}
+#avzkylqmwn .gt_striped {
+background-color: rgba(128, 128, 128, 0.05);
+}
+#avzkylqmwn .gt_table_body {
+border-top-style: solid;
+border-top-width: 2px;
+border-top-color: #D3D3D3;
+border-bottom-style: solid;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+}
+#avzkylqmwn .gt_footnotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#avzkylqmwn .gt_footnote {
+margin: 0px;
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#avzkylqmwn .gt_sourcenotes {
+color: #333333;
+background-color: #FFFFFF;
+border-bottom-style: none;
+border-bottom-width: 2px;
+border-bottom-color: #D3D3D3;
+border-left-style: none;
+border-left-width: 2px;
+border-left-color: #D3D3D3;
+border-right-style: none;
+border-right-width: 2px;
+border-right-color: #D3D3D3;
+}
+#avzkylqmwn .gt_sourcenote {
+font-size: 90%;
+padding-top: 4px;
+padding-bottom: 4px;
+padding-left: 5px;
+padding-right: 5px;
+}
+#avzkylqmwn .gt_left {
+text-align: left;
+}
+#avzkylqmwn .gt_center {
+text-align: center;
+}
+#avzkylqmwn .gt_right {
+text-align: right;
+font-variant-numeric: tabular-nums;
+}
+#avzkylqmwn .gt_font_normal {
+font-weight: normal;
+}
+#avzkylqmwn .gt_font_bold {
+font-weight: bold;
+}
+#avzkylqmwn .gt_font_italic {
+font-style: italic;
+}
+#avzkylqmwn .gt_super {
+font-size: 65%;
+}
+#avzkylqmwn .gt_footnote_marks {
+font-size: 75%;
+vertical-align: 0.4em;
+position: initial;
+}
+#avzkylqmwn .gt_asterisk {
+font-size: 100%;
+vertical-align: 0;
+}
+#avzkylqmwn .gt_indent_1 {
+text-indent: 5px;
+}
+#avzkylqmwn .gt_indent_2 {
+text-indent: 10px;
+}
+#avzkylqmwn .gt_indent_3 {
+text-indent: 15px;
+}
+#avzkylqmwn .gt_indent_4 {
+text-indent: 20px;
+}
+#avzkylqmwn .gt_indent_5 {
+text-indent: 25px;
+}
+#avzkylqmwn .katex-display {
+display: inline-flex !important;
+margin-bottom: 0.75em !important;
+}
+#avzkylqmwn div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+height: 0px !important;
+}
+</style>
+<table class="gt_table" data-quarto-disable-processing="false" data-quarto-bootstrap="false">
+  <thead>
+    <tr class="gt_col_headings">
+      <th class="gt_col_heading gt_columns_bottom_border gt_left" rowspan="1" colspan="1" scope="col" id="label"><span class="gt_from_md"><strong>Characteristic</strong></span></th>
+      <th class="gt_col_heading gt_columns_bottom_border gt_center" rowspan="1" colspan="1" scope="col" id="stat_0"><span class="gt_from_md"><strong>N = 18,867,038</strong></span><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span></th>
+    </tr>
+  </thead>
+  <tbody class="gt_table_body">
+    <tr><td headers="label" class="gt_row gt_left">num_days_drink_02</td>
+<td headers="stat_0" class="gt_row gt_center">6 (6)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">5,159,796</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">drive_after_drink</td>
+<td headers="stat_0" class="gt_row gt_center">1,807,957 (9.6%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">sex</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Female</td>
+<td headers="stat_0" class="gt_row gt_center">9,235,996 (49%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_0" class="gt_row gt_center">9,631,042 (51%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">ride_drink_2002</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">15,407,174 (82%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_0" class="gt_row gt_center">3,442,860 (18%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">17,004</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">binge</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">4,648,436 (40%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_0" class="gt_row gt_center">7,071,062 (60%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">7,147,540</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">marijuana</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">1,175,805 (24%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Yes</td>
+<td headers="stat_0" class="gt_row gt_center">3,778,098 (76%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">13,913,135</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">license</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unlicensed</td>
+<td headers="stat_0" class="gt_row gt_center">3,447,029 (18%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Licensed</td>
+<td headers="stat_0" class="gt_row gt_center">15,353,418 (82%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">66,591</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">smoker</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    No</td>
+<td headers="stat_0" class="gt_row gt_center">234,046 (3.1%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    ≥ 1 Cig in Last 30 Days</td>
+<td headers="stat_0" class="gt_row gt_center">7,355,167 (97%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">11,277,825</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">race_eth</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Non-Black / Non-Hispanic</td>
+<td headers="stat_0" class="gt_row gt_center">13,476,986 (71%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Black</td>
+<td headers="stat_0" class="gt_row gt_center">2,787,994 (15%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Hispanic</td>
+<td headers="stat_0" class="gt_row gt_center">2,377,171 (13%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Mixed Race (Non-Hispanic)</td>
+<td headers="stat_0" class="gt_row gt_center">224,887 (1.2%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">Highest educational attainment</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Associate/Junior college (AA)</td>
+<td headers="stat_0" class="gt_row gt_center">280,593 (1.9%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Bachelor&#39;s degree (BA, BS)</td>
+<td headers="stat_0" class="gt_row gt_center">330,188 (2.2%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    GED</td>
+<td headers="stat_0" class="gt_row gt_center">965,266 (6.4%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    High school diploma (Regular 12 year program)</td>
+<td headers="stat_0" class="gt_row gt_center">13,444,093 (89%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Master&#39;s degree (MA, MS)</td>
+<td headers="stat_0" class="gt_row gt_center">964 (&lt;0.1%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    PhD</td>
+<td headers="stat_0" class="gt_row gt_center">3,801 (&lt;0.1%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">3,842,132</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">income</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &lt;=$10,000</td>
+<td headers="stat_0" class="gt_row gt_center">2,346,705 (16%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $10,001 - $30,000</td>
+<td headers="stat_0" class="gt_row gt_center">3,032,120 (21%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $30,001 - $50,000</td>
+<td headers="stat_0" class="gt_row gt_center">2,568,946 (18%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    $50,001 - $80,000</td>
+<td headers="stat_0" class="gt_row gt_center">2,726,533 (19%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    &gt;$80,000</td>
+<td headers="stat_0" class="gt_row gt_center">3,817,391 (26%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">4,375,343</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">avg_pmk_cat</td>
+<td headers="stat_0" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    0 TO 4</td>
+<td headers="stat_0" class="gt_row gt_center">495,851 (5.5%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    13 TO 16</td>
+<td headers="stat_0" class="gt_row gt_center">665,472 (7.4%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    5 TO 8</td>
+<td headers="stat_0" class="gt_row gt_center">3,405,133 (38%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    9 TO 12</td>
+<td headers="stat_0" class="gt_row gt_center">4,394,741 (49%)</td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Unknown</td>
+<td headers="stat_0" class="gt_row gt_center">9,905,841</td></tr>
+  </tbody>
+  <tfoot>
+    <tr class="gt_footnotes">
+      <td class="gt_footnote" colspan="2"><span class="gt_footnote_marks" style="white-space:nowrap;font-style:italic;font-weight:normal;line-height:0;"><sup>1</sup></span> <span class="gt_from_md">Mean (SD); n (%)</span></td>
+    </tr>
+  </tfoot>
+</table>
+</div>
+</div>
+<div id="age-group-stratified" class="section level2" number="2.2">
+<h2><span class="header-section-number">2.2</span> Age-Group
+Stratified</h2>
 <pre class="r"><code>design_table_1 &lt;- svydesign(
   ids = ~id,
   weights = ~weight,
@@ -1627,20 +2187,20 @@ tbl1_cat &lt;- tbl_svysummary(
   add_p() 
 
 tbl1_cat</code></pre>
-<div id="zqpemoqtys" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#zqpemoqtys table {
+<div id="hmpxwzfejk" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#hmpxwzfejk table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#zqpemoqtys thead, #zqpemoqtys tbody, #zqpemoqtys tfoot, #zqpemoqtys tr, #zqpemoqtys td, #zqpemoqtys th {
+#hmpxwzfejk thead, #hmpxwzfejk tbody, #hmpxwzfejk tfoot, #hmpxwzfejk tr, #hmpxwzfejk td, #hmpxwzfejk th {
 border-style: none;
 }
-#zqpemoqtys p {
+#hmpxwzfejk p {
 margin: 0;
 padding: 0;
 }
-#zqpemoqtys .gt_table {
+#hmpxwzfejk .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -1665,11 +2225,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#zqpemoqtys .gt_caption {
+#hmpxwzfejk .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#zqpemoqtys .gt_title {
+#hmpxwzfejk .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -1680,7 +2240,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#zqpemoqtys .gt_subtitle {
+#hmpxwzfejk .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -1691,7 +2251,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#zqpemoqtys .gt_heading {
+#hmpxwzfejk .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -1702,12 +2262,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zqpemoqtys .gt_bottom_border {
+#hmpxwzfejk .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zqpemoqtys .gt_col_headings {
+#hmpxwzfejk .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1721,7 +2281,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#zqpemoqtys .gt_col_heading {
+#hmpxwzfejk .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1740,7 +2300,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#zqpemoqtys .gt_column_spanner_outer {
+#hmpxwzfejk .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1751,13 +2311,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#zqpemoqtys .gt_column_spanner_outer:first-child {
+#hmpxwzfejk .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#zqpemoqtys .gt_column_spanner_outer:last-child {
+#hmpxwzfejk .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#zqpemoqtys .gt_column_spanner {
+#hmpxwzfejk .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -1768,10 +2328,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#zqpemoqtys .gt_spanner_row {
+#hmpxwzfejk .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#zqpemoqtys .gt_group_heading {
+#hmpxwzfejk .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1796,7 +2356,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#zqpemoqtys .gt_empty_group_heading {
+#hmpxwzfejk .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -1810,13 +2370,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#zqpemoqtys .gt_from_md > :first-child {
+#hmpxwzfejk .gt_from_md > :first-child {
 margin-top: 0;
 }
-#zqpemoqtys .gt_from_md > :last-child {
+#hmpxwzfejk .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#zqpemoqtys .gt_row {
+#hmpxwzfejk .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1834,7 +2394,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#zqpemoqtys .gt_stub {
+#hmpxwzfejk .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1846,7 +2406,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zqpemoqtys .gt_stub_row_group {
+#hmpxwzfejk .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -1859,13 +2419,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#zqpemoqtys .gt_row_group_first td {
+#hmpxwzfejk .gt_row_group_first td {
 border-top-width: 2px;
 }
-#zqpemoqtys .gt_row_group_first th {
+#hmpxwzfejk .gt_row_group_first th {
 border-top-width: 2px;
 }
-#zqpemoqtys .gt_summary_row {
+#hmpxwzfejk .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1874,14 +2434,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zqpemoqtys .gt_first_summary_row {
+#hmpxwzfejk .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#zqpemoqtys .gt_first_summary_row.thick {
+#hmpxwzfejk .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#zqpemoqtys .gt_last_summary_row {
+#hmpxwzfejk .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1890,7 +2450,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zqpemoqtys .gt_grand_summary_row {
+#hmpxwzfejk .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -1899,7 +2459,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zqpemoqtys .gt_first_grand_summary_row {
+#hmpxwzfejk .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1908,7 +2468,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#zqpemoqtys .gt_last_grand_summary_row_top {
+#hmpxwzfejk .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -1917,10 +2477,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#zqpemoqtys .gt_striped {
+#hmpxwzfejk .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#zqpemoqtys .gt_table_body {
+#hmpxwzfejk .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -1928,7 +2488,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#zqpemoqtys .gt_footnotes {
+#hmpxwzfejk .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1941,7 +2501,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zqpemoqtys .gt_footnote {
+#hmpxwzfejk .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -1949,7 +2509,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zqpemoqtys .gt_sourcenotes {
+#hmpxwzfejk .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -1962,64 +2522,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#zqpemoqtys .gt_sourcenote {
+#hmpxwzfejk .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#zqpemoqtys .gt_left {
+#hmpxwzfejk .gt_left {
 text-align: left;
 }
-#zqpemoqtys .gt_center {
+#hmpxwzfejk .gt_center {
 text-align: center;
 }
-#zqpemoqtys .gt_right {
+#hmpxwzfejk .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#zqpemoqtys .gt_font_normal {
+#hmpxwzfejk .gt_font_normal {
 font-weight: normal;
 }
-#zqpemoqtys .gt_font_bold {
+#hmpxwzfejk .gt_font_bold {
 font-weight: bold;
 }
-#zqpemoqtys .gt_font_italic {
+#hmpxwzfejk .gt_font_italic {
 font-style: italic;
 }
-#zqpemoqtys .gt_super {
+#hmpxwzfejk .gt_super {
 font-size: 65%;
 }
-#zqpemoqtys .gt_footnote_marks {
+#hmpxwzfejk .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#zqpemoqtys .gt_asterisk {
+#hmpxwzfejk .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#zqpemoqtys .gt_indent_1 {
+#hmpxwzfejk .gt_indent_1 {
 text-indent: 5px;
 }
-#zqpemoqtys .gt_indent_2 {
+#hmpxwzfejk .gt_indent_2 {
 text-indent: 10px;
 }
-#zqpemoqtys .gt_indent_3 {
+#hmpxwzfejk .gt_indent_3 {
 text-indent: 15px;
 }
-#zqpemoqtys .gt_indent_4 {
+#hmpxwzfejk .gt_indent_4 {
 text-indent: 20px;
 }
-#zqpemoqtys .gt_indent_5 {
+#hmpxwzfejk .gt_indent_5 {
 text-indent: 25px;
 }
-#zqpemoqtys .katex-display {
+#hmpxwzfejk .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#zqpemoqtys div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#hmpxwzfejk div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2051,13 +2611,13 @@ N = 7,467,581</span><span class="gt_footnote_marks" style="white-space:nowrap;fo
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
 <td headers="p.value" class="gt_row gt_center">0.8</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Male</td>
-<td headers="stat_1" class="gt_row gt_center">5,803,818 (51%)</td>
-<td headers="stat_2" class="gt_row gt_center">3,827,223 (51%)</td>
-<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Female</td>
 <td headers="stat_1" class="gt_row gt_center">5,595,639 (49%)</td>
 <td headers="stat_2" class="gt_row gt_center">3,640,357 (49%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">5,803,818 (51%)</td>
+<td headers="stat_2" class="gt_row gt_center">3,827,223 (51%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">ride_drink_2002</td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
@@ -2255,6 +2815,7 @@ N = 7,467,581</span><span class="gt_footnote_marks" style="white-space:nowrap;fo
 </table>
 </div>
 </div>
+</div>
 <div id="sequential-models" class="section level1" number="3">
 <h1><span class="header-section-number">3</span> Sequential Models</h1>
 <div id="model-1-crude-model" class="section level2" number="3.1">
@@ -2306,12 +2867,15 @@ summary(mod1) </code></pre>
       TRUE ~ sprintf(&quot;%.2f&quot;, p.value)
     )
   ) %&gt;%
-  select(term, OR, CI_low, CI_high, p_value)</code></pre>
+  select(term, OR, CI_low, CI_high, p_value) </code></pre>
 <pre><code>## # A tibble: 2 × 5
 ##   term               OR CI_low CI_high p_value
 ##   &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
 ## 1 (Intercept)    0.0673 0.0591  0.0767 &lt; .001 
 ## 2 age_group21-24 2.54   2.13    3.02   &lt; .001</code></pre>
+<pre class="r"><code>AIC(mod1)</code></pre>
+<pre><code>##       eff.p         AIC    deltabar 
+##    1.248208 4661.572638    1.248208</code></pre>
 <div id="interpretation" class="section level3" number="3.1.1">
 <h3><span class="header-section-number">3.1.1</span> Interpretation</h3>
 <p>In the survey-weighted unadjusted logistic regression model,
@@ -2341,13 +2905,13 @@ tidy(mod2, conf.int = TRUE) %&gt;%
       TRUE ~ sprintf(&quot;%.2f&quot;, p.value)
     )
   ) %&gt;%
-  select(term, OR, CI_low, CI_high, p_value)</code></pre>
+  select(term, OR, CI_low, CI_high, p_value) </code></pre>
 <pre><code>## # A tibble: 10 × 5
 ##    term                                 OR CI_low CI_high p_value
 ##    &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
-##  1 (Intercept)                        0.08   0.06    0.12 &lt; .001 
+##  1 (Intercept)                        0.04   0.03    0.06 &lt; .001 
 ##  2 age_group21-24                     2.31   1.9     2.82 &lt; .001 
-##  3 sexFemale                          0.54   0.44    0.66 &lt; .001 
+##  3 sexMale                            1.85   1.51    2.27 &lt; .001 
 ##  4 race_ethBlack                      0.47   0.35    0.63 &lt; .001 
 ##  5 race_ethHispanic                   0.76   0.58    0.98 0.04   
 ##  6 race_ethMixed Race (Non-Hispanic)  1.16   0.51    2.66 0.72   
@@ -2355,6 +2919,9 @@ tidy(mod2, conf.int = TRUE) %&gt;%
 ##  8 income$30,001 - $50,000            1.3    0.9     1.87 0.16   
 ##  9 income$50,001 - $80,000            1.24   0.86    1.79 0.24   
 ## 10 income&gt;$80,000                     1.52   1.08    2.15 0.02</code></pre>
+<pre class="r"><code>AIC(mod2)</code></pre>
+<pre><code>##       eff.p         AIC    deltabar 
+##   10.545164 3652.260406    1.171685</code></pre>
 <div id="interpretation-1" class="section level3" number="3.2.1">
 <h3><span class="header-section-number">3.2.1</span> Interpretation</h3>
 <p>After adjusting for sex, race/ethnicity, and income, individuals aged
@@ -2382,10 +2949,13 @@ Factors</h2>
 and drinking, paying special attention to the variables that popped as
 having a statistically significant association with our exposure. While
 education pops up, we will not be including it due to its colinearity
-with income.</p>
+with income. The only variables that were statistically significant in
+our table 1 for having different distributions among our groups were the
+number of days drinking and riding with a drinking driver, so we will
+include those two and see what we get.</p>
 <pre class="r"><code>mod_3 &lt;- svyglm(
   drive_after_drink ~ age_group + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002 + binge + marijuana ,
+     num_days_drink_02 + ride_drink_2002 ,
   design = design,
   family = binomial()
 ) 
@@ -2400,24 +2970,25 @@ tidy(mod_3, conf.int = TRUE) %&gt;%
       TRUE ~ sprintf(&quot;%.2f&quot;, p.value)
     )
   ) %&gt;%
-  select(term, OR, CI_low, CI_high, p_value)</code></pre>
-<pre><code>## # A tibble: 14 × 5
+  select(term, OR, CI_low, CI_high, p_value) </code></pre>
+<pre><code>## # A tibble: 12 × 5
 ##    term                                 OR CI_low CI_high p_value
 ##    &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
-##  1 (Intercept)                        0.05   0.02    0.1  &lt; .001 
-##  2 age_group21-24                     1.8    1.3     2.48 &lt; .001 
-##  3 sexFemale                          0.79   0.56    1.11 0.17   
-##  4 race_ethBlack                      0.83   0.51    1.34 0.44   
-##  5 race_ethHispanic                   0.98   0.63    1.51 0.91   
-##  6 race_ethMixed Race (Non-Hispanic)  1.04   0.27    4.03 0.96   
-##  7 income$10,001 - $30,000            1.15   0.67    1.97 0.62   
-##  8 income$30,001 - $50,000            1.17   0.66    2.1  0.59   
-##  9 income$50,001 - $80,000            1      0.56    1.79 0.99   
-## 10 income&gt;$80,000                     1.25   0.74    2.11 0.40   
-## 11 num_days_drink_02                  1.03   1.01    1.06 0.00   
-## 12 ride_drink_2002Yes                 4.1    2.95    5.7  &lt; .001 
-## 13 bingeYes                           2.38   1.43    3.96 &lt; .001 
-## 14 marijuanaYes                       0.71   0.48    1.04 0.08</code></pre>
+##  1 (Intercept)                        0.02   0.01    0.03 &lt; .001 
+##  2 age_group21-24                     1.78   1.42    2.23 &lt; .001 
+##  3 sexMale                            1.55   1.23    1.96 &lt; .001 
+##  4 race_ethBlack                      0.59   0.42    0.84 0.00   
+##  5 race_ethHispanic                   0.9    0.67    1.21 0.47   
+##  6 race_ethMixed Race (Non-Hispanic)  1.14   0.35    3.7  0.82   
+##  7 income$10,001 - $30,000            1.27   0.85    1.9  0.24   
+##  8 income$30,001 - $50,000            1.43   0.95    2.15 0.09   
+##  9 income$50,001 - $80,000            1.31   0.88    1.96 0.18   
+## 10 income&gt;$80,000                     1.36   0.93    1.99 0.12   
+## 11 num_days_drink_02                  1.08   1.07    1.1  &lt; .001 
+## 12 ride_drink_2002Yes                 5.65   4.49    7.1  &lt; .001</code></pre>
+<pre class="r"><code>AIC(mod_3)</code></pre>
+<pre><code>##       eff.p         AIC    deltabar 
+##   13.701230 2720.010242    1.245566</code></pre>
 <div id="interpretation-2" class="section level3" number="3.3.1">
 <h3><span class="header-section-number">3.3.1</span> Interpretation</h3>
 <p>After adjusting for sex, race/ethnicity, income, number of days
@@ -2425,20 +2996,15 @@ drinking, whether they rode with a drinking driver, whether they have a
 driver’s license, the number of days they drank, whether they reported
 binge drinking over the past 30 days, and whether they used marijuana in
 the past 30 days, <strong>individuals aged 21-24 had 1.8x the odds of
-reporting driving after drinking (95% CI: 1.30 to 2.48, p &lt;
+reporting driving after drinking (95% CI: 1.42 to 2.23, p &lt;
 .001).</strong></p>
 <p><em>Independent effects</em></p>
-<p>The only significant covariates this time were the drinking/substance
-use indicators.</p>
 <p>Controlling for all other variables, each one unit increase in the
-number of days drinking was associated with a 1.03x increase in the odds
+number of days drinking was associated with a 1.08x increase in the odds
 of driving after drinking (p = .01).</p>
 <p>Riding with a drinking driver greatly increased the odds of driving
-after drinking, controlling for all other variables (OR = 4.10, p &lt;
-.001). Those who reported binge drinking in the last 30 days had 2.38x
-greater odds of driving after drinking (p &lt; .001).</p>
-<p>Marijuana use bordered significance, with marijuana users having less
-odds of reported driving after drinking (p = .08)</p>
+after drinking, controlling for all other variables (OR = 5.65, p &lt;
+.001).</p>
 </div>
 </div>
 <div id="model-4-parental-monitoring-knowledge" class="section level2" number="3.4">
@@ -2454,7 +3020,7 @@ them/have knowledge of their whereabouts and actions the least.</p>
 fathers from the first 4 years of the survey collection.</p>
 <pre class="r"><code>mod_4 &lt;- svyglm(
  drive_after_drink ~ age_group + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002 + binge + marijuana +
+     num_days_drink_02 + ride_drink_2002 +
     avg_pmk_cat,
   design = design,
   family = binomial()
@@ -2470,36 +3036,33 @@ tidy(mod_4, conf.int = TRUE) %&gt;%
       TRUE ~ sprintf(&quot;%.2f&quot;, p.value)
     )
   ) %&gt;%
-  select(term, OR, CI_low, CI_high, p_value)</code></pre>
-<pre><code>## # A tibble: 17 × 5
+  select(term, OR, CI_low, CI_high, p_value) </code></pre>
+<pre><code>## # A tibble: 15 × 5
 ##    term                                 OR CI_low CI_high p_value
 ##    &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
-##  1 (Intercept)                        0.01   0       0.09 &lt; .001 
-##  2 age_group21-24                     1.49   0.26    8.41 0.65   
-##  3 sexFemale                          1.01   0.59    1.74 0.96   
-##  4 race_ethBlack                      1.86   0.96    3.62 0.07   
-##  5 race_ethHispanic                   1.04   0.47    2.29 0.92   
-##  6 race_ethMixed Race (Non-Hispanic)  1.37   0.37    5.02 0.64   
-##  7 income$10,001 - $30,000            1.69   0.65    4.37 0.28   
-##  8 income$30,001 - $50,000            1.58   0.57    4.38 0.38   
-##  9 income$50,001 - $80,000            2.4    0.97    5.92 0.06   
-## 10 income&gt;$80,000                     2.07   0.89    4.78 0.09   
-## 11 num_days_drink_02                  1.04   1       1.07 0.04   
-## 12 ride_drink_2002Yes                 4.9    2.88    8.35 &lt; .001 
-## 13 bingeYes                           1.93   0.92    4.06 0.08   
-## 14 marijuanaYes                       0.78   0.4     1.52 0.47   
-## 15 avg_pmk_cat13 TO 16                0      0       0    &lt; .001 
-## 16 avg_pmk_cat5 TO 8                  2.27   0.69    7.5  0.18   
-## 17 avg_pmk_cat9 TO 12                 1.6    0.46    5.56 0.46</code></pre>
+##  1 (Intercept)                        0.02   0.01    0.05 &lt; .001 
+##  2 age_group21-24                     3.08   1.12    8.45 0.03   
+##  3 sexMale                            1.39   0.94    2.07 0.10   
+##  4 race_ethBlack                      0.94   0.57    1.55 0.81   
+##  5 race_ethHispanic                   0.81   0.47    1.38 0.44   
+##  6 race_ethMixed Race (Non-Hispanic)  1.24   0.29    5.26 0.77   
+##  7 income$10,001 - $30,000            0.85   0.41    1.75 0.65   
+##  8 income$30,001 - $50,000            1.62   0.81    3.24 0.17   
+##  9 income$50,001 - $80,000            1.67   0.89    3.13 0.11   
+## 10 income&gt;$80,000                     1.34   0.74    2.45 0.34   
+## 11 num_days_drink_02                  1.09   1.06    1.11 &lt; .001 
+## 12 ride_drink_2002Yes                 6.43   4.37    9.47 &lt; .001 
+## 13 avg_pmk_cat13 TO 16                1.2    0.33    4.33 0.78   
+## 14 avg_pmk_cat5 TO 8                  1.28   0.51    3.25 0.60   
+## 15 avg_pmk_cat9 TO 12                 0.85   0.33    2.18 0.73</code></pre>
+<pre class="r"><code>AIC(mod_4)</code></pre>
+<pre><code>##      eff.p        AIC   deltabar 
+##  14.988646 913.075693   1.070618</code></pre>
 <div id="interpretation-3" class="section level3" number="3.4.1">
 <h3><span class="header-section-number">3.4.1</span> Interpretation</h3>
-<p>It appears that the addition of parental monitoring knowledge is
-problematic in this model, as it has destabilized our effect estimates
-and made many effects change in terms of significance. Holding all other
-covariates constant, for the first time age group is no longer
-significant, with the model showing that <strong>individuals aged 21-24
-had 1.49x the odds of reporting driving after drinking (95% CI: 0.26 to
-8.41, p = .65).</strong></p>
+<p>Holding all other covariates constant, <strong>individuals aged 21-24
+had 3.08x the odds of reporting driving after drinking (95% CI: 1.12 to
+8.45, p = .03).</strong></p>
 <p><em>Note</em> that the parental monitoring knowledge variable
 contains a lot of missing data, and may be hard to use for the purpose
 of this study, as parental monitoring knowledge is likely to be very
@@ -2507,14 +3070,37 @@ dependent on age and not necessarily impact driving while drinking
 outcomes in a cross-sectional manner (it may serve better in a
 longitudinal study to see how parental monitoring affects drinking and
 driving trajectories).</p>
-<p><strong>Due to this consideration, and the changes we can see from
-model 4, it is not recommended to include parental monitoring knowledge
-as a variable in this analysis.</strong></p>
 </div>
 </div>
 </div>
-<div id="sensitivity-analysis" class="section level1" number="4">
-<h1><span class="header-section-number">4</span> Sensitivity
+<div id="anova-model-comparisons" class="section level1" number="4">
+<h1><span class="header-section-number">4</span> ANOVA Model
+Comparisons</h1>
+<p>Next we are going to run a series of ANOVAs to compare our different
+model’s fits.</p>
+<pre class="r"><code>anova(mod1, mod2)</code></pre>
+<pre><code>## Working (Rao-Scott+F) LRT for sex race_eth income
+##  in svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     income, design = design, family = binomial())
+## Working 2logLR =  79.84579 p= 1.6845e-12 
+## (scale factors:  1.3 1.2 1.1 1.1 1 0.94 0.73 0.6 );  denominator df= 5764</code></pre>
+<pre class="r"><code>anova(mod2, mod_3)</code></pre>
+<pre><code>## Working (Rao-Scott+F) LRT for num_days_drink_02 ride_drink_2002
+##  in svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     income + num_days_drink_02 + ride_drink_2002, design = design, 
+##     family = binomial())
+## Working 2logLR =  456.5118 p= &lt; 2.22e-16 
+## (scale factors:  1 0.96 );  denominator df= 4045</code></pre>
+<pre class="r"><code>anova(mod_3, mod_4)</code></pre>
+<pre><code>## Working (Rao-Scott+F) LRT for avg_pmk_cat
+##  in svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     income + num_days_drink_02 + ride_drink_2002 + avg_pmk_cat, 
+##     design = design, family = binomial())
+## Working 2logLR =  3.80679 p= 0.28224 
+## (scale factors:  1.2 0.95 0.87 );  denominator df= 1709</code></pre>
+</div>
+<div id="sensitivity-analysis" class="section level1" number="5">
+<h1><span class="header-section-number">5</span> Sensitivity
 Analysis</h1>
 <p>Licensure popped as a variable that was significantly associated with
 age group and our outcome in early data explorations. We are going to
@@ -2535,8 +3121,8 @@ excluding them and subset the data:</p>
 <p>Once we remove the 1,788 unlicensed individuals and 27 NA’s, we are
 left with 5,783 study participants. Let’s apply our weighting and
 construct a table 1.</p>
-<div id="table-1-1" class="section level2" number="4.1">
-<h2><span class="header-section-number">4.1</span> Table 1</h2>
+<div id="table-1-1" class="section level2" number="5.1">
+<h2><span class="header-section-number">5.1</span> Table 1</h2>
 <pre class="r"><code>design_table_1_sensitivity &lt;- svydesign(
   ids = ~id,
   weights = ~weight,
@@ -2571,20 +3157,20 @@ tbl1_sens &lt;- tbl_svysummary(
   add_p() 
 
 tbl1_sens</code></pre>
-<div id="wcnfdumhjs" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
-<style>#wcnfdumhjs table {
+<div id="aknfwafmmu" style="padding-left:0px;padding-right:0px;padding-top:10px;padding-bottom:10px;overflow-x:auto;overflow-y:auto;width:auto;height:auto;">
+<style>#aknfwafmmu table {
 font-family: system-ui, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji', 'Segoe UI Symbol', 'Noto Color Emoji';
 -webkit-font-smoothing: antialiased;
 -moz-osx-font-smoothing: grayscale;
 }
-#wcnfdumhjs thead, #wcnfdumhjs tbody, #wcnfdumhjs tfoot, #wcnfdumhjs tr, #wcnfdumhjs td, #wcnfdumhjs th {
+#aknfwafmmu thead, #aknfwafmmu tbody, #aknfwafmmu tfoot, #aknfwafmmu tr, #aknfwafmmu td, #aknfwafmmu th {
 border-style: none;
 }
-#wcnfdumhjs p {
+#aknfwafmmu p {
 margin: 0;
 padding: 0;
 }
-#wcnfdumhjs .gt_table {
+#aknfwafmmu .gt_table {
 display: table;
 border-collapse: collapse;
 line-height: normal;
@@ -2609,11 +3195,11 @@ border-left-style: none;
 border-left-width: 2px;
 border-left-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_caption {
+#aknfwafmmu .gt_caption {
 padding-top: 4px;
 padding-bottom: 4px;
 }
-#wcnfdumhjs .gt_title {
+#aknfwafmmu .gt_title {
 color: #333333;
 font-size: 125%;
 font-weight: initial;
@@ -2624,7 +3210,7 @@ padding-right: 5px;
 border-bottom-color: #FFFFFF;
 border-bottom-width: 0;
 }
-#wcnfdumhjs .gt_subtitle {
+#aknfwafmmu .gt_subtitle {
 color: #333333;
 font-size: 85%;
 font-weight: initial;
@@ -2635,7 +3221,7 @@ padding-right: 5px;
 border-top-color: #FFFFFF;
 border-top-width: 0;
 }
-#wcnfdumhjs .gt_heading {
+#aknfwafmmu .gt_heading {
 background-color: #FFFFFF;
 text-align: center;
 border-bottom-color: #FFFFFF;
@@ -2646,12 +3232,12 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_bottom_border {
+#aknfwafmmu .gt_bottom_border {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_col_headings {
+#aknfwafmmu .gt_col_headings {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2665,7 +3251,7 @@ border-right-style: none;
 border-right-width: 1px;
 border-right-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_col_heading {
+#aknfwafmmu .gt_col_heading {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2684,7 +3270,7 @@ padding-left: 5px;
 padding-right: 5px;
 overflow-x: hidden;
 }
-#wcnfdumhjs .gt_column_spanner_outer {
+#aknfwafmmu .gt_column_spanner_outer {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2695,13 +3281,13 @@ padding-bottom: 0;
 padding-left: 4px;
 padding-right: 4px;
 }
-#wcnfdumhjs .gt_column_spanner_outer:first-child {
+#aknfwafmmu .gt_column_spanner_outer:first-child {
 padding-left: 0;
 }
-#wcnfdumhjs .gt_column_spanner_outer:last-child {
+#aknfwafmmu .gt_column_spanner_outer:last-child {
 padding-right: 0;
 }
-#wcnfdumhjs .gt_column_spanner {
+#aknfwafmmu .gt_column_spanner {
 border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
@@ -2712,10 +3298,10 @@ overflow-x: hidden;
 display: inline-block;
 width: 100%;
 }
-#wcnfdumhjs .gt_spanner_row {
+#aknfwafmmu .gt_spanner_row {
 border-bottom-style: hidden;
 }
-#wcnfdumhjs .gt_group_heading {
+#aknfwafmmu .gt_group_heading {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2740,7 +3326,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 text-align: left;
 }
-#wcnfdumhjs .gt_empty_group_heading {
+#aknfwafmmu .gt_empty_group_heading {
 padding: 0.5px;
 color: #333333;
 background-color: #FFFFFF;
@@ -2754,13 +3340,13 @@ border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 vertical-align: middle;
 }
-#wcnfdumhjs .gt_from_md > :first-child {
+#aknfwafmmu .gt_from_md > :first-child {
 margin-top: 0;
 }
-#wcnfdumhjs .gt_from_md > :last-child {
+#aknfwafmmu .gt_from_md > :last-child {
 margin-bottom: 0;
 }
-#wcnfdumhjs .gt_row {
+#aknfwafmmu .gt_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2778,7 +3364,7 @@ border-right-color: #D3D3D3;
 vertical-align: middle;
 overflow-x: hidden;
 }
-#wcnfdumhjs .gt_stub {
+#aknfwafmmu .gt_stub {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2790,7 +3376,7 @@ border-right-color: #D3D3D3;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wcnfdumhjs .gt_stub_row_group {
+#aknfwafmmu .gt_stub_row_group {
 color: #333333;
 background-color: #FFFFFF;
 font-size: 100%;
@@ -2803,13 +3389,13 @@ padding-left: 5px;
 padding-right: 5px;
 vertical-align: top;
 }
-#wcnfdumhjs .gt_row_group_first td {
+#aknfwafmmu .gt_row_group_first td {
 border-top-width: 2px;
 }
-#wcnfdumhjs .gt_row_group_first th {
+#aknfwafmmu .gt_row_group_first th {
 border-top-width: 2px;
 }
-#wcnfdumhjs .gt_summary_row {
+#aknfwafmmu .gt_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2818,14 +3404,14 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wcnfdumhjs .gt_first_summary_row {
+#aknfwafmmu .gt_first_summary_row {
 border-top-style: solid;
 border-top-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_first_summary_row.thick {
+#aknfwafmmu .gt_first_summary_row.thick {
 border-top-width: 2px;
 }
-#wcnfdumhjs .gt_last_summary_row {
+#aknfwafmmu .gt_last_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2834,7 +3420,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_grand_summary_row {
+#aknfwafmmu .gt_grand_summary_row {
 color: #333333;
 background-color: #FFFFFF;
 text-transform: inherit;
@@ -2843,7 +3429,7 @@ padding-bottom: 8px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wcnfdumhjs .gt_first_grand_summary_row {
+#aknfwafmmu .gt_first_grand_summary_row {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2852,7 +3438,7 @@ border-top-style: double;
 border-top-width: 6px;
 border-top-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_last_grand_summary_row_top {
+#aknfwafmmu .gt_last_grand_summary_row_top {
 padding-top: 8px;
 padding-bottom: 8px;
 padding-left: 5px;
@@ -2861,10 +3447,10 @@ border-bottom-style: double;
 border-bottom-width: 6px;
 border-bottom-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_striped {
+#aknfwafmmu .gt_striped {
 background-color: rgba(128, 128, 128, 0.05);
 }
-#wcnfdumhjs .gt_table_body {
+#aknfwafmmu .gt_table_body {
 border-top-style: solid;
 border-top-width: 2px;
 border-top-color: #D3D3D3;
@@ -2872,7 +3458,7 @@ border-bottom-style: solid;
 border-bottom-width: 2px;
 border-bottom-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_footnotes {
+#aknfwafmmu .gt_footnotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2885,7 +3471,7 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_footnote {
+#aknfwafmmu .gt_footnote {
 margin: 0px;
 font-size: 90%;
 padding-top: 4px;
@@ -2893,7 +3479,7 @@ padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wcnfdumhjs .gt_sourcenotes {
+#aknfwafmmu .gt_sourcenotes {
 color: #333333;
 background-color: #FFFFFF;
 border-bottom-style: none;
@@ -2906,64 +3492,64 @@ border-right-style: none;
 border-right-width: 2px;
 border-right-color: #D3D3D3;
 }
-#wcnfdumhjs .gt_sourcenote {
+#aknfwafmmu .gt_sourcenote {
 font-size: 90%;
 padding-top: 4px;
 padding-bottom: 4px;
 padding-left: 5px;
 padding-right: 5px;
 }
-#wcnfdumhjs .gt_left {
+#aknfwafmmu .gt_left {
 text-align: left;
 }
-#wcnfdumhjs .gt_center {
+#aknfwafmmu .gt_center {
 text-align: center;
 }
-#wcnfdumhjs .gt_right {
+#aknfwafmmu .gt_right {
 text-align: right;
 font-variant-numeric: tabular-nums;
 }
-#wcnfdumhjs .gt_font_normal {
+#aknfwafmmu .gt_font_normal {
 font-weight: normal;
 }
-#wcnfdumhjs .gt_font_bold {
+#aknfwafmmu .gt_font_bold {
 font-weight: bold;
 }
-#wcnfdumhjs .gt_font_italic {
+#aknfwafmmu .gt_font_italic {
 font-style: italic;
 }
-#wcnfdumhjs .gt_super {
+#aknfwafmmu .gt_super {
 font-size: 65%;
 }
-#wcnfdumhjs .gt_footnote_marks {
+#aknfwafmmu .gt_footnote_marks {
 font-size: 75%;
 vertical-align: 0.4em;
 position: initial;
 }
-#wcnfdumhjs .gt_asterisk {
+#aknfwafmmu .gt_asterisk {
 font-size: 100%;
 vertical-align: 0;
 }
-#wcnfdumhjs .gt_indent_1 {
+#aknfwafmmu .gt_indent_1 {
 text-indent: 5px;
 }
-#wcnfdumhjs .gt_indent_2 {
+#aknfwafmmu .gt_indent_2 {
 text-indent: 10px;
 }
-#wcnfdumhjs .gt_indent_3 {
+#aknfwafmmu .gt_indent_3 {
 text-indent: 15px;
 }
-#wcnfdumhjs .gt_indent_4 {
+#aknfwafmmu .gt_indent_4 {
 text-indent: 20px;
 }
-#wcnfdumhjs .gt_indent_5 {
+#aknfwafmmu .gt_indent_5 {
 text-indent: 25px;
 }
-#wcnfdumhjs .katex-display {
+#aknfwafmmu .katex-display {
 display: inline-flex !important;
 margin-bottom: 0.75em !important;
 }
-#wcnfdumhjs div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
+#aknfwafmmu div.Reactable > div.rt-table > div.rt-thead > div.rt-tr.rt-tr-group-header > div.rt-th-group:after {
 height: 0px !important;
 }
 </style>
@@ -2995,13 +3581,13 @@ N = 6,311,578</span><span class="gt_footnote_marks" style="white-space:nowrap;fo
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
 <td headers="stat_2" class="gt_row gt_center"><br /></td>
 <td headers="p.value" class="gt_row gt_center">0.8</td></tr>
-    <tr><td headers="label" class="gt_row gt_left">    Male</td>
-<td headers="stat_1" class="gt_row gt_center">4,627,255 (51%)</td>
-<td headers="stat_2" class="gt_row gt_center">3,206,707 (51%)</td>
-<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">    Female</td>
 <td headers="stat_1" class="gt_row gt_center">4,414,585 (49%)</td>
 <td headers="stat_2" class="gt_row gt_center">3,104,871 (49%)</td>
+<td headers="p.value" class="gt_row gt_center"><br /></td></tr>
+    <tr><td headers="label" class="gt_row gt_left">    Male</td>
+<td headers="stat_1" class="gt_row gt_center">4,627,255 (51%)</td>
+<td headers="stat_2" class="gt_row gt_center">3,206,707 (51%)</td>
 <td headers="p.value" class="gt_row gt_center"><br /></td></tr>
     <tr><td headers="label" class="gt_row gt_left">ride_drink_2002</td>
 <td headers="stat_1" class="gt_row gt_center"><br /></td>
@@ -3199,8 +3785,9 @@ weights.</p>
 <p>We will proceed with the sequential models, and include their output
 below, with comments on whether anything substantially changed between
 the models.</p>
-<div id="mod-1" class="section level3" number="4.1.1">
-<h3><span class="header-section-number">4.1.1</span> Mod 1</h3>
+</div>
+<div id="mod-1" class="section level2" number="5.2">
+<h2><span class="header-section-number">5.2</span> Mod 1</h2>
 <pre class="r"><code>mod1_sens &lt;- svyglm(
   drive_after_drink ~ age_group,
   design = design,
@@ -3224,9 +3811,11 @@ tidy(mod1_sens, conf.int = TRUE) %&gt;%
 ##   &lt;chr&gt;           &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
 ## 1 (Intercept)    0.0775 0.0675  0.0890 &lt; .001 
 ## 2 age_group21-24 2.48   2.06    2.98   &lt; .001</code></pre>
+<p>The odds ratio attentuated very slightly from 2.54 to 2.48; no other
+change.</p>
 </div>
-<div id="mod-2" class="section level3" number="4.1.2">
-<h3><span class="header-section-number">4.1.2</span> Mod 2</h3>
+<div id="mod-2" class="section level2" number="5.3">
+<h2><span class="header-section-number">5.3</span> Mod 2</h2>
 <pre class="r"><code>mod2_sens &lt;- svyglm(
   drive_after_drink ~ age_group + sex + race_eth + income,
   design = design,
@@ -3247,9 +3836,9 @@ tidy(mod2_sens, conf.int = TRUE) %&gt;%
 <pre><code>## # A tibble: 10 × 5
 ##    term                                 OR CI_low CI_high p_value
 ##    &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
-##  1 (Intercept)                        0.11   0.08    0.15 &lt; .001 
+##  1 (Intercept)                        0.06   0.04    0.08 &lt; .001 
 ##  2 age_group21-24                     2.3    1.87    2.84 &lt; .001 
-##  3 sexFemale                          0.54   0.44    0.67 &lt; .001 
+##  3 sexMale                            1.84   1.49    2.27 &lt; .001 
 ##  4 race_ethBlack                      0.51   0.37    0.7  &lt; .001 
 ##  5 race_ethHispanic                   0.78   0.59    1.03 0.08   
 ##  6 race_ethMixed Race (Non-Hispanic)  1.41   0.59    3.36 0.44   
@@ -3257,12 +3846,13 @@ tidy(mod2_sens, conf.int = TRUE) %&gt;%
 ##  8 income$30,001 - $50,000            1.12   0.77    1.64 0.55   
 ##  9 income$50,001 - $80,000            0.97   0.66    1.42 0.87   
 ## 10 income&gt;$80,000                     1.14   0.8     1.63 0.45</code></pre>
+<p>No major changes.</p>
 </div>
-<div id="mod-3" class="section level3" number="4.1.3">
-<h3><span class="header-section-number">4.1.3</span> Mod 3</h3>
+<div id="mod-3" class="section level2" number="5.4">
+<h2><span class="header-section-number">5.4</span> Mod 3</h2>
 <pre class="r"><code>mod_3_sens &lt;- svyglm(
   drive_after_drink ~ age_group + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002 + binge + marijuana ,
+     num_days_drink_02 + ride_drink_2002,
   design = design,
   family = binomial()
 ) 
@@ -3278,24 +3868,63 @@ tidy(mod_3_sens, conf.int = TRUE) %&gt;%
     )
   ) %&gt;%
   select(term, OR, CI_low, CI_high, p_value)</code></pre>
-<pre><code>## # A tibble: 14 × 5
+<pre><code>## # A tibble: 12 × 5
 ##    term                                 OR CI_low CI_high p_value
 ##    &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
-##  1 (Intercept)                        0.06   0.03    0.13 &lt; .001 
-##  2 age_group21-24                     1.69   1.19    2.39 0.00   
-##  3 sexFemale                          0.75   0.52    1.08 0.12   
-##  4 race_ethBlack                      0.89   0.5     1.57 0.69   
-##  5 race_ethHispanic                   0.86   0.52    1.42 0.56   
-##  6 race_ethMixed Race (Non-Hispanic)  1.22   0.29    5.14 0.79   
-##  7 income$10,001 - $30,000            1.33   0.75    2.38 0.33   
-##  8 income$30,001 - $50,000            1.22   0.66    2.25 0.53   
-##  9 income$50,001 - $80,000            0.75   0.4     1.41 0.37   
-## 10 income&gt;$80,000                     1      0.57    1.76 0.99   
-## 11 num_days_drink_02                  1.03   1.01    1.06 0.01   
-## 12 ride_drink_2002Yes                 4.55   3.19    6.49 &lt; .001 
-## 13 bingeYes                           2.25   1.32    3.84 0.00   
-## 14 marijuanaYes                       0.78   0.52    1.18 0.23</code></pre>
-</div>
+##  1 (Intercept)                        0.02   0.02    0.04 &lt; .001 
+##  2 age_group21-24                     1.69   1.33    2.14 &lt; .001 
+##  3 sexMale                            1.62   1.27    2.07 &lt; .001 
+##  4 race_ethBlack                      0.7    0.47    1.03 0.07   
+##  5 race_ethHispanic                   0.88   0.63    1.21 0.43   
+##  6 race_ethMixed Race (Non-Hispanic)  1.45   0.38    5.51 0.59   
+##  7 income$10,001 - $30,000            1.26   0.83    1.92 0.28   
+##  8 income$30,001 - $50,000            1.34   0.87    2.05 0.19   
+##  9 income$50,001 - $80,000            1.06   0.69    1.62 0.79   
+## 10 income&gt;$80,000                     1.07   0.72    1.61 0.73   
+## 11 num_days_drink_02                  1.08   1.07    1.1  &lt; .001 
+## 12 ride_drink_2002Yes                 6.13   4.82    7.8  &lt; .001</code></pre>
+<p>The odds ratio attenuated to 1.69, remains significant at ~ .01. Ride
+while drunk increased slightly to 4.55. Marijuana became even less
+significant.</p>
+<pre class="r"><code>mod_4_sens &lt;- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + avg_pmk_cat,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_4_sens, conf.int = TRUE) %&gt;%
+  mutate(
+    OR = round(exp(estimate),2),
+    CI_low = round(exp(conf.low),2),
+    CI_high = round(exp(conf.high),2),
+    p_value = case_when(
+      p.value &lt; 0.001 ~ &quot;&lt; .001&quot;,
+      TRUE ~ sprintf(&quot;%.2f&quot;, p.value)
+    )
+  ) %&gt;%
+  select(term, OR, CI_low, CI_high, p_value)</code></pre>
+<pre><code>## # A tibble: 15 × 5
+##    term                                 OR CI_low CI_high p_value
+##    &lt;chr&gt;                             &lt;dbl&gt;  &lt;dbl&gt;   &lt;dbl&gt; &lt;chr&gt;  
+##  1 (Intercept)                        0.03   0.01    0.1  &lt; .001 
+##  2 age_group21-24                     2.82   0.98    8.1  0.05   
+##  3 sexMale                            1.52   1       2.32 0.05   
+##  4 race_ethBlack                      1.14   0.65    2    0.65   
+##  5 race_ethHispanic                   0.7    0.38    1.28 0.24   
+##  6 race_ethMixed Race (Non-Hispanic)  1.66   0.31    8.97 0.56   
+##  7 income$10,001 - $30,000            0.97   0.45    2.1  0.94   
+##  8 income$30,001 - $50,000            1.6    0.77    3.35 0.21   
+##  9 income$50,001 - $80,000            1.54   0.77    3.06 0.22   
+## 10 income&gt;$80,000                     1.06   0.55    2.05 0.86   
+## 11 num_days_drink_02                  1.09   1.06    1.11 &lt; .001 
+## 12 ride_drink_2002Yes                 7.37   4.89   11.1  &lt; .001 
+## 13 avg_pmk_cat13 TO 16                0.87   0.23    3.28 0.84   
+## 14 avg_pmk_cat5 TO 8                  0.8    0.3     2.09 0.64   
+## 15 avg_pmk_cat9 TO 12                 0.53   0.2     1.41 0.20</code></pre>
+<p><strong>Overall, it does not appear as though excluding licensed
+drivers had a meaningful difference on our observed
+results.</strong></p>
 </div>
 </div>
 
