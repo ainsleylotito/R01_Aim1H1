@@ -1,6 +1,9 @@
 ---
 title: "04_Final_Analysis"
 output:
+  word_document:
+    toc: true
+    toc_depth: '3'
   html_document:
     toc: true
     toc_depth: 3
