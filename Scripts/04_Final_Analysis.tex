@@ -1,0 +1,873 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{anyfontsize}
+\usepackage{multirow}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={04\_Final\_Analysis},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{04\_Final\_Analysis}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Introduction}\label{introduction}
+
+This script contains the final output for the final analyses conducted
+for aim 1, which were previously generated in the file
+\texttt{Scripts/03\_Analysis.Rmd}. The output in this document will
+cover:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\tightlist
+\item
+  Descriptive Statistics of the sample stratified by age group
+  \textbf{(Table 1)}
+\item
+  \textbf{Sequential Models} used to assess the association between age
+  group and reported driving after drinking.
+\end{enumerate}
+
+\section{Table 1}\label{table-1}
+
+We will compare our two age groups among our nationally representative
+sample (weighting applied) across variables of interest, including
+demographics, risk factors, and parental monitoring.
+
+\emph{Note} In analyses from the \texttt{03\_Analysis.rmd} file we also
+compared other variables, such as parenting styles and risk categories
+for physical environment and family/home risk, but these are excluded
+from this output due to them ultimately not being informative for our
+models and/or having too much missing data.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{design\_table\_1 }\OtherTok{\textless{}{-}} \FunctionTok{svydesign}\NormalTok{(}
+  \AttributeTok{ids =} \SpecialCharTok{\textasciitilde{}}\NormalTok{id,}
+  \AttributeTok{weights =} \SpecialCharTok{\textasciitilde{}}\NormalTok{weight,}
+  \AttributeTok{data =}\NormalTok{ study\_dat}
+\NormalTok{)}
+
+\NormalTok{num\_vars\_v2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"num\_days\_drink\_02"}
+\NormalTok{)}
+
+\NormalTok{fac\_vars\_cat }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"drive\_after\_drink"}\NormalTok{, }\StringTok{"sex"}\NormalTok{,}
+  \StringTok{"ride\_drink\_2002"}\NormalTok{, }\StringTok{"binge"}\NormalTok{, }\StringTok{"marijuana"}\NormalTok{,}
+  \StringTok{"license"}\NormalTok{, }\StringTok{"smoker"}\NormalTok{, }\StringTok{"race\_eth"}\NormalTok{, }\StringTok{"education"}\NormalTok{, }\StringTok{"income"}\NormalTok{,}
+  \StringTok{"avg\_pmk\_cat"}
+\NormalTok{) }
+
+\NormalTok{tbl1\_cat }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1,}
+  \AttributeTok{by =}\NormalTok{ age\_group,}
+  \AttributeTok{include =} \FunctionTok{c}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(num\_vars\_v2), }\FunctionTok{all\_of}\NormalTok{(fac\_vars\_cat)),}
+  \AttributeTok{type =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{    binge }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    marijuana }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}
+\NormalTok{  ),}
+  \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+    \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+    \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{  )}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }
+
+\NormalTok{tbl1\_cat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[t]
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{Pre-21}  N = 11,399,457\textsuperscript{\textit{1}} & \textbf{21-24}  N = 7,467,581\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+num\_days\_drink\_02 & 5 (6) & 7 (7) & <0.001 \\ 
+    Unknown & 3,693,689 & 1,466,108 &  \\ 
+drive\_after\_drink & 718,825 (6.3\%) & 1,089,132 (15\%) & <0.001 \\ 
+sex &  &  & 0.8 \\ 
+    Female & 5,595,639 (49\%) & 3,640,357 (49\%) &  \\ 
+    Male & 5,803,818 (51\%) & 3,827,223 (51\%) &  \\ 
+ride\_drink\_2002 &  &  & <0.001 \\ 
+    No & 9,629,601 (85\%) & 5,777,573 (77\%) &  \\ 
+    Yes & 1,756,177 (15\%) & 1,686,683 (23\%) &  \\ 
+    Unknown & 13,679 & 3,325 &  \\ 
+binge &  &  & 0.8 \\ 
+    No & 2,536,049 (39\%) & 2,112,386 (40\%) &  \\ 
+    Yes & 3,887,927 (61\%) & 3,183,135 (60\%) &  \\ 
+    Unknown & 4,975,481 & 2,172,059 &  \\ 
+marijuana &  &  & 0.9 \\ 
+    No & 738,167 (24\%) & 437,638 (24\%) &  \\ 
+    Yes & 2,357,626 (76\%) & 1,420,472 (76\%) &  \\ 
+    Unknown & 8,303,665 & 5,609,470 &  \\ 
+license &  &  & <0.001 \\ 
+    Unlicensed & 2,330,954 (20\%) & 1,116,074 (15\%) &  \\ 
+    Licensed & 9,041,840 (80\%) & 6,311,578 (85\%) &  \\ 
+    Unknown & 26,663 & 39,929 &  \\ 
+smoker &  &  & 0.4 \\ 
+    No & 145,106 (3.3\%) & 88,940 (2.8\%) &  \\ 
+    \ensuremath{\geq} 1 Cig in Last 30 Days & 4,232,734 (97\%) & 3,122,433 (97\%) &  \\ 
+    Unknown & 7,021,617 & 4,256,208 &  \\ 
+race\_eth &  &  & 0.7 \\ 
+    Non-Black / Non-Hispanic & 8,141,262 (71\%) & 5,335,724 (71\%) &  \\ 
+    Black & 1,711,183 (15\%) & 1,076,810 (14\%) &  \\ 
+    Hispanic & 1,405,991 (12\%) & 971,180 (13\%) &  \\ 
+    Mixed Race (Non-Hispanic) & 141,020 (1.2\%) & 83,867 (1.1\%) &  \\ 
+Highest educational attainment &  &  & <0.001 \\ 
+    Associate/Junior college (AA) & 74,441 (0.9\%) & 206,152 (3.1\%) &  \\ 
+    Bachelor's degree (BA, BS) & 0 (0\%) & 330,188 (5.0\%) &  \\ 
+    GED & 511,966 (6.1\%) & 453,300 (6.8\%) &  \\ 
+    High school diploma (Regular 12 year program) & 7,817,675 (93\%) & 5,626,418 (85\%) &  \\ 
+    Master's degree (MA, MS) & 0 (0\%) & 964 (<0.1\%) &  \\ 
+    PhD & 0 (0\%) & 3,801 (<0.1\%) &  \\ 
+    Unknown & 2,995,375 & 846,757 &  \\ 
+income &  &  & <0.001 \\ 
+    <=\$10,000 & 1,365,275 (17\%) & 981,430 (15\%) &  \\ 
+    \$10,001 - \$30,000 & 1,514,446 (19\%) & 1,517,674 (24\%) &  \\ 
+    \$30,001 - \$50,000 & 1,352,362 (17\%) & 1,216,585 (19\%) &  \\ 
+    \$50,001 - \$80,000 & 1,621,927 (20\%) & 1,104,606 (17\%) &  \\ 
+    >\$80,000 & 2,301,264 (28\%) & 1,516,127 (24\%) &  \\ 
+    Unknown & 3,244,184 & 1,131,159 &  \\ 
+avg\_pmk\_cat &  &  & <0.001 \\ 
+    0 TO 4 & 472,601 (5.3\%) & 23,250 (19\%) &  \\ 
+    13 TO 16 & 658,742 (7.5\%) & 6,730 (5.6\%) &  \\ 
+    5 TO 8 & 3,353,309 (38\%) & 51,824 (43\%) &  \\ 
+    9 TO 12 & 4,355,387 (49\%) & 39,354 (32\%) &  \\ 
+    Unknown & 2,559,418 & 7,346,423 &  \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Design-based KruskalWallis test; Pearson's X\^{}2: Rao \& Scott adjustment\\
+\end{minipage}
+\end{table}
+
+\section{Sequential Models}\label{sequential-models}
+
+\subsection{Model 1: Crude Model}\label{model-1-crude-model}
+
+This model evaluates the \textbf{crude association} between age group
+and driving after drinking, applying the weighting and survey design
+variables as needed to make our sample nationally representative.
+
+We also assess the model for dispersion to make sure there is no
+overdispersion, warranting the use of a quasi-binomial specification; no
+overdispersion is indicated, so we proceeed with using a binomial
+family.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{summary}\NormalTok{(mod1) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## svyglm(formula = drive_after_drink ~ age_group, design = design, 
+##     family = binomial())
+## 
+## Survey design:
+## svydesign(ids = ~id, weights = ~weight, data = study_dat)
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    -2.69857    0.06637  -40.66   <2e-16 ***
+## age_group21-24  0.93103    0.08907   10.45   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1.000132)
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(mod1)}\SpecialCharTok{$}\NormalTok{dispersion }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      variance     SE
+## [1,]   1.0001 0.0388
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tidy}\NormalTok{(mod1, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+ \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high),}
+     \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 5
+##   term               OR CI_low CI_high p_value
+##   <chr>           <dbl>  <dbl>   <dbl> <chr>  
+## 1 (Intercept)    0.0673 0.0591  0.0767 < .001 
+## 2 age_group21-24 2.54   2.13    3.02   < .001
+\end{verbatim}
+
+\subsubsection{Interpretation}\label{interpretation}
+
+In the survey-weighted unadjusted logistic regression model, individuals
+aged 21-24 years old had significantly higher odds (OR = 2.5, 95\% CI:
+2.13 to 3.02 , p \textless{} .001) of reporting driving after drinking
+compared with individuals \textgreater21 years.
+
+\subsection{Model 2: Demographics}\label{model-2-demographics}
+
+Next, we are going to add some demographic characteristics. We are going
+to start with sex, race/ethnicity, and income.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod2 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod2, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(estimate),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_low =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.low),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_high =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.high),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 5
+##    term                                 OR CI_low CI_high p_value
+##    <chr>                             <dbl>  <dbl>   <dbl> <chr>  
+##  1 (Intercept)                        0.04   0.03    0.06 < .001 
+##  2 age_group21-24                     2.31   1.9     2.82 < .001 
+##  3 sexMale                            1.85   1.51    2.27 < .001 
+##  4 race_ethBlack                      0.47   0.35    0.63 < .001 
+##  5 race_ethHispanic                   0.76   0.58    0.98 0.04   
+##  6 race_ethMixed Race (Non-Hispanic)  1.16   0.51    2.66 0.72   
+##  7 income$10,001 - $30,000            1.17   0.82    1.67 0.39   
+##  8 income$30,001 - $50,000            1.3    0.9     1.87 0.16   
+##  9 income$50,001 - $80,000            1.24   0.86    1.79 0.24   
+## 10 income>$80,000                     1.52   1.08    2.15 0.02
+\end{verbatim}
+
+\subsubsection{Interpretation}\label{interpretation-1}
+
+After adjusting for sex, race/ethnicity, and income, individuals aged
+21-24 had 2.3x the odds of reporting driving after drinking (95\% CI:
+1.89 to 2.82, p \textless{} .001).
+
+\emph{Independent effects}
+
+Females had significantly reduced odds of driving after drinking
+compared to males (OR = 0.54, p \textless{} .001), holding age group,
+race/ethnicity, and income constant.
+
+Compared to Non-Hispanic Non-Blacks (aka White), Blacks had
+significantly reduced odds (OR = 0.47, p \textless{} .001), Hispanics
+had significantly reduced odds (OR = 0.76, p = 0.04) of driving after
+drinking. Mixed Race (Non-Hispanic) individuals had no significant odds
+(OR = 1.24, p = 0.72).
+
+For income, there was no significant odds ratios for the income groups
+compared to the lowest income group \emph{(\textless\$10k)} except for
+the largest income group \emph{(\textgreater\$80k)}. We also see that
+the OR for each income group increases as income goes up.
+
+\subsection{Model 3: Risk Factors}\label{model-3-risk-factors}
+
+Next, we are going to add some risk/protective factors around driving
+and drinking, paying special attention to the variables that popped as
+having a statistically significant association with our exposure. While
+education pops up, we will not be including it due to its colinearity
+with income. The only variables that were statistically significant in
+our table 1 for having different distributions among our groups were the
+number of days drinking and riding with a drinking driver, so we will
+include those two and see what we get.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_3 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002 ,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_3, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(estimate),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_low =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.low),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_high =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.high),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 12 x 5
+##    term                                 OR CI_low CI_high p_value
+##    <chr>                             <dbl>  <dbl>   <dbl> <chr>  
+##  1 (Intercept)                        0.02   0.01    0.03 < .001 
+##  2 age_group21-24                     1.78   1.42    2.23 < .001 
+##  3 sexMale                            1.55   1.23    1.96 < .001 
+##  4 race_ethBlack                      0.59   0.42    0.84 0.00   
+##  5 race_ethHispanic                   0.9    0.67    1.21 0.47   
+##  6 race_ethMixed Race (Non-Hispanic)  1.14   0.35    3.7  0.82   
+##  7 income$10,001 - $30,000            1.27   0.85    1.9  0.24   
+##  8 income$30,001 - $50,000            1.43   0.95    2.15 0.09   
+##  9 income$50,001 - $80,000            1.31   0.88    1.96 0.18   
+## 10 income>$80,000                     1.36   0.93    1.99 0.12   
+## 11 num_days_drink_02                  1.08   1.07    1.1  < .001 
+## 12 ride_drink_2002Yes                 5.65   4.49    7.1  < .001
+\end{verbatim}
+
+\subsubsection{Interpretation}\label{interpretation-2}
+
+After adjusting for sex, race/ethnicity, income, number of days
+drinking, whether they rode with a drinking driver, whether they have a
+driver's license, the number of days they drank, whether they reported
+binge drinking over the past 30 days, and whether they used marijuana in
+the past 30 days, \textbf{individuals aged 21-24 had 1.8x the odds of
+reporting driving after drinking (95\% CI: 1.42 to 2.23, p \textless{}
+.001).}
+
+\emph{Independent effects}
+
+Controlling for all other variables, each one unit increase in the
+number of days drinking was associated with a 1.08x increase in the odds
+of driving after drinking (p = .01).
+
+Riding with a drinking driver greatly increased the odds of driving
+after drinking, controlling for all other variables (OR = 5.65, p
+\textless{} .001).
+
+\subsection{Model 4: Parental Monitoring
+Knowledge}\label{model-4-parental-monitoring-knowledge}
+
+Lastly, we are going to add our parental monitoring knowledge variable.
+This is categorized the same way as it is in the NLSY97, with 4 levels
+of parental monitoring (0 to 4, 5 to 8, 9 to 12, and 13 to 16). The
+lowest level of parental monitoring is the reference level, so all other
+groups are comparing to individuals whose parents monitor them/have
+knowledge of their whereabouts and actions the least.
+
+Note that this variable is an average of both residential mothers and
+fathers from the first 4 years of the survey collection.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_4 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{ drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002 }\SpecialCharTok{+}
+\NormalTok{    avg\_pmk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_4, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(estimate),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_low =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.low),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_high =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.high),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 15 x 5
+##    term                                 OR CI_low CI_high p_value
+##    <chr>                             <dbl>  <dbl>   <dbl> <chr>  
+##  1 (Intercept)                        0.02   0.01    0.05 < .001 
+##  2 age_group21-24                     3.08   1.12    8.45 0.03   
+##  3 sexMale                            1.39   0.94    2.07 0.10   
+##  4 race_ethBlack                      0.94   0.57    1.55 0.81   
+##  5 race_ethHispanic                   0.81   0.47    1.38 0.44   
+##  6 race_ethMixed Race (Non-Hispanic)  1.24   0.29    5.26 0.77   
+##  7 income$10,001 - $30,000            0.85   0.41    1.75 0.65   
+##  8 income$30,001 - $50,000            1.62   0.81    3.24 0.17   
+##  9 income$50,001 - $80,000            1.67   0.89    3.13 0.11   
+## 10 income>$80,000                     1.34   0.74    2.45 0.34   
+## 11 num_days_drink_02                  1.09   1.06    1.11 < .001 
+## 12 ride_drink_2002Yes                 6.43   4.37    9.47 < .001 
+## 13 avg_pmk_cat13 TO 16                1.2    0.33    4.33 0.78   
+## 14 avg_pmk_cat5 TO 8                  1.28   0.51    3.25 0.60   
+## 15 avg_pmk_cat9 TO 12                 0.85   0.33    2.18 0.73
+\end{verbatim}
+
+\subsubsection{Interpretation}\label{interpretation-3}
+
+Holding all other covariates constant, \textbf{individuals aged 21-24
+had 3.08x the odds of reporting driving after drinking (95\% CI: 1.12 to
+8.45, p = .03).}
+
+\emph{Note} that the parental monitoring knowledge variable contains a
+lot of missing data, and may be hard to use for the purpose of this
+study, as parental monitoring knowledge is likely to be very dependent
+on age and not necessarily impact driving while drinking outcomes in a
+cross-sectional manner (it may serve better in a longitudinal study to
+see how parental monitoring affects drinking and driving trajectories).
+
+\section{Sensitivity Analysis}\label{sensitivity-analysis}
+
+Licensure popped as a variable that was significantly associated with
+age group and our outcome in early data explorations. We are going to
+conduct a brief sensitivity analysis to see how our effect estimates may
+or may not change after excluding individuals who did not hold a drivers
+license from the study.
+
+First, let's check and see what our sample size will become after
+excluding them and subset the data:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{study\_dat }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(license) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarize}\NormalTok{(}\FunctionTok{n}\NormalTok{())}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 3 x 2
+##   license    `n()`
+##   <fct>      <int>
+## 1 Unlicensed  1788
+## 2 Licensed    5783
+## 3 <NA>          27
+\end{verbatim}
+
+Once we remove the 1,788 unlicensed individuals and 27 NA's, we are left
+with 5,783 study participants. Let's apply our weighting and construct a
+table 1.
+
+\subsection{Table 1}\label{table-1-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{design\_table\_1\_sensitivity }\OtherTok{\textless{}{-}} \FunctionTok{svydesign}\NormalTok{(}
+  \AttributeTok{ids =} \SpecialCharTok{\textasciitilde{}}\NormalTok{id,}
+  \AttributeTok{weights =} \SpecialCharTok{\textasciitilde{}}\NormalTok{weight,}
+  \AttributeTok{data =}\NormalTok{ license\_dat}
+\NormalTok{)}
+
+\NormalTok{num\_vars\_v2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"num\_days\_drink\_02"}
+\NormalTok{)}
+
+\NormalTok{fac\_vars\_cat }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"drive\_after\_drink"}\NormalTok{, }\StringTok{"sex"}\NormalTok{,}
+  \StringTok{"ride\_drink\_2002"}\NormalTok{, }\StringTok{"binge"}\NormalTok{, }\StringTok{"marijuana"}\NormalTok{,}
+  \StringTok{"license"}\NormalTok{, }\StringTok{"smoker"}\NormalTok{, }\StringTok{"race\_eth"}\NormalTok{, }\StringTok{"education"}\NormalTok{, }\StringTok{"income"}\NormalTok{,}
+  \StringTok{"avg\_pmk\_cat"}
+\NormalTok{) }
+
+\NormalTok{tbl1\_sens }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1\_sensitivity,}
+  \AttributeTok{by =}\NormalTok{ age\_group,}
+  \AttributeTok{include =} \FunctionTok{c}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(num\_vars\_v2), }\FunctionTok{all\_of}\NormalTok{(fac\_vars\_cat)),}
+  \AttributeTok{type =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{    binge }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    marijuana }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}
+\NormalTok{  ),}
+  \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+    \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+    \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{  )}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }
+
+\NormalTok{tbl1\_sens}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[t]
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{Pre-21}  N = 9,041,840\textsuperscript{\textit{1}} & \textbf{21-24}  N = 6,311,578\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+num\_days\_drink\_02 & 5 (6) & 7 (7) & <0.001 \\ 
+    Unknown & 2,643,338 & 1,077,715 &  \\ 
+drive\_after\_drink & 650,213 (7.2\%) & 1,017,808 (16\%) & <0.001 \\ 
+sex &  &  & 0.8 \\ 
+    Female & 4,414,585 (49\%) & 3,104,871 (49\%) &  \\ 
+    Male & 4,627,255 (51\%) & 3,206,707 (51\%) &  \\ 
+ride\_drink\_2002 &  &  & <0.001 \\ 
+    No & 7,701,684 (85\%) & 4,857,090 (77\%) &  \\ 
+    Yes & 1,330,840 (15\%) & 1,451,162 (23\%) &  \\ 
+    Unknown & 9,317 & 3,325 &  \\ 
+binge &  &  & >0.9 \\ 
+    No & 2,111,714 (39\%) & 1,832,601 (40\%) &  \\ 
+    Yes & 3,247,350 (61\%) & 2,796,436 (60\%) &  \\ 
+    Unknown & 3,682,776 & 1,682,541 &  \\ 
+marijuana &  &  & 0.5 \\ 
+    No & 633,637 (26\%) & 374,386 (24\%) &  \\ 
+    Yes & 1,840,633 (74\%) & 1,184,935 (76\%) &  \\ 
+    Unknown & 6,567,570 & 4,752,256 &  \\ 
+license &  &  &  \\ 
+    Unlicensed & 0 (0\%) & 0 (0\%) &  \\ 
+    Licensed & 9,041,840 (100\%) & 6,311,578 (100\%) &  \\ 
+smoker &  &  & 0.3 \\ 
+    No & 128,113 (3.8\%) & 79,820 (3.0\%) &  \\ 
+    \ensuremath{\geq} 1 Cig in Last 30 Days & 3,220,230 (96\%) & 2,547,560 (97\%) &  \\ 
+    Unknown & 5,693,497 & 3,684,197 &  \\ 
+race\_eth &  &  & 0.14 \\ 
+    Non-Black / Non-Hispanic & 7,050,802 (78\%) & 4,778,305 (76\%) &  \\ 
+    Black & 978,313 (11\%) & 712,660 (11\%) &  \\ 
+    Hispanic & 921,799 (10\%) & 753,257 (12\%) &  \\ 
+    Mixed Race (Non-Hispanic) & 90,927 (1.0\%) & 67,355 (1.1\%) &  \\ 
+Highest educational attainment &  &  & <0.001 \\ 
+    Associate/Junior college (AA) & 69,576 (1.0\%) & 195,233 (3.3\%) &  \\ 
+    Bachelor's degree (BA, BS) & 0 (0\%) & 301,876 (5.2\%) &  \\ 
+    GED & 370,131 (5.1\%) & 315,045 (5.4\%) &  \\ 
+    High school diploma (Regular 12 year program) & 6,826,719 (94\%) & 5,027,144 (86\%) &  \\ 
+    Master's degree (MA, MS) & 0 (0\%) & 964 (<0.1\%) &  \\ 
+    PhD & 0 (0\%) & 3,801 (<0.1\%) &  \\ 
+    Unknown & 1,775,414 & 467,515 &  \\ 
+income &  &  & <0.001 \\ 
+    <=\$10,000 & 899,845 (14\%) & 697,668 (13\%) &  \\ 
+    \$10,001 - \$30,000 & 1,086,397 (16\%) & 1,271,377 (23\%) &  \\ 
+    \$30,001 - \$50,000 & 1,124,457 (17\%) & 1,029,739 (19\%) &  \\ 
+    \$50,001 - \$80,000 & 1,410,651 (21\%) & 986,504 (18\%) &  \\ 
+    >\$80,000 & 2,133,521 (32\%) & 1,443,596 (27\%) &  \\ 
+    Unknown & 2,386,970 & 882,695 &  \\ 
+avg\_pmk\_cat &  &  & 0.001 \\ 
+    0 TO 4 & 290,540 (4.2\%) & 17,642 (17\%) &  \\ 
+    13 TO 16 & 516,434 (7.4\%) & 5,660 (5.5\%) &  \\ 
+    5 TO 8 & 2,551,052 (37\%) & 44,215 (43\%) &  \\ 
+    9 TO 12 & 3,575,749 (52\%) & 36,092 (35\%) &  \\ 
+    Unknown & 2,108,065 & 6,207,968 &  \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Design-based KruskalWallis test; Pearson's X\^{}2: Rao \& Scott adjustment; NA\\
+\end{minipage}
+\end{table}
+
+Looks like we now have 15,353,418 participants after applying weights.
+
+We will proceed with the sequential models, and include their output
+below, with comments on whether anything substantially changed between
+the models.
+
+\subsection{Mod 1}\label{mod-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod1\_sens }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+
+\FunctionTok{tidy}\NormalTok{(mod1\_sens, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+ \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high),}
+     \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 5
+##   term               OR CI_low CI_high p_value
+##   <chr>           <dbl>  <dbl>   <dbl> <chr>  
+## 1 (Intercept)    0.0775 0.0675  0.0890 < .001 
+## 2 age_group21-24 2.48   2.06    2.98   < .001
+\end{verbatim}
+
+The odds ratio attentuated very slightly from 2.54 to 2.48; no other
+change.
+
+\subsection{Mod 2}\label{mod-2}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod2\_sens }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod2\_sens, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(estimate),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_low =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.low),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_high =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.high),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 5
+##    term                                 OR CI_low CI_high p_value
+##    <chr>                             <dbl>  <dbl>   <dbl> <chr>  
+##  1 (Intercept)                        0.06   0.04    0.08 < .001 
+##  2 age_group21-24                     2.3    1.87    2.84 < .001 
+##  3 sexMale                            1.84   1.49    2.27 < .001 
+##  4 race_ethBlack                      0.51   0.37    0.7  < .001 
+##  5 race_ethHispanic                   0.78   0.59    1.03 0.08   
+##  6 race_ethMixed Race (Non-Hispanic)  1.41   0.59    3.36 0.44   
+##  7 income$10,001 - $30,000            1      0.69    1.46 0.99   
+##  8 income$30,001 - $50,000            1.12   0.77    1.64 0.55   
+##  9 income$50,001 - $80,000            0.97   0.66    1.42 0.87   
+## 10 income>$80,000                     1.14   0.8     1.63 0.45
+\end{verbatim}
+
+No major changes.
+
+\subsection{Mod 3}\label{mod-3}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_3\_sens }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_3\_sens, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(estimate),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_low =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.low),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_high =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.high),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 12 x 5
+##    term                                 OR CI_low CI_high p_value
+##    <chr>                             <dbl>  <dbl>   <dbl> <chr>  
+##  1 (Intercept)                        0.02   0.02    0.04 < .001 
+##  2 age_group21-24                     1.69   1.33    2.14 < .001 
+##  3 sexMale                            1.62   1.27    2.07 < .001 
+##  4 race_ethBlack                      0.7    0.47    1.03 0.07   
+##  5 race_ethHispanic                   0.88   0.63    1.21 0.43   
+##  6 race_ethMixed Race (Non-Hispanic)  1.45   0.38    5.51 0.59   
+##  7 income$10,001 - $30,000            1.26   0.83    1.92 0.28   
+##  8 income$30,001 - $50,000            1.34   0.87    2.05 0.19   
+##  9 income$50,001 - $80,000            1.06   0.69    1.62 0.79   
+## 10 income>$80,000                     1.07   0.72    1.61 0.73   
+## 11 num_days_drink_02                  1.08   1.07    1.1  < .001 
+## 12 ride_drink_2002Yes                 6.13   4.82    7.8  < .001
+\end{verbatim}
+
+The odds ratio attenuated to 1.69, remains significant at
+\textasciitilde{} .01. Ride while drunk increased slightly to 4.55.
+Marijuana became even less significant.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_4\_sens }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002 }\SpecialCharTok{+}\NormalTok{ avg\_pmk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_4\_sens, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(estimate),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_low =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.low),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{CI\_high =} \FunctionTok{round}\NormalTok{(}\FunctionTok{exp}\NormalTok{(conf.high),}\DecValTok{2}\NormalTok{),}
+    \AttributeTok{p\_value =} \FunctionTok{case\_when}\NormalTok{(}
+\NormalTok{      p.value }\SpecialCharTok{\textless{}} \FloatTok{0.001} \SpecialCharTok{\textasciitilde{}} \StringTok{"\textless{} .001"}\NormalTok{,}
+      \ConstantTok{TRUE} \SpecialCharTok{\textasciitilde{}} \FunctionTok{sprintf}\NormalTok{(}\StringTok{"\%.2f"}\NormalTok{, p.value)}
+\NormalTok{    )}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p\_value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 15 x 5
+##    term                                 OR CI_low CI_high p_value
+##    <chr>                             <dbl>  <dbl>   <dbl> <chr>  
+##  1 (Intercept)                        0.03   0.01    0.1  < .001 
+##  2 age_group21-24                     2.82   0.98    8.1  0.05   
+##  3 sexMale                            1.52   1       2.32 0.05   
+##  4 race_ethBlack                      1.14   0.65    2    0.65   
+##  5 race_ethHispanic                   0.7    0.38    1.28 0.24   
+##  6 race_ethMixed Race (Non-Hispanic)  1.66   0.31    8.97 0.56   
+##  7 income$10,001 - $30,000            0.97   0.45    2.1  0.94   
+##  8 income$30,001 - $50,000            1.6    0.77    3.35 0.21   
+##  9 income$50,001 - $80,000            1.54   0.77    3.06 0.22   
+## 10 income>$80,000                     1.06   0.55    2.05 0.86   
+## 11 num_days_drink_02                  1.09   1.06    1.11 < .001 
+## 12 ride_drink_2002Yes                 7.37   4.89   11.1  < .001 
+## 13 avg_pmk_cat13 TO 16                0.87   0.23    3.28 0.84   
+## 14 avg_pmk_cat5 TO 8                  0.8    0.3     2.09 0.64   
+## 15 avg_pmk_cat9 TO 12                 0.53   0.2     1.41 0.20
+\end{verbatim}
+
+\textbf{Overall, it does not appear as though excluding licensed drivers
+had a meaningful difference on our observed results.}
+
+\end{document}

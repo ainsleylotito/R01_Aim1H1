@@ -1,7 +1,7 @@
 ---
 title: "04_Final_Analysis"
 output:
-  word_document:
+  pdf_document:
     toc: true
     toc_depth: '3'
   html_document:
@@ -10,6 +10,9 @@ output:
     number_sections: true
     toc_float: true
     code_folding: hide
+  word_document:
+    toc: true
+    toc_depth: '3'
 ---
 
 
@@ -156,10 +159,10 @@ study_dat <- study_dat %>%
     ) , 
     
     sex = factor(
-      sex, 
-      levels = c(1,0), 
-      labels = c("Male", "Female")
-    ), 
+  sex,
+  levels = c(0, 1),
+  labels = c("Female", "Male")
+  ), 
     
     smoker = factor(
       smoker, 
@@ -391,12 +394,12 @@ For income, there was no significant odds ratios for the income groups compared 
 
 ## Model 3: Risk Factors  
 
-Next, we are going to add some risk/protective factors around driving and drinking, paying special attention to the variables that popped as having a statistically significant association with our exposure. While education pops up, we will not be including it due to its colinearity with income. 
+Next, we are going to add some risk/protective factors around driving and drinking, paying special attention to the variables that popped as having a statistically significant association with our exposure. While education pops up, we will not be including it due to its colinearity with income. The only variables that were statistically significant in our table 1 for having different distributions among our groups were the number of days drinking and riding with a drinking driver, so we will include those two and see what we get. 
 
 ```{r}
 mod_3 <- svyglm(
   drive_after_drink ~ age_group + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002 + binge + marijuana ,
+     num_days_drink_02 + ride_drink_2002 ,
   design = design,
   family = binomial()
 ) 
@@ -416,19 +419,14 @@ tidy(mod_3, conf.int = TRUE) %>%
 
 ###  Interpretation  
 
-After adjusting for sex, race/ethnicity, income, number of days drinking, whether they rode with a drinking driver, whether they have a driver's license, the number of days they drank, whether they reported binge drinking over the past 30 days, and whether they used marijuana in the past 30 days, **individuals aged 21-24 had 1.8x the odds of reporting driving after drinking (95% CI: 1.30 to 2.48, p < .001).** 
+After adjusting for sex, race/ethnicity, income, number of days drinking, whether they rode with a drinking driver, whether they have a driver's license, the number of days they drank, whether they reported binge drinking over the past 30 days, and whether they used marijuana in the past 30 days, **individuals aged 21-24 had 1.8x the odds of reporting driving after drinking (95% CI: 1.42 to 2.23, p < .001).** 
 
 *Independent effects*  
 
-The only significant covariates this time were the drinking/substance use indicators. 
 
-Controlling for all other variables, each one unit increase in the number of days drinking was associated with a 1.03x increase in the odds of driving after drinking (p = .01). 
+Controlling for all other variables, each one unit increase in the number of days drinking was associated with a 1.08x increase in the odds of driving after drinking (p = .01). 
 
-Riding with a drinking driver greatly increased the odds of driving after drinking, controlling for all other variables (OR = 4.10, p < .001). 
-Those who reported binge drinking in the last 30 days had 2.38x greater odds of driving after drinking (p < .001). 
-
-Marijuana use bordered significance, with marijuana users having less odds of reported driving after drinking (p = .08)
-
+Riding with a drinking driver greatly increased the odds of driving after drinking, controlling for all other variables (OR = 5.65, p < .001). 
 
 ## Model 4: Parental Monitoring Knowledge 
 
@@ -439,7 +437,7 @@ Note that this variable is an average of both residential mothers and fathers fr
 ```{r}
 mod_4 <- svyglm(
  drive_after_drink ~ age_group + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002 + binge + marijuana +
+     num_days_drink_02 + ride_drink_2002 +
     avg_pmk_cat,
   design = design,
   family = binomial()
@@ -456,15 +454,14 @@ tidy(mod_4, conf.int = TRUE) %>%
     )
   ) %>%
   select(term, OR, CI_low, CI_high, p_value)
-```
+``` 
 
 ###  Interpretation  
 
-It appears that the addition of parental monitoring knowledge is problematic in this model, as it has destabilized our effect estimates and made many effects change in terms of significance. Holding all other covariates constant, for the first time age group is no longer significant, with the model showing that **individuals aged 21-24 had 1.49x the odds of reporting driving after drinking (95% CI: 0.26 to 8.41, p = .65).** 
+ Holding all other covariates constant, **individuals aged 21-24 had 3.08x the odds of reporting driving after drinking (95% CI: 1.12 to 8.45, p = .03).** 
 
 *Note* that the parental monitoring knowledge variable contains a lot of missing data, and may be hard to use for the purpose of this study, as parental monitoring knowledge is likely to be very dependent on age and not necessarily impact driving while drinking outcomes in a cross-sectional manner (it may serve better in a longitudinal study to see how parental monitoring affects drinking and driving trajectories).
  
-**Due to this consideration, and the changes we can see from model 4, it is not recommended to include parental monitoring knowledge as a variable in this analysis.** 
 
 # Sensitivity Analysis 
 
@@ -592,7 +589,7 @@ No major changes.
 ```{r}
 mod_3_sens <- svyglm(
   drive_after_drink ~ age_group + sex + race_eth + income + 
-     num_days_drink_02 + ride_drink_2002 + binge + marijuana ,
+     num_days_drink_02 + ride_drink_2002,
   design = design,
   family = binomial()
 ) 
@@ -613,5 +610,25 @@ tidy(mod_3_sens, conf.int = TRUE) %>%
 
 The odds ratio attenuated  to 1.69, remains significant at ~ .01. Ride while drunk increased slightly to 4.55. Marijuana became even less significant. 
 
+```{r}
+mod_4_sens <- svyglm(
+  drive_after_drink ~ age_group + sex + race_eth + income + 
+     num_days_drink_02 + ride_drink_2002 + avg_pmk_cat,
+  design = design,
+  family = binomial()
+) 
+
+tidy(mod_4_sens, conf.int = TRUE) %>%
+  mutate(
+    OR = round(exp(estimate),2),
+    CI_low = round(exp(conf.low),2),
+    CI_high = round(exp(conf.high),2),
+    p_value = case_when(
+      p.value < 0.001 ~ "< .001",
+      TRUE ~ sprintf("%.2f", p.value)
+    )
+  ) %>%
+  select(term, OR, CI_low, CI_high, p_value)
+``` 
 
 **Overall, it does not appear as though excluding licensed drivers had a meaningful difference on our observed results.**
