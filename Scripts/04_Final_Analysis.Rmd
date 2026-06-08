@@ -280,7 +280,52 @@ The output in this document will cover:
 
 We will compare our two age groups among our nationally representative sample (weighting applied) across variables of interest, including demographics, risk factors, and parental monitoring.  
 
-*Note* In analyses from the `03_Analysis.rmd` file we also compared other variables, such as parenting styles and risk categories for physical environment and family/home risk, but these are excluded from this output due to them ultimately not being informative for our models and/or having too much missing data.
+*Note* In analyses from the `03_Analysis.rmd` file we also compared other variables, such as parenting styles and risk categories for physical environment and family/home risk, but these are excluded from this output due to them ultimately not being informative for our models and/or having too much missing data. 
+
+We will start with our overall distribution since we cannot add it to our stratified table 1 very easily:  
+
+## Overall Sample Distribution
+
+```{r}
+num_vars_v2 <- c(
+  "num_days_drink_02"
+)
+
+fac_vars_cat <- c(
+  "drive_after_drink", "sex",
+  "ride_drink_2002", "binge", "marijuana",
+  "license", "smoker", "race_eth", "education", "income",
+  "avg_pmk_cat"
+) 
+
+design_table_1 <- svydesign(
+  ids = ~id,
+  weights = ~weight,
+  data = study_dat
+)
+
+tbl1_overall_weighted <- tbl_svysummary(
+  design_table_1,
+  include = c(
+    all_of(num_vars_v2),
+    all_of(fac_vars_cat)
+  ),
+   type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+)
+
+tbl1_overall_weighted
+
+```
+
+## Age-Group Stratified 
 
 ```{r}
 design_table_1 <- svydesign(
@@ -347,7 +392,9 @@ tidy(mod1, conf.int = TRUE) %>%
       TRUE ~ sprintf("%.2f", p.value)
     )
   ) %>%
-  select(term, OR, CI_low, CI_high, p_value)
+  select(term, OR, CI_low, CI_high, p_value) 
+
+AIC(mod1)
 
 ```
 
@@ -376,7 +423,9 @@ tidy(mod2, conf.int = TRUE) %>%
       TRUE ~ sprintf("%.2f", p.value)
     )
   ) %>%
-  select(term, OR, CI_low, CI_high, p_value)
+  select(term, OR, CI_low, CI_high, p_value) 
+
+AIC(mod2)
 ``` 
 
 ###  Interpretation 
@@ -414,7 +463,9 @@ tidy(mod_3, conf.int = TRUE) %>%
       TRUE ~ sprintf("%.2f", p.value)
     )
   ) %>%
-  select(term, OR, CI_low, CI_high, p_value)
+  select(term, OR, CI_low, CI_high, p_value) 
+
+AIC(mod_3)
 ```
 
 ###  Interpretation  
@@ -453,7 +504,9 @@ tidy(mod_4, conf.int = TRUE) %>%
       TRUE ~ sprintf("%.2f", p.value)
     )
   ) %>%
-  select(term, OR, CI_low, CI_high, p_value)
+  select(term, OR, CI_low, CI_high, p_value) 
+
+AIC(mod_4)
 ``` 
 
 ###  Interpretation  
@@ -462,6 +515,17 @@ tidy(mod_4, conf.int = TRUE) %>%
 
 *Note* that the parental monitoring knowledge variable contains a lot of missing data, and may be hard to use for the purpose of this study, as parental monitoring knowledge is likely to be very dependent on age and not necessarily impact driving while drinking outcomes in a cross-sectional manner (it may serve better in a longitudinal study to see how parental monitoring affects drinking and driving trajectories).
  
+# ANOVA Model Comparisons 
+
+Next we are going to run a series of ANOVAs to compare our different model's fits. 
+
+```{r}
+anova(mod1, mod2)
+anova(mod2, mod_3)
+anova(mod_3, mod_4)
+
+```
+
 
 # Sensitivity Analysis 
 
