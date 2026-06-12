@@ -2988,4 +2988,15 @@ write_xpt(
   merged4,
   "../CleanData/study_dat.xpt"
 )
+``` 
+
+Checking the sas file: 
+```{r}
+file.exists("../CleanData/study_dat.sas7bdat")
+file.info("../CleanData/study_dat.sas7bdat") 
+
+tmp <- read_sas("../CleanData/study_dat.sas7bdat")
+dim(tmp)
+
+read_xpt("../CleanData/study_dat.xpt")
 ```
