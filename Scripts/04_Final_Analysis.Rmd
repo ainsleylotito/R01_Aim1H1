@@ -574,7 +574,21 @@ fac_vars_cat <- c(
   "avg_pmk_cat"
 ) 
 
-tbl1_sens <- tbl_svysummary(
+tbl1_sens<- tbl_svysummary(
+  design_table_1_sensitivity,
+  include = c(all_of(num_vars_v2), all_of(fac_vars_cat)),
+  type = list(
+    binge ~ "categorical",
+    marijuana ~ "categorical",
+    ride_drink_2002 ~ "categorical"
+  ),
+  statistic = list(
+    all_continuous() ~ "{mean} ({sd})",
+    all_categorical() ~ "{n} ({p}%)"
+  )
+) 
+
+tbl1_sens_stratified <- tbl_svysummary(
   design_table_1_sensitivity,
   by = age_group,
   include = c(all_of(num_vars_v2), all_of(fac_vars_cat)),
@@ -590,7 +604,9 @@ tbl1_sens <- tbl_svysummary(
 ) %>%
   add_p() 
 
-tbl1_sens
+tbl1_sens 
+
+tbl1_sens_stratified
 
 ``` 
 
