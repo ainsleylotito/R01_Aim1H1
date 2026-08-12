@@ -7,6 +7,9 @@ output:
     number_sections: true
     toc_float: true
     code_folding: hide
+  pdf_document:
+    toc: true
+    toc_depth: '3'
 ---
 
 
@@ -319,6 +322,19 @@ table1(
     education +
     income,
   data = study_dat
+) 
+
+study_dat %>% 
+  group_by(age_group, age) %>% 
+  summarize(
+    n = n(),
+    frequency = n / sum(n) * 100,
+    .groups = "drop"
+  ) 
+
+table1(
+  ~age | age_group,
+  data = study_dat
 )
 ``` 
 
@@ -357,7 +373,14 @@ tbl1_overall_weighted <- tbl_svysummary(
   )
 )
 
-tbl1_overall_weighted
+tbl1_overall_weighted 
+
+#just age
+tbl_svysummary(
+  design_table_1,
+  by = age_group,
+  include = age
+)
 
 ```
 

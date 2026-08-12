@@ -1,0 +1,2151 @@
+% Options for packages loaded elsewhere
+\PassOptionsToPackage{unicode}{hyperref}
+\PassOptionsToPackage{hyphens}{url}
+%
+\documentclass[
+]{article}
+\usepackage{amsmath,amssymb}
+\usepackage{iftex}
+\ifPDFTeX
+  \usepackage[T1]{fontenc}
+  \usepackage[utf8]{inputenc}
+  \usepackage{textcomp} % provide euro and other symbols
+\else % if luatex or xetex
+  \usepackage{unicode-math} % this also loads fontspec
+  \defaultfontfeatures{Scale=MatchLowercase}
+  \defaultfontfeatures[\rmfamily]{Ligatures=TeX,Scale=1}
+\fi
+\usepackage{lmodern}
+\ifPDFTeX\else
+  % xetex/luatex font selection
+\fi
+% Use upquote if available, for straight quotes in verbatim environments
+\IfFileExists{upquote.sty}{\usepackage{upquote}}{}
+\IfFileExists{microtype.sty}{% use microtype if available
+  \usepackage[]{microtype}
+  \UseMicrotypeSet[protrusion]{basicmath} % disable protrusion for tt fonts
+}{}
+\makeatletter
+\@ifundefined{KOMAClassName}{% if non-KOMA class
+  \IfFileExists{parskip.sty}{%
+    \usepackage{parskip}
+  }{% else
+    \setlength{\parindent}{0pt}
+    \setlength{\parskip}{6pt plus 2pt minus 1pt}}
+}{% if KOMA class
+  \KOMAoptions{parskip=half}}
+\makeatother
+\usepackage{xcolor}
+\usepackage[margin=1in]{geometry}
+\usepackage{color}
+\usepackage{fancyvrb}
+\newcommand{\VerbBar}{|}
+\newcommand{\VERB}{\Verb[commandchars=\\\{\}]}
+\DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+% Add ',fontsize=\small' for more characters per line
+\usepackage{framed}
+\definecolor{shadecolor}{RGB}{248,248,248}
+\newenvironment{Shaded}{\begin{snugshade}}{\end{snugshade}}
+\newcommand{\AlertTok}[1]{\textcolor[rgb]{0.94,0.16,0.16}{#1}}
+\newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\BuiltInTok}[1]{#1}
+\newcommand{\CharTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\CommentTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{#1}}
+\newcommand{\DecValTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\ErrorTok}[1]{\textcolor[rgb]{0.64,0.00,0.00}{\textbf{#1}}}
+\newcommand{\ExtensionTok}[1]{#1}
+\newcommand{\FloatTok}[1]{\textcolor[rgb]{0.00,0.00,0.81}{#1}}
+\newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\ImportTok}[1]{#1}
+\newcommand{\InformationTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.13,0.29,0.53}{\textbf{#1}}}
+\newcommand{\NormalTok}[1]{#1}
+\newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\OtherTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{#1}}
+\newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textit{#1}}}
+\newcommand{\RegionMarkerTok}[1]{#1}
+\newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.81,0.36,0.00}{\textbf{#1}}}
+\newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\StringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\VariableTok}[1]{\textcolor[rgb]{0.00,0.00,0.00}{#1}}
+\newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.31,0.60,0.02}{#1}}
+\newcommand{\WarningTok}[1]{\textcolor[rgb]{0.56,0.35,0.01}{\textbf{\textit{#1}}}}
+\usepackage{longtable,booktabs,array}
+\usepackage{calc} % for calculating minipage widths
+% Correct order of tables after \paragraph or \subparagraph
+\usepackage{etoolbox}
+\makeatletter
+\patchcmd\longtable{\par}{\if@noskipsec\mbox{}\fi\par}{}{}
+\makeatother
+% Allow footnotes in longtable head/foot
+\IfFileExists{footnotehyper.sty}{\usepackage{footnotehyper}}{\usepackage{footnote}}
+\makesavenoteenv{longtable}
+\usepackage{graphicx}
+\makeatletter
+\newsavebox\pandoc@box
+\newcommand*\pandocbounded[1]{% scales image to fit in text height/width
+  \sbox\pandoc@box{#1}%
+  \Gscale@div\@tempa{\textheight}{\dimexpr\ht\pandoc@box+\dp\pandoc@box\relax}%
+  \Gscale@div\@tempb{\linewidth}{\wd\pandoc@box}%
+  \ifdim\@tempb\p@<\@tempa\p@\let\@tempa\@tempb\fi% select the smaller of both
+  \ifdim\@tempa\p@<\p@\scalebox{\@tempa}{\usebox\pandoc@box}%
+  \else\usebox{\pandoc@box}%
+  \fi%
+}
+% Set default figure placement to htbp
+\def\fps@figure{htbp}
+\makeatother
+\setlength{\emergencystretch}{3em} % prevent overfull lines
+\providecommand{\tightlist}{%
+  \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+\setcounter{secnumdepth}{-\maxdimen} % remove section numbering
+\usepackage{booktabs}
+\usepackage{caption}
+\usepackage{longtable}
+\usepackage{colortbl}
+\usepackage{array}
+\usepackage{anyfontsize}
+\usepackage{multirow}
+\usepackage{bookmark}
+\IfFileExists{xurl.sty}{\usepackage{xurl}}{} % add URL line breaks if available
+\urlstyle{same}
+\hypersetup{
+  pdftitle={03\_Analysis},
+  hidelinks,
+  pdfcreator={LaTeX via pandoc}}
+
+\title{03\_Analysis}
+\author{}
+\date{\vspace{-2.5em}}
+
+\begin{document}
+\maketitle
+
+{
+\setcounter{tocdepth}{3}
+\tableofcontents
+}
+\section{Introduction}\label{introduction}
+
+This script contains the code used to explore the NLSY97 data that was
+previously cleaned in the \texttt{"01\_Cleaning.rmd"} file. The primary
+goals of this script are to:
+
+\begin{enumerate}
+\def\labelenumi{\arabic{enumi}.}
+\item
+  Generate \textbf{descriptive statistics} of the sample stratified by
+  the exposure (age group), producing a table 1 with weighted
+  (nationally representative) values
+\item
+  \textbf{Sequential logistic models} to analyze the relationship
+  between age group and reported driving after drinking.
+\end{enumerate}
+
+\#1. Descriptive Statistics
+
+To start, we are going to compare our sample distribution overall with
+the \texttt{table1} package (version 1.5.1), comparing how our results
+change with and without weighting. We will apply weighting with the
+\texttt{survey} package (version 4.5).
+
+We are going to start with the overall distribution (though this will
+also be included in our (total) column later on once we stratify.)
+
+\subsection{1.1 Overall Sample}\label{overall-sample}
+
+\subsubsection{1.1.1 Unweighted}\label{unweighted}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_vars }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"family\_home\_risk\_num"}\NormalTok{,}
+  \StringTok{"physical\_env\_risk\_num"}\NormalTok{,}
+  \StringTok{"avg\_pmk"}\NormalTok{,}
+  \StringTok{"num\_days\_drink\_02"}
+\NormalTok{)}
+
+\NormalTok{fac\_vars }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"drive\_after\_drink"}\NormalTok{, }\StringTok{"sex"}\NormalTok{,}
+  \StringTok{"ride\_drink\_2002"}\NormalTok{, }\StringTok{"age\_group"}\NormalTok{, }\StringTok{"binge"}\NormalTok{, }\StringTok{"marijuana"}\NormalTok{,}
+  \StringTok{"license"}\NormalTok{, }\StringTok{"smoker"}\NormalTok{, }\StringTok{"race\_eth"}\NormalTok{, }\StringTok{"mom\_style"}\NormalTok{,}
+  \StringTok{"dad\_style"}\NormalTok{, }\StringTok{"education"}\NormalTok{, }\StringTok{"income"}
+\NormalTok{) }
+
+\NormalTok{study\_dat }\OtherTok{\textless{}{-}}\NormalTok{ study\_dat }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}\FunctionTok{across}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(fac\_vars), as.factor))}
+
+\FunctionTok{table1}\NormalTok{(}
+  \SpecialCharTok{\textasciitilde{}}\NormalTok{ family\_home\_risk\_num }\SpecialCharTok{+}
+\NormalTok{    physical\_env\_risk\_num }\SpecialCharTok{+}
+\NormalTok{    avg\_pmk }\SpecialCharTok{+}
+\NormalTok{    num\_days\_drink\_02 }\SpecialCharTok{+}
+\NormalTok{    drive\_after\_drink }\SpecialCharTok{+}
+\NormalTok{    sex }\SpecialCharTok{+}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{+}
+\NormalTok{    age\_group }\SpecialCharTok{+}
+\NormalTok{    binge }\SpecialCharTok{+}
+\NormalTok{    marijuana }\SpecialCharTok{+}
+\NormalTok{    license }\SpecialCharTok{+}
+\NormalTok{    smoker }\SpecialCharTok{+}
+\NormalTok{    race\_eth }\SpecialCharTok{+}
+\NormalTok{    mom\_style }\SpecialCharTok{+}
+\NormalTok{    dad\_style }\SpecialCharTok{+}
+\NormalTok{    education }\SpecialCharTok{+}
+\NormalTok{    income,}
+  \AttributeTok{data =}\NormalTok{ study\_dat}
+\NormalTok{) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}ll@{}}
+\toprule\noalign{}
+& Overall \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+& (N=7598) \\
+Family/home risk index (numeric) & \\
+Mean (SD) & 276 (231) \\
+Median {[}Min, Max{]} & 200 {[}0, 1530{]} \\
+Missing & 3412 (44.9\%) \\
+Physical environment risk index (numeric) & \\
+Mean (SD) & 134 (142) \\
+Median {[}Min, Max{]} & 100 {[}0, 700{]} \\
+Missing & 3455 (45.5\%) \\
+Average PMK both Parents 1999-2000 & \\
+Mean (SD) & 8.84 (2.76) \\
+Median {[}Min, Max{]} & 9.00 {[}0, 16.0{]} \\
+Missing & 2905 (38.2\%) \\
+num\_days\_drink\_02 & \\
+Mean (SD) & 5.56 (6.38) \\
+Median {[}Min, Max{]} & 3.00 {[}0, 30.0{]} \\
+Missing & 2417 (31.8\%) \\
+drive\_after\_drink & \\
+No & 6952 (91.5\%) \\
+Yes & 646 (8.5\%) \\
+sex & \\
+Male & 3828 (50.4\%) \\
+Female & 3770 (49.6\%) \\
+ride\_drink\_2002 & \\
+No & 6270 (82.5\%) \\
+Yes & 1319 (17.4\%) \\
+Missing & 9 (0.1\%) \\
+age\_group & \\
+Pre-21 & 4732 (62.3\%) \\
+21-24 & 2866 (37.7\%) \\
+binge & \\
+No & 1832 (24.1\%) \\
+Yes & 2563 (33.7\%) \\
+Missing & 3203 (42.2\%) \\
+marijuana & \\
+No & 439 (5.8\%) \\
+Yes & 1427 (18.8\%) \\
+Missing & 5732 (75.4\%) \\
+license & \\
+Unlicensed & 1788 (23.5\%) \\
+Licensed & 5783 (76.1\%) \\
+Missing & 27 (0.4\%) \\
+smoker & \\
+No & 89 (1.2\%) \\
+≥ 1 Cig in Last 30 Days & 2734 (36.0\%) \\
+Missing & 4775 (62.8\%) \\
+race\_eth & \\
+Non-Black / Non-Hispanic & 4001 (52.7\%) \\
+Black & 1938 (25.5\%) \\
+Hispanic & 1591 (20.9\%) \\
+Mixed Race (Non-Hispanic) & 68 (0.9\%) \\
+mom\_style & \\
+Authoritarian & 914 (12.0\%) \\
+Authoritative & 3068 (40.4\%) \\
+Permissive & 2548 (33.5\%) \\
+Uninvolved & 747 (9.8\%) \\
+Missing & 321 (4.2\%) \\
+dad\_style & \\
+Authoritarian & 1074 (14.1\%) \\
+Authoritative & 2144 (28.2\%) \\
+Permissive & 1553 (20.4\%) \\
+Uninvolved & 705 (9.3\%) \\
+Missing & 2122 (27.9\%) \\
+education & \\
+Associate/Junior college (AA) & 96 (1.3\%) \\
+Bachelor's degree (BA, BS) & 96 (1.3\%) \\
+GED & 398 (5.2\%) \\
+High school diploma (Regular 12 year program) & 5261 (69.2\%) \\
+Master's degree (MA, MS) & 1 (0.0\%) \\
+PhD & 1 (0.0\%) \\
+Missing & 1745 (23.0\%) \\
+income & \\
+\textless=\$10,000 & 1078 (14.2\%) \\
+\$10,001 - \$30,000 & 1297 (17.1\%) \\
+\$30,001 - \$50,000 & 1052 (13.8\%) \\
+\$50,001 - \$80,000 & 1037 (13.6\%) \\
+\textgreater\$80,000 & 1310 (17.2\%) \\
+Missing & 1824 (24.0\%) \\
+\end{longtable}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{study\_dat }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{group\_by}\NormalTok{(age\_group, age) }\SpecialCharTok{\%\textgreater{}\%} 
+  \FunctionTok{summarize}\NormalTok{(}
+    \AttributeTok{n =} \FunctionTok{n}\NormalTok{(),}
+    \AttributeTok{frequency =}\NormalTok{ n }\SpecialCharTok{/} \FunctionTok{sum}\NormalTok{(n) }\SpecialCharTok{*} \DecValTok{100}\NormalTok{,}
+    \AttributeTok{.groups =} \StringTok{"drop"}
+\NormalTok{  ) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 4
+##   age_group   age     n frequency
+##   <fct>     <int> <int>     <dbl>
+## 1 Pre-21       17     1       100
+## 2 Pre-21       18  1616       100
+## 3 Pre-21       19  1527       100
+## 4 Pre-21       20  1588       100
+## 5 21-24        21  1510       100
+## 6 21-24        22  1284       100
+## 7 21-24        23    72       100
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{table1}\NormalTok{(}
+  \SpecialCharTok{\textasciitilde{}}\NormalTok{age }\SpecialCharTok{|}\NormalTok{ age\_group,}
+  \AttributeTok{data =}\NormalTok{ study\_dat}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2895}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2368}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2368}}
+  >{\raggedright\arraybackslash}p{(\linewidth - 6\tabcolsep) * \real{0.2368}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Pre-21
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+21-24
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+Overall
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+& (N=4732) & (N=2866) & (N=7598) \\
+Age at Round 6 (2002) & & & \\
+Mean (SD) & 19.0 (0.823) & 21.5 (0.548) & 19.9 (1.42) \\
+Median {[}Min, Max{]} & 19.0 {[}17.0, 20.0{]} & 21.0 {[}21.0, 23.0{]} &
+20.0 {[}17.0, 23.0{]} \\
+\end{longtable}
+
+Next, we need to apply weighting to make this nationally representative.
+While we can use the \texttt{survey} package to achieve this in model
+fit, it becomes hard to do this for the table1 package we used before
+that gave us such nice output.
+
+\subsubsection{1.1.2 Weighted}\label{weighted}
+
+We already specified our design in the loading chunk at the beginning.
+To fit the table and make this output look nicer, we will use
+\texttt{gtsummary}.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{vars }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+\NormalTok{  num\_vars,}
+\NormalTok{  fac\_vars}
+\NormalTok{)}
+
+\NormalTok{design\_table\_1 }\OtherTok{\textless{}{-}} \FunctionTok{svydesign}\NormalTok{(}
+  \AttributeTok{ids =} \SpecialCharTok{\textasciitilde{}}\NormalTok{id,}
+  \AttributeTok{weights =} \SpecialCharTok{\textasciitilde{}}\NormalTok{weight,}
+  \AttributeTok{data =}\NormalTok{ study\_dat}
+\NormalTok{)}
+
+\NormalTok{tbl1\_overall\_weighted }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1,}
+  \AttributeTok{include =} \FunctionTok{c}\NormalTok{(}
+    \FunctionTok{all\_of}\NormalTok{(num\_vars),}
+    \FunctionTok{all\_of}\NormalTok{(fac\_vars)}
+\NormalTok{  ),}
+   \AttributeTok{type =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{    binge }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    marijuana }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}
+\NormalTok{  ),}
+  \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+    \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+    \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{  )}
+\NormalTok{)}
+
+\NormalTok{tbl1\_overall\_weighted }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[t]
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lc}
+\toprule
+\textbf{Characteristic} & \textbf{N = 18,867,038}\textsuperscript{\textit{1}} \\ 
+\midrule\addlinespace[2.5pt]
+Family/home risk index (numeric) & 249 (224) \\ 
+    Unknown & 8,705,874 \\ 
+Physical environment risk index (numeric) & 116 (132) \\ 
+    Unknown & 8,802,216 \\ 
+Average PMK both Parents 1999-2000 & 8.85 (2.70) \\ 
+    Unknown & 7,567,615 \\ 
+num\_days\_drink\_02 & 6 (6) \\ 
+    Unknown & 5,159,796 \\ 
+drive\_after\_drink & 1,807,957 (9.6\%) \\ 
+sex &  \\ 
+    Male & 9,631,042 (51\%) \\ 
+    Female & 9,235,996 (49\%) \\ 
+ride\_drink\_2002 &  \\ 
+    No & 15,407,174 (82\%) \\ 
+    Yes & 3,442,860 (18\%) \\ 
+    Unknown & 17,004 \\ 
+age\_group &  \\ 
+    Pre-21 & 11,399,457 (60\%) \\ 
+    21-24 & 7,467,581 (40\%) \\ 
+binge &  \\ 
+    No & 4,648,436 (40\%) \\ 
+    Yes & 7,071,062 (60\%) \\ 
+    Unknown & 7,147,540 \\ 
+marijuana &  \\ 
+    No & 1,175,805 (24\%) \\ 
+    Yes & 3,778,098 (76\%) \\ 
+    Unknown & 13,913,135 \\ 
+license &  \\ 
+    Unlicensed & 3,447,029 (18\%) \\ 
+    Licensed & 15,353,418 (82\%) \\ 
+    Unknown & 66,591 \\ 
+smoker &  \\ 
+    No & 234,046 (3.1\%) \\ 
+    \ensuremath{\geq} 1 Cig in Last 30 Days & 7,355,167 (97\%) \\ 
+    Unknown & 11,277,825 \\ 
+race\_eth &  \\ 
+    Non-Black / Non-Hispanic & 13,476,986 (71\%) \\ 
+    Black & 2,787,994 (15\%) \\ 
+    Hispanic & 2,377,171 (13\%) \\ 
+    Mixed Race (Non-Hispanic) & 224,887 (1.2\%) \\ 
+mom\_style &  \\ 
+    Authoritarian & 2,173,626 (12\%) \\ 
+    Authoritative & 7,494,261 (41\%) \\ 
+    Permissive & 6,527,307 (36\%) \\ 
+    Uninvolved & 1,877,320 (10\%) \\ 
+    Unknown & 794,524 \\ 
+dad\_style &  \\ 
+    Authoritarian & 2,780,780 (19\%) \\ 
+    Authoritative & 5,557,840 (39\%) \\ 
+    Permissive & 4,222,297 (29\%) \\ 
+    Uninvolved & 1,805,396 (13\%) \\ 
+    Unknown & 4,500,725 \\ 
+education &  \\ 
+    Associate/Junior college (AA) & 280,593 (1.9\%) \\ 
+    Bachelor's degree (BA, BS) & 330,188 (2.2\%) \\ 
+    GED & 965,266 (6.4\%) \\ 
+    High school diploma (Regular 12 year program) & 13,444,093 (89\%) \\ 
+    Master's degree (MA, MS) & 964 (<0.1\%) \\ 
+    PhD & 3,801 (<0.1\%) \\ 
+    Unknown & 3,842,132 \\ 
+income &  \\ 
+    <=\$10,000 & 2,346,705 (16\%) \\ 
+    \$10,001 - \$30,000 & 3,032,120 (21\%) \\ 
+    \$30,001 - \$50,000 & 2,568,946 (18\%) \\ 
+    \$50,001 - \$80,000 & 2,726,533 (19\%) \\ 
+    >\$80,000 & 3,817,391 (26\%) \\ 
+    Unknown & 4,375,343 \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\end{minipage}
+\end{table}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tbl1\_overall\_weighte4d\_age\_only }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1,}
+  \AttributeTok{include =}\NormalTok{ age}
+\NormalTok{)}
+\end{Highlighting}
+\end{Shaded}
+
+\subsection{1.2 Age-Group Stratified}\label{age-group-stratified}
+
+Next, we want to stratify by our exposure, age\_group, to check whether
+the distributions of all these variables differ by age at baseline.
+
+We are going to apply this to our weighted values only this time.
+
+\subsubsection{1.2.1 Numeric Option}\label{numeric-option}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tbl1\_weighted }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1,}
+  \AttributeTok{by =}\NormalTok{ age\_group,}
+  \AttributeTok{include =} \FunctionTok{c}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(num\_vars), }\FunctionTok{all\_of}\NormalTok{(fac\_vars)),}
+  \AttributeTok{type =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{    binge }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    marijuana }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}
+\NormalTok{  ),}
+  \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+    \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+    \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{  )}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }
+
+\NormalTok{tbl1\_weighted}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[t]
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{Pre-21}  N = 11,399,457\textsuperscript{\textit{1}} & \textbf{21-24}  N = 7,467,581\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+Family/home risk index (numeric) & 249 (224) & 299 (248) & 0.13 \\ 
+    Unknown & 1,365,408 & 7,340,466 &  \\ 
+Physical environment risk index (numeric) & 116 (132) & 134 (138) & 0.3 \\ 
+    Unknown & 1,460,768 & 7,341,448 &  \\ 
+Average PMK both Parents 1999-2000 & 8.87 (2.69) & 7.47 (2.92) & <0.001 \\ 
+    Unknown & 249,271 & 7,318,344 &  \\ 
+num\_days\_drink\_02 & 5 (6) & 7 (7) & <0.001 \\ 
+    Unknown & 3,693,689 & 1,466,108 &  \\ 
+drive\_after\_drink & 718,825 (6.3\%) & 1,089,132 (15\%) & <0.001 \\ 
+sex &  &  & 0.8 \\ 
+    Male & 5,803,818 (51\%) & 3,827,223 (51\%) &  \\ 
+    Female & 5,595,639 (49\%) & 3,640,357 (49\%) &  \\ 
+ride\_drink\_2002 &  &  & <0.001 \\ 
+    No & 9,629,601 (85\%) & 5,777,573 (77\%) &  \\ 
+    Yes & 1,756,177 (15\%) & 1,686,683 (23\%) &  \\ 
+    Unknown & 13,679 & 3,325 &  \\ 
+binge &  &  & 0.8 \\ 
+    No & 2,536,049 (39\%) & 2,112,386 (40\%) &  \\ 
+    Yes & 3,887,927 (61\%) & 3,183,135 (60\%) &  \\ 
+    Unknown & 4,975,481 & 2,172,059 &  \\ 
+marijuana &  &  & 0.9 \\ 
+    No & 738,167 (24\%) & 437,638 (24\%) &  \\ 
+    Yes & 2,357,626 (76\%) & 1,420,472 (76\%) &  \\ 
+    Unknown & 8,303,665 & 5,609,470 &  \\ 
+license &  &  & <0.001 \\ 
+    Unlicensed & 2,330,954 (20\%) & 1,116,074 (15\%) &  \\ 
+    Licensed & 9,041,840 (80\%) & 6,311,578 (85\%) &  \\ 
+    Unknown & 26,663 & 39,929 &  \\ 
+smoker &  &  & 0.4 \\ 
+    No & 145,106 (3.3\%) & 88,940 (2.8\%) &  \\ 
+    \ensuremath{\geq} 1 Cig in Last 30 Days & 4,232,734 (97\%) & 3,122,433 (97\%) &  \\ 
+    Unknown & 7,021,617 & 4,256,208 &  \\ 
+race\_eth &  &  & 0.7 \\ 
+    Non-Black / Non-Hispanic & 8,141,262 (71\%) & 5,335,724 (71\%) &  \\ 
+    Black & 1,711,183 (15\%) & 1,076,810 (14\%) &  \\ 
+    Hispanic & 1,405,991 (12\%) & 971,180 (13\%) &  \\ 
+    Mixed Race (Non-Hispanic) & 141,020 (1.2\%) & 83,867 (1.1\%) &  \\ 
+mom\_style &  &  & <0.001 \\ 
+    Authoritarian & 1,461,768 (13\%) & 711,858 (10\%) &  \\ 
+    Authoritative & 4,617,946 (42\%) & 2,876,315 (40\%) &  \\ 
+    Permissive & 3,640,198 (33\%) & 2,887,109 (41\%) &  \\ 
+    Uninvolved & 1,241,642 (11\%) & 635,677 (8.9\%) &  \\ 
+    Unknown & 437,902 & 356,622 &  \\ 
+dad\_style &  &  & <0.001 \\ 
+    Authoritarian & 1,816,571 (21\%) & 964,209 (17\%) &  \\ 
+    Authoritative & 3,573,338 (41\%) & 1,984,502 (36\%) &  \\ 
+    Permissive & 2,413,108 (27\%) & 1,809,190 (33\%) &  \\ 
+    Uninvolved & 1,004,882 (11\%) & 800,515 (14\%) &  \\ 
+    Unknown & 2,591,559 & 1,909,166 &  \\ 
+education &  &  & <0.001 \\ 
+    Associate/Junior college (AA) & 74,441 (0.9\%) & 206,152 (3.1\%) &  \\ 
+    Bachelor's degree (BA, BS) & 0 (0\%) & 330,188 (5.0\%) &  \\ 
+    GED & 511,966 (6.1\%) & 453,300 (6.8\%) &  \\ 
+    High school diploma (Regular 12 year program) & 7,817,675 (93\%) & 5,626,418 (85\%) &  \\ 
+    Master's degree (MA, MS) & 0 (0\%) & 964 (<0.1\%) &  \\ 
+    PhD & 0 (0\%) & 3,801 (<0.1\%) &  \\ 
+    Unknown & 2,995,375 & 846,757 &  \\ 
+income &  &  & <0.001 \\ 
+    <=\$10,000 & 1,365,275 (17\%) & 981,430 (15\%) &  \\ 
+    \$10,001 - \$30,000 & 1,514,446 (19\%) & 1,517,674 (24\%) &  \\ 
+    \$30,001 - \$50,000 & 1,352,362 (17\%) & 1,216,585 (19\%) &  \\ 
+    \$50,001 - \$80,000 & 1,621,927 (20\%) & 1,104,606 (17\%) &  \\ 
+    >\$80,000 & 2,301,264 (28\%) & 1,516,127 (24\%) &  \\ 
+    Unknown & 3,244,184 & 1,131,159 &  \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Design-based KruskalWallis test; Pearson's X\^{}2: Rao \& Scott adjustment\\
+\end{minipage}
+\end{table}
+
+\paragraph{Summary}\label{summary}
+
+Among our significant results, we can see that individuals aged 21-24
+have \textbf{higher} \emph{average PMK}, \emph{drink more number of days
+in 2002}, more reported \emph{driving after drinking}, more reported
+\emph{riding while drinking}, more \emph{licensed}, more permissive
+\emph{parenting styles}, higher \emph{education}, and proportionally
+more in the \$10k-\$30k and \$30k-\$50k \emph{income} brackets.
+
+\subsubsection{1.1.2 Categorical Option}\label{categorical-option}
+
+We are going to do the same thing, this time replacing some of our
+variables with their categorical counterparts (family/home risk index,
+physical environment risk index, and parental monitoring knowledge).
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_vars\_v2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"num\_days\_drink\_02"}
+\NormalTok{)}
+
+\NormalTok{fac\_vars\_cat }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"drive\_after\_drink"}\NormalTok{, }\StringTok{"sex"}\NormalTok{,}
+  \StringTok{"ride\_drink\_2002"}\NormalTok{, }\StringTok{"binge"}\NormalTok{, }\StringTok{"marijuana"}\NormalTok{,}
+  \StringTok{"license"}\NormalTok{, }\StringTok{"smoker"}\NormalTok{, }\StringTok{"race\_eth"}\NormalTok{, }\StringTok{"mom\_style"}\NormalTok{,}
+  \StringTok{"dad\_style"}\NormalTok{, }\StringTok{"education"}\NormalTok{, }\StringTok{"income"}\NormalTok{, }\StringTok{"family\_home\_risk\_cat"}\NormalTok{, }\StringTok{"physical\_env\_risk\_cat"}\NormalTok{,}
+  \StringTok{"avg\_pmk\_cat"}
+\NormalTok{) }
+
+\NormalTok{tbl1\_cat }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1,}
+  \AttributeTok{by =}\NormalTok{ age\_group,}
+  \AttributeTok{include =} \FunctionTok{c}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(num\_vars\_v2), }\FunctionTok{all\_of}\NormalTok{(fac\_vars\_cat)),}
+  \AttributeTok{type =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{    binge }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    marijuana }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}
+\NormalTok{  ),}
+  \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+    \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+    \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{  )}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }
+
+\NormalTok{tbl1\_cat}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[t]
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{Pre-21}  N = 11,399,457\textsuperscript{\textit{1}} & \textbf{21-24}  N = 7,467,581\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+num\_days\_drink\_02 & 5 (6) & 7 (7) & <0.001 \\ 
+    Unknown & 3,693,689 & 1,466,108 &  \\ 
+drive\_after\_drink & 718,825 (6.3\%) & 1,089,132 (15\%) & <0.001 \\ 
+sex &  &  & 0.8 \\ 
+    Male & 5,803,818 (51\%) & 3,827,223 (51\%) &  \\ 
+    Female & 5,595,639 (49\%) & 3,640,357 (49\%) &  \\ 
+ride\_drink\_2002 &  &  & <0.001 \\ 
+    No & 9,629,601 (85\%) & 5,777,573 (77\%) &  \\ 
+    Yes & 1,756,177 (15\%) & 1,686,683 (23\%) &  \\ 
+    Unknown & 13,679 & 3,325 &  \\ 
+binge &  &  & 0.8 \\ 
+    No & 2,536,049 (39\%) & 2,112,386 (40\%) &  \\ 
+    Yes & 3,887,927 (61\%) & 3,183,135 (60\%) &  \\ 
+    Unknown & 4,975,481 & 2,172,059 &  \\ 
+marijuana &  &  & 0.9 \\ 
+    No & 738,167 (24\%) & 437,638 (24\%) &  \\ 
+    Yes & 2,357,626 (76\%) & 1,420,472 (76\%) &  \\ 
+    Unknown & 8,303,665 & 5,609,470 &  \\ 
+license &  &  & <0.001 \\ 
+    Unlicensed & 2,330,954 (20\%) & 1,116,074 (15\%) &  \\ 
+    Licensed & 9,041,840 (80\%) & 6,311,578 (85\%) &  \\ 
+    Unknown & 26,663 & 39,929 &  \\ 
+smoker &  &  & 0.4 \\ 
+    No & 145,106 (3.3\%) & 88,940 (2.8\%) &  \\ 
+    \ensuremath{\geq} 1 Cig in Last 30 Days & 4,232,734 (97\%) & 3,122,433 (97\%) &  \\ 
+    Unknown & 7,021,617 & 4,256,208 &  \\ 
+race\_eth &  &  & 0.7 \\ 
+    Non-Black / Non-Hispanic & 8,141,262 (71\%) & 5,335,724 (71\%) &  \\ 
+    Black & 1,711,183 (15\%) & 1,076,810 (14\%) &  \\ 
+    Hispanic & 1,405,991 (12\%) & 971,180 (13\%) &  \\ 
+    Mixed Race (Non-Hispanic) & 141,020 (1.2\%) & 83,867 (1.1\%) &  \\ 
+mom\_style &  &  & <0.001 \\ 
+    Authoritarian & 1,461,768 (13\%) & 711,858 (10\%) &  \\ 
+    Authoritative & 4,617,946 (42\%) & 2,876,315 (40\%) &  \\ 
+    Permissive & 3,640,198 (33\%) & 2,887,109 (41\%) &  \\ 
+    Uninvolved & 1,241,642 (11\%) & 635,677 (8.9\%) &  \\ 
+    Unknown & 437,902 & 356,622 &  \\ 
+dad\_style &  &  & <0.001 \\ 
+    Authoritarian & 1,816,571 (21\%) & 964,209 (17\%) &  \\ 
+    Authoritative & 3,573,338 (41\%) & 1,984,502 (36\%) &  \\ 
+    Permissive & 2,413,108 (27\%) & 1,809,190 (33\%) &  \\ 
+    Uninvolved & 1,004,882 (11\%) & 800,515 (14\%) &  \\ 
+    Unknown & 2,591,559 & 1,909,166 &  \\ 
+education &  &  & <0.001 \\ 
+    Associate/Junior college (AA) & 74,441 (0.9\%) & 206,152 (3.1\%) &  \\ 
+    Bachelor's degree (BA, BS) & 0 (0\%) & 330,188 (5.0\%) &  \\ 
+    GED & 511,966 (6.1\%) & 453,300 (6.8\%) &  \\ 
+    High school diploma (Regular 12 year program) & 7,817,675 (93\%) & 5,626,418 (85\%) &  \\ 
+    Master's degree (MA, MS) & 0 (0\%) & 964 (<0.1\%) &  \\ 
+    PhD & 0 (0\%) & 3,801 (<0.1\%) &  \\ 
+    Unknown & 2,995,375 & 846,757 &  \\ 
+income &  &  & <0.001 \\ 
+    <=\$10,000 & 1,365,275 (17\%) & 981,430 (15\%) &  \\ 
+    \$10,001 - \$30,000 & 1,514,446 (19\%) & 1,517,674 (24\%) &  \\ 
+    \$30,001 - \$50,000 & 1,352,362 (17\%) & 1,216,585 (19\%) &  \\ 
+    \$50,001 - \$80,000 & 1,621,927 (20\%) & 1,104,606 (17\%) &  \\ 
+    >\$80,000 & 2,301,264 (28\%) & 1,516,127 (24\%) &  \\ 
+    Unknown & 3,244,184 & 1,131,159 &  \\ 
+Family/home risk index category &  &  & 0.010 \\ 
+    0 TO 399 & 7,402,008 (74\%) & 86,129 (68\%) &  \\ 
+    1000 TO 1299 & 74,865 (0.7\%) & 6,635 (5.2\%) &  \\ 
+    1300 TO 1599 & 8,502 (<0.1\%) & 0 (0\%) &  \\ 
+    400 TO 699 & 2,051,900 (20\%) & 30,784 (24\%) &  \\ 
+    700 TO 999 & 496,773 (5.0\%) & 3,567 (2.8\%) &  \\ 
+    Unknown & 1,365,408 & 7,340,466 &  \\ 
+Physical environment risk index category &  &  & 0.7 \\ 
+    100 TO 299 & 4,080,993 (73\%) & 58,851 (70\%) &  \\ 
+    300 TO 499 & 1,324,151 (24\%) & 19,735 (23\%) &  \\ 
+    500 TO 700 & 211,871 (3.8\%) & 5,668 (6.7\%) &  \\ 
+    Unknown & 5,782,442 & 7,383,327 &  \\ 
+avg\_pmk\_cat &  &  & <0.001 \\ 
+    0 TO 4 & 472,601 (5.3\%) & 23,250 (19\%) &  \\ 
+    13 TO 16 & 658,742 (7.5\%) & 6,730 (5.6\%) &  \\ 
+    5 TO 8 & 3,353,309 (38\%) & 51,824 (43\%) &  \\ 
+    9 TO 12 & 4,355,387 (49\%) & 39,354 (32\%) &  \\ 
+    Unknown & 2,559,418 & 7,346,423 &  \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Design-based KruskalWallis test; Pearson's X\^{}2: Rao \& Scott adjustment\\
+\end{minipage}
+\end{table}
+
+\paragraph{Summary of changes}\label{summary-of-changes}
+
+This time, we see that the \textbf{family/home risk index category} is
+significantly different, with there appearing to be a larger proportion
+of under 21-year olds in the lowest category (0 to 399) and a slightly
+larger proportion in the highest category (700 to 999), while the
+21-to-24-year-olds have greater proportions in the middle ranges (1000
+to 1299 and 400 to 699). This does not give us a clear-cut
+interpretation or trend, however, and this index is therefore more
+likely to be an explanatory or mediating variable. It is not entirely
+clear here whether its inclusion in our model would improve it; it may
+be useful to explore this one in further detail later.
+
+Our \textbf{physical environment risk index category} did not pop up
+with any significant differences between groupings.
+
+\textbf{Average parental monitoring} did have significant differences,
+with a greater proportion of 21-to-24 year olds having the least amount
+of monitoring (0 to 4), and greater proportions of under 21-year olds
+having greater pmk. Something interesting though is the fact that this
+parental monitoring score is something that logically will be higher at
+baseline when participants are at their youngest. It makes its inclusion
+in this case tricky, as we do want to explore it as an explanatory
+factor in this relationship, but it may just be lower generally among
+our older participants who are also more likely to drink and
+drive\ldots{} colinear? Mediating variable? We need to tease this one
+out further, and consider its inclusion in our models very carefully.
+
+Now we have a good idea about what variables might be associated with
+our exposure. We also can check what is associated with our outcome
+briefly to see if multiple variables are popping up, warranting their
+inclusion as covariates.
+
+\subsection{1.3 Driving after Drinking
+Stratified}\label{driving-after-drinking-stratified}
+
+\subsubsection{1.3.1 Numeric option}\label{numeric-option-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{tbl1\_w\_outcome\_numeric }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1,}
+  \AttributeTok{by =}\NormalTok{ drive\_after\_drink,}
+  \AttributeTok{include =} \FunctionTok{c}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(num\_vars), }\FunctionTok{all\_of}\NormalTok{(fac\_vars)),}
+  \AttributeTok{type =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{    binge }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    marijuana }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}
+\NormalTok{  ),}
+  \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+    \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+    \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{  )}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }
+
+\NormalTok{tbl1\_w\_outcome\_numeric }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[t]
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{No}  N = 17,059,081\textsuperscript{\textit{1}} & \textbf{Yes}  N = 1,807,957\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+Family/home risk index (numeric) & 249 (224) & 258 (230) & 0.6 \\ 
+    Unknown & 7,542,258 & 1,163,616 &  \\ 
+Physical environment risk index (numeric) & 117 (132) & 97 (120) & 0.033 \\ 
+    Unknown & 7,638,600 & 1,163,616 &  \\ 
+Average PMK both Parents 1999-2000 & 8.89 (2.70) & 8.30 (2.64) & <0.001 \\ 
+    Unknown & 6,477,832 & 1,089,783 &  \\ 
+num\_days\_drink\_02 & 5 (6) & 11 (8) & <0.001 \\ 
+    Unknown & 5,113,614 & 46,183 &  \\ 
+sex &  &  & <0.001 \\ 
+    Male & 8,478,606 (50\%) & 1,152,436 (64\%) &  \\ 
+    Female & 8,580,475 (50\%) & 655,521 (36\%) &  \\ 
+ride\_drink\_2002 &  &  & <0.001 \\ 
+    No & 14,712,241 (86\%) & 694,932 (39\%) &  \\ 
+    Yes & 2,333,160 (14\%) & 1,109,700 (61\%) &  \\ 
+    Unknown & 13,679 & 3,325 &  \\ 
+age\_group &  &  & <0.001 \\ 
+    Pre-21 & 10,680,632 (63\%) & 718,825 (40\%) &  \\ 
+    21-24 & 6,378,448 (37\%) & 1,089,132 (60\%) &  \\ 
+binge &  &  & <0.001 \\ 
+    No & 4,414,240 (44\%) & 234,195 (13\%) &  \\ 
+    Yes & 5,556,623 (56\%) & 1,514,440 (87\%) &  \\ 
+    Unknown & 7,088,218 & 59,323 &  \\ 
+marijuana &  &  & 0.6 \\ 
+    No & 962,962 (24\%) & 212,843 (23\%) &  \\ 
+    Yes & 3,050,243 (76\%) & 727,855 (77\%) &  \\ 
+    Unknown & 13,045,876 & 867,259 &  \\ 
+license &  &  & <0.001 \\ 
+    Unlicensed & 3,311,997 (19\%) & 135,032 (7.5\%) &  \\ 
+    Licensed & 13,685,397 (81\%) & 1,668,021 (93\%) &  \\ 
+    Unknown & 61,687 & 4,904 &  \\ 
+smoker &  &  & 0.7 \\ 
+    No & 195,192 (3.0\%) & 38,854 (3.4\%) &  \\ 
+    \ensuremath{\geq} 1 Cig in Last 30 Days & 6,236,792 (97\%) & 1,118,375 (97\%) &  \\ 
+    Unknown & 10,627,097 & 650,728 &  \\ 
+race\_eth &  &  & <0.001 \\ 
+    Non-Black / Non-Hispanic & 12,032,793 (71\%) & 1,444,193 (80\%) &  \\ 
+    Black & 2,649,391 (16\%) & 138,602 (7.7\%) &  \\ 
+    Hispanic & 2,178,537 (13\%) & 198,634 (11\%) &  \\ 
+    Mixed Race (Non-Hispanic) & 198,359 (1.2\%) & 26,528 (1.5\%) &  \\ 
+mom\_style &  &  & 0.7 \\ 
+    Authoritarian & 1,959,646 (12\%) & 213,980 (12\%) &  \\ 
+    Authoritative & 6,807,912 (42\%) & 686,349 (39\%) &  \\ 
+    Permissive & 5,882,080 (36\%) & 645,227 (37\%) &  \\ 
+    Uninvolved & 1,675,919 (10\%) & 201,400 (12\%) &  \\ 
+    Unknown & 733,523 & 61,001 &  \\ 
+dad\_style &  &  & 0.8 \\ 
+    Authoritarian & 2,502,397 (19\%) & 278,382 (19\%) &  \\ 
+    Authoritative & 5,007,066 (39\%) & 550,773 (37\%) &  \\ 
+    Permissive & 3,785,151 (29\%) & 437,146 (30\%) &  \\ 
+    Uninvolved & 1,602,541 (12\%) & 202,855 (14\%) &  \\ 
+    Unknown & 4,161,925 & 338,800 &  \\ 
+education &  &  & 0.7 \\ 
+    Associate/Junior college (AA) & 250,866 (1.9\%) & 29,727 (1.8\%) &  \\ 
+    Bachelor's degree (BA, BS) & 289,000 (2.2\%) & 41,188 (2.5\%) &  \\ 
+    GED & 860,552 (6.4\%) & 104,714 (6.5\%) &  \\ 
+    High school diploma (Regular 12 year program) & 12,003,135 (90\%) & 1,440,958 (89\%) &  \\ 
+    Master's degree (MA, MS) & 0 (0\%) & 964 (<0.1\%) &  \\ 
+    PhD & 3,801 (<0.1\%) & 0 (0\%) &  \\ 
+    Unknown & 3,651,726 & 190,406 &  \\ 
+income &  &  & 0.007 \\ 
+    <=\$10,000 & 2,181,335 (17\%) & 165,370 (11\%) &  \\ 
+    \$10,001 - \$30,000 & 2,743,092 (21\%) & 289,028 (20\%) &  \\ 
+    \$30,001 - \$50,000 & 2,300,158 (18\%) & 268,788 (18\%) &  \\ 
+    \$50,001 - \$80,000 & 2,456,128 (19\%) & 270,405 (19\%) &  \\ 
+    >\$80,000 & 3,351,609 (26\%) & 465,782 (32\%) &  \\ 
+    Unknown & 4,026,759 & 348,584 &  \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Design-based KruskalWallis test; Pearson's X\^{}2: Rao \& Scott adjustment\\
+\end{minipage}
+\end{table}
+
+\paragraph{Summary}\label{summary-1}
+
+Those who reported \textbf{drinking while driving} had \emph{reduced}
+physical environment risk index, average parental monitoring,
+\emph{greater} number of days drinking, more were male gender, more
+reported riding with someone while drinking, more were 21-24, more
+reported binge drinking, more marijuana use, more licensed, more
+Non-Black/Non-Hispanic (and less Black and Hispanic), no difference of
+parenting styles, less likely to have higher education, and a greater
+proportion with \textgreater80k household income.
+
+\subsubsection{1.3.2 Categorical option}\label{categorical-option-1}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{num\_vars\_v2 }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"num\_days\_drink\_02"}
+\NormalTok{)}
+
+\NormalTok{fac\_vars\_cat }\OtherTok{\textless{}{-}} \FunctionTok{c}\NormalTok{(}
+  \StringTok{"age\_group"}\NormalTok{, }\StringTok{"sex"}\NormalTok{,}
+  \StringTok{"ride\_drink\_2002"}\NormalTok{, }\StringTok{"binge"}\NormalTok{, }\StringTok{"marijuana"}\NormalTok{,}
+  \StringTok{"license"}\NormalTok{, }\StringTok{"smoker"}\NormalTok{, }\StringTok{"race\_eth"}\NormalTok{, }\StringTok{"mom\_style"}\NormalTok{,}
+  \StringTok{"dad\_style"}\NormalTok{, }\StringTok{"education"}\NormalTok{, }\StringTok{"income"}\NormalTok{, }\StringTok{"family\_home\_risk\_cat"}\NormalTok{, }\StringTok{"physical\_env\_risk\_cat"}\NormalTok{,}
+  \StringTok{"avg\_pmk\_cat"}
+\NormalTok{) }
+
+\NormalTok{tbl1\_cat\_outcome }\OtherTok{\textless{}{-}} \FunctionTok{tbl\_svysummary}\NormalTok{(}
+\NormalTok{  design\_table\_1,}
+  \AttributeTok{by =}\NormalTok{ drive\_after\_drink,}
+  \AttributeTok{include =} \FunctionTok{c}\NormalTok{(}\FunctionTok{all\_of}\NormalTok{(num\_vars\_v2), }\FunctionTok{all\_of}\NormalTok{(fac\_vars\_cat)),}
+  \AttributeTok{type =} \FunctionTok{list}\NormalTok{(}
+\NormalTok{    binge }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    marijuana }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}\NormalTok{,}
+\NormalTok{    ride\_drink\_2002 }\SpecialCharTok{\textasciitilde{}} \StringTok{"categorical"}
+\NormalTok{  ),}
+  \AttributeTok{statistic =} \FunctionTok{list}\NormalTok{(}
+    \FunctionTok{all\_continuous}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{mean\} (\{sd\})"}\NormalTok{,}
+    \FunctionTok{all\_categorical}\NormalTok{() }\SpecialCharTok{\textasciitilde{}} \StringTok{"\{n\} (\{p\}\%)"}
+\NormalTok{  )}
+\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{add\_p}\NormalTok{() }
+
+\NormalTok{tbl1\_cat\_outcome}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{table}[t]
+\fontsize{12.0pt}{14.0pt}\selectfont
+\begin{tabular*}{\linewidth}{@{\extracolsep{\fill}}lccc}
+\toprule
+\textbf{Characteristic} & \textbf{No}  N = 17,059,081\textsuperscript{\textit{1}} & \textbf{Yes}  N = 1,807,957\textsuperscript{\textit{1}} & \textbf{p-value}\textsuperscript{\textit{2}} \\ 
+\midrule\addlinespace[2.5pt]
+num\_days\_drink\_02 & 5 (6) & 11 (8) & <0.001 \\ 
+    Unknown & 5,113,614 & 46,183 &  \\ 
+age\_group &  &  & <0.001 \\ 
+    Pre-21 & 10,680,632 (63\%) & 718,825 (40\%) &  \\ 
+    21-24 & 6,378,448 (37\%) & 1,089,132 (60\%) &  \\ 
+sex &  &  & <0.001 \\ 
+    Male & 8,478,606 (50\%) & 1,152,436 (64\%) &  \\ 
+    Female & 8,580,475 (50\%) & 655,521 (36\%) &  \\ 
+ride\_drink\_2002 &  &  & <0.001 \\ 
+    No & 14,712,241 (86\%) & 694,932 (39\%) &  \\ 
+    Yes & 2,333,160 (14\%) & 1,109,700 (61\%) &  \\ 
+    Unknown & 13,679 & 3,325 &  \\ 
+binge &  &  & <0.001 \\ 
+    No & 4,414,240 (44\%) & 234,195 (13\%) &  \\ 
+    Yes & 5,556,623 (56\%) & 1,514,440 (87\%) &  \\ 
+    Unknown & 7,088,218 & 59,323 &  \\ 
+marijuana &  &  & 0.6 \\ 
+    No & 962,962 (24\%) & 212,843 (23\%) &  \\ 
+    Yes & 3,050,243 (76\%) & 727,855 (77\%) &  \\ 
+    Unknown & 13,045,876 & 867,259 &  \\ 
+license &  &  & <0.001 \\ 
+    Unlicensed & 3,311,997 (19\%) & 135,032 (7.5\%) &  \\ 
+    Licensed & 13,685,397 (81\%) & 1,668,021 (93\%) &  \\ 
+    Unknown & 61,687 & 4,904 &  \\ 
+smoker &  &  & 0.7 \\ 
+    No & 195,192 (3.0\%) & 38,854 (3.4\%) &  \\ 
+    \ensuremath{\geq} 1 Cig in Last 30 Days & 6,236,792 (97\%) & 1,118,375 (97\%) &  \\ 
+    Unknown & 10,627,097 & 650,728 &  \\ 
+race\_eth &  &  & <0.001 \\ 
+    Non-Black / Non-Hispanic & 12,032,793 (71\%) & 1,444,193 (80\%) &  \\ 
+    Black & 2,649,391 (16\%) & 138,602 (7.7\%) &  \\ 
+    Hispanic & 2,178,537 (13\%) & 198,634 (11\%) &  \\ 
+    Mixed Race (Non-Hispanic) & 198,359 (1.2\%) & 26,528 (1.5\%) &  \\ 
+mom\_style &  &  & 0.7 \\ 
+    Authoritarian & 1,959,646 (12\%) & 213,980 (12\%) &  \\ 
+    Authoritative & 6,807,912 (42\%) & 686,349 (39\%) &  \\ 
+    Permissive & 5,882,080 (36\%) & 645,227 (37\%) &  \\ 
+    Uninvolved & 1,675,919 (10\%) & 201,400 (12\%) &  \\ 
+    Unknown & 733,523 & 61,001 &  \\ 
+dad\_style &  &  & 0.8 \\ 
+    Authoritarian & 2,502,397 (19\%) & 278,382 (19\%) &  \\ 
+    Authoritative & 5,007,066 (39\%) & 550,773 (37\%) &  \\ 
+    Permissive & 3,785,151 (29\%) & 437,146 (30\%) &  \\ 
+    Uninvolved & 1,602,541 (12\%) & 202,855 (14\%) &  \\ 
+    Unknown & 4,161,925 & 338,800 &  \\ 
+education &  &  & 0.7 \\ 
+    Associate/Junior college (AA) & 250,866 (1.9\%) & 29,727 (1.8\%) &  \\ 
+    Bachelor's degree (BA, BS) & 289,000 (2.2\%) & 41,188 (2.5\%) &  \\ 
+    GED & 860,552 (6.4\%) & 104,714 (6.5\%) &  \\ 
+    High school diploma (Regular 12 year program) & 12,003,135 (90\%) & 1,440,958 (89\%) &  \\ 
+    Master's degree (MA, MS) & 0 (0\%) & 964 (<0.1\%) &  \\ 
+    PhD & 3,801 (<0.1\%) & 0 (0\%) &  \\ 
+    Unknown & 3,651,726 & 190,406 &  \\ 
+income &  &  & 0.007 \\ 
+    <=\$10,000 & 2,181,335 (17\%) & 165,370 (11\%) &  \\ 
+    \$10,001 - \$30,000 & 2,743,092 (21\%) & 289,028 (20\%) &  \\ 
+    \$30,001 - \$50,000 & 2,300,158 (18\%) & 268,788 (18\%) &  \\ 
+    \$50,001 - \$80,000 & 2,456,128 (19\%) & 270,405 (19\%) &  \\ 
+    >\$80,000 & 3,351,609 (26\%) & 465,782 (32\%) &  \\ 
+    Unknown & 4,026,759 & 348,584 &  \\ 
+Family/home risk index category &  &  & 0.6 \\ 
+    0 TO 399 & 7,023,787 (74\%) & 464,350 (72\%) &  \\ 
+    1000 TO 1299 & 71,846 (0.8\%) & 9,653 (1.5\%) &  \\ 
+    1300 TO 1599 & 8,502 (<0.1\%) & 0 (0\%) &  \\ 
+    400 TO 699 & 1,936,760 (20\%) & 145,924 (23\%) &  \\ 
+    700 TO 999 & 475,927 (5.0\%) & 24,413 (3.8\%) &  \\ 
+    Unknown & 7,542,258 & 1,163,616 &  \\ 
+Physical environment risk index category &  &  & 0.006 \\ 
+    100 TO 299 & 3,846,503 (72\%) & 293,342 (84\%) &  \\ 
+    300 TO 499 & 1,302,808 (24\%) & 41,078 (12\%) &  \\ 
+    500 TO 700 & 204,271 (3.8\%) & 13,268 (3.8\%) &  \\ 
+    Unknown & 11,705,499 & 1,460,269 &  \\ 
+avg\_pmk\_cat &  &  & 0.014 \\ 
+    0 TO 4 & 460,716 (5.5\%) & 35,135 (6.1\%) &  \\ 
+    13 TO 16 & 641,586 (7.7\%) & 23,886 (4.1\%) &  \\ 
+    5 TO 8 & 3,130,032 (37\%) & 275,100 (48\%) &  \\ 
+    9 TO 12 & 4,152,577 (50\%) & 242,164 (42\%) &  \\ 
+    Unknown & 8,674,169 & 1,231,672 &  \\ 
+\bottomrule
+\end{tabular*}
+\begin{minipage}{\linewidth}
+\textsuperscript{\textit{1}}Mean (SD); n (\%)\\
+\textsuperscript{\textit{2}}Design-based KruskalWallis test; Pearson's X\^{}2: Rao \& Scott adjustment\\
+\end{minipage}
+\end{table}
+
+\paragraph{Summary}\label{summary-2}
+
+This time, family/home index is insignificant, a greater proportion of
+those who drove after drinking had a lower physical environment risk
+index, and those who drove after drinking had a greater proportion for
+parental monitoring among categories of 0 to 4 and 5 to 8 (lowest and
+second highest).
+
+\#2. Sequential Models
+
+We are going to explore our sequential survey-weighted models, exploring
+how different variables interact in this causal framework.
+
+We will be using logistic regression to estimate how the odds of driving
+after drinking change depending on age group and other covariates.
+
+\subsection{2.1 Crude Model}\label{crude-model}
+
+We also need to make an important distinction: will we use a binomial
+family (logistic regression), or will we use a quasibinomial family? We
+would opt for the quasibinomial if we had overdispersion in our outcome.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod1 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{summary}\NormalTok{(mod1) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## svyglm(formula = drive_after_drink ~ age_group, design = design, 
+##     family = binomial())
+## 
+## Survey design:
+## svydesign(ids = ~id, weights = ~weight, data = study_dat)
+## 
+## Coefficients:
+##                Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)    -2.69857    0.06637  -40.66   <2e-16 ***
+## age_group21-24  0.93103    0.08907   10.45   <2e-16 ***
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 1.000132)
+## 
+## Number of Fisher Scoring iterations: 5
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{summary}\NormalTok{(mod1)}\SpecialCharTok{$}\NormalTok{dispersion }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+##      variance     SE
+## [1,]   1.0001 0.0388
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{tidy}\NormalTok{(mod1, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 5
+##   term               OR CI_low CI_high  p.value
+##   <chr>           <dbl>  <dbl>   <dbl>    <dbl>
+## 1 (Intercept)    0.0673 0.0591  0.0767 0       
+## 2 age_group21-24 2.54   2.13    3.02   2.12e-25
+\end{verbatim}
+
+We have a dispersion parameter of about 1, suggesting no evidence of
+overdispersion, so we are good to continue with a binomial family in our
+future set of models.
+
+\textbf{Model Interpretation}
+
+In the survey-weighted unadjusted logistic regression model, individuals
+aged 21-24 years old had significantly higher odds (OR = 2.5, 95\% CI:
+2.13, 3.02 , p \textless{} .001) of reporting driving after drinking
+compared with individuals \textgreater21 years.
+
+\subsection{2.2 Demographics}\label{demographics}
+
+Next, we are going to add some demographic characteristics. We are going
+to start with sex and race/ethnicity.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod2 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod2, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 6 x 5
+##   term                                  OR CI_low CI_high   p.value
+##   <chr>                              <dbl>  <dbl>   <dbl>     <dbl>
+## 1 (Intercept)                       0.0984 0.0843   0.115 1.00e-179
+## 2 age_group21-24                    2.56   2.15     3.05  1.82e- 25
+## 3 sexFemale                         0.555  0.463    0.665 1.90e- 10
+## 4 race_ethBlack                     0.433  0.336    0.556 7.02e- 11
+## 5 race_ethHispanic                  0.728  0.581    0.913 5.96e-  3
+## 6 race_ethMixed Race (Non-Hispanic) 1.10   0.519    2.35  7.97e-  1
+\end{verbatim}
+
+\textbf{Model Interpretation}
+
+After adjusting for sex and race/ethnicity, individuals aged 21-24 had
+2.56x the odds of reporting driving after drinking (95\% CI: 2.15 to
+3.05).
+
+Looking at individual estimates, females had reduced odds of driving
+after drinking, while Hispanics, Mixed Race (Non-Hispanic), and
+Non-Black/Non-Hispanic had increased odds relative to Blacks -- need to
+change the reference category for this one. Let's keep trekking on while
+we figure out what we want to do.
+
+\subsection{2.3 Adding Risk/Socioeconomic
+Contexts}\label{adding-risksocioeconomic-contexts}
+
+Next, we are going to add the family and physical environment risk
+contexts. We are going to start with the numeric versions.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod3 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}
+\NormalTok{  family\_home\_risk\_num }\SpecialCharTok{+}
+\NormalTok{  physical\_env\_risk\_num,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod3, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 8 x 5
+##   term                                  OR CI_low CI_high  p.value
+##   <chr>                              <dbl>  <dbl>   <dbl>    <dbl>
+## 1 (Intercept)                       0.0916 0.0721   0.116 6.34e-82
+## 2 age_group21-24                    3.54   1.56     8.04  2.56e- 3
+## 3 sexFemale                         0.556  0.417    0.743 7.11e- 5
+## 4 race_ethBlack                     0.520  0.353    0.765 9.02e- 4
+## 5 race_ethHispanic                  0.755  0.522    1.09  1.37e- 1
+## 6 race_ethMixed Race (Non-Hispanic) 1.29   0.379    4.37  6.86e- 1
+## 7 family_home_risk_num              1.00   1.00     1.00  1.96e- 2
+## 8 physical_env_risk_num             0.998  0.997    1.000 1.26e- 2
+\end{verbatim}
+
+\textbf{Model Interpretation}
+
+This time, our Odds Ratio for 21-24 year olds changed quite a bit, from
+\textasciitilde2.5 to 3.54. This could indicate that the family/home
+risk and physical/environment risk were confounding the relationship
+potentially, or that something else is going on\ldots{} must remember
+that these two variables had a lot of missingness, and they are also
+popping up as being statistically significant despite having null effect
+estimates\ldots. But these are also on the numeric scale. We could
+consider putting the categorical version in instead to see what pops up?
+But also, ultimately, they may not be as important for our
+context\ldots{} colinear with household income perhaps?? Let's return to
+this.
+
+We are going to this time just add family and environmental separately
+as categorical indexes.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#family }
+\NormalTok{fam\_mod }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}
+\NormalTok{  family\_home\_risk\_cat ,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+\FunctionTok{tidy}\NormalTok{(fam\_mod, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 5
+##    term                                     OR     CI_low   CI_high   p.value
+##    <chr>                                 <dbl>      <dbl>     <dbl>     <dbl>
+##  1 (Intercept)                       0.0897    0.0732     0.110     1.17e-112
+##  2 age_group21-24                    3.43      1.49       7.89      3.77e-  3
+##  3 sexFemale                         0.567     0.426      0.756     1.09e-  4
+##  4 race_ethBlack                     0.491     0.338      0.713     1.87e-  4
+##  5 race_ethHispanic                  0.738     0.514      1.06      1.01e-  1
+##  6 race_ethMixed Race (Non-Hispanic) 1.28      0.383      4.25      6.92e-  1
+##  7 family_home_risk_cat1000 TO 1299  1.78      0.497      6.38      3.76e-  1
+##  8 family_home_risk_cat1300 TO 1599  0.0000310 0.00000974 0.0000985 7.00e- 67
+##  9 family_home_risk_cat400 TO 699    1.22      0.879      1.70      2.33e-  1
+## 10 family_home_risk_cat700 TO 999    0.927     0.455      1.89      8.34e-  1
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#environmental }
+\NormalTok{env\_mod }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}
+\NormalTok{  physical\_env\_risk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+
+\FunctionTok{tidy}\NormalTok{(env\_mod, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 8 x 5
+##   term                                 OR CI_low CI_high  p.value
+##   <chr>                             <dbl>  <dbl>   <dbl>    <dbl>
+## 1 (Intercept)                       0.104 0.0786   0.136 8.80e-56
+## 2 age_group21-24                    3.88  1.46    10.3   6.53e- 3
+## 3 sexFemale                         0.564 0.382    0.833 3.97e- 3
+## 4 race_ethBlack                     0.540 0.341    0.854 8.40e- 3
+## 5 race_ethHispanic                  0.736 0.457    1.18  2.07e- 1
+## 6 race_ethMixed Race (Non-Hispanic) 2.83  0.731   11.0   1.32e- 1
+## 7 physical_env_risk_cat300 TO 499   0.428 0.259    0.707 9.28e- 4
+## 8 physical_env_risk_cat500 TO 700   1.04  0.372    2.91  9.41e- 1
+\end{verbatim}
+
+For family risk, the OR for age group went wayyy up for nearly
+everything? There are no groups with reduced risk in this model. This to
+me looks extremely unstable, probably due to our missing data.
+
+The environmental predictor had much more believable estimates, though
+physical env wasn't a significant predictor at any level. The only
+significant predictors here were age group, sex, Black race, and
+Hispanic race. The issue, however, is that env is likely pretty
+intrinsically involved in income, and to a certain extent other
+demographic indicators as well\ldots{} we likely need to select one or
+the other. I'd lean much more towards income due to its having more
+complete data.
+
+Let's check out household income briefly next:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod3}\FloatTok{.2} \OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod3}\FloatTok{.2}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 5
+##    term                                  OR CI_low CI_high  p.value
+##    <chr>                              <dbl>  <dbl>   <dbl>    <dbl>
+##  1 (Intercept)                       0.0829 0.0596   0.115 1.41e-48
+##  2 age_group21-24                    2.31   1.90     2.82  1.41e-16
+##  3 sexFemale                         0.540  0.441    0.663 3.35e- 9
+##  4 race_ethBlack                     0.470  0.352    0.629 3.61e- 7
+##  5 race_ethHispanic                  0.757  0.584    0.981 3.54e- 2
+##  6 race_ethMixed Race (Non-Hispanic) 1.16   0.511    2.66  7.17e- 1
+##  7 income$10,001 - $30,000           1.17   0.817    1.67  3.94e- 1
+##  8 income$30,001 - $50,000           1.30   0.905    1.87  1.56e- 1
+##  9 income$50,001 - $80,000           1.24   0.864    1.79  2.40e- 1
+## 10 income>$80,000                    1.52   1.08     2.15  1.55e- 2
+\end{verbatim}
+
+If we hold everything constant and just look at the income levels, it
+looks like we only have significance for the group that is over \$80k
+(compared to \textgreater10k?) with having increased odds of driving
+after drinking. We also changed this over from an ordered factor for
+ease of interpretation, but this should in theory just take care of some
+of the socioeconomic differences.
+
+Let's compare the models using an ANOVA to see whether income helps
+explain more of the variation here:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{anova\_income }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(mod2, }\CommentTok{\#race and sex }
+\NormalTok{                      mod3}\FloatTok{.2} \CommentTok{\#with income}
+\NormalTok{                      ) }
+
+\FunctionTok{print}\NormalTok{(anova\_income)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Working (Rao-Scott+F) LRT for income
+##  in svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     income, design = design, family = binomial())
+## Working 2logLR =  7.27742 p= 0.12263 
+## (scale factors:  1.1 0.99 0.98 0.98 );  denominator df= 5764
+\end{verbatim}
+
+With our anova, we tested whether the inclusion of income adds
+explanatory power for drive\_after\_drink after adjusting for other
+covariates. Our test statistic is 7.28, with a p-value of 0.1226.
+
+Based on this, the addition of income to the model didn't meaningfully
+improve our prediction of driving after drinking after accounting for
+age, sex, and race/ethnicity.
+
+I am also curious whether the environmental index is a preferable
+predictor, in this case. Let's try comparing the two, looking both
+categorically and numerically:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Categorical}
+\NormalTok{mod\_env1 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}
+\NormalTok{  physical\_env\_risk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+
+\FunctionTok{summary}\NormalTok{(mod\_env1)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     physical_env_risk_cat, design = design, family = binomial())
+## 
+## Survey design:
+## svydesign(ids = ~id, weights = ~weight, data = study_dat)
+## 
+## Coefficients:
+##                                   Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                       -2.26721    0.14059 -16.126  < 2e-16 ***
+## age_group21-24                     1.35545    0.49797   2.722 0.006534 ** 
+## sexFemale                         -0.57250    0.19857  -2.883 0.003971 ** 
+## race_ethBlack                     -0.61702    0.23395  -2.637 0.008404 ** 
+## race_ethHispanic                  -0.30659    0.24282  -1.263 0.206836    
+## race_ethMixed Race (Non-Hispanic)  1.04039    0.69027   1.507 0.131879    
+## physical_env_risk_cat300 TO 499   -0.84790    0.25576  -3.315 0.000928 ***
+## physical_env_risk_cat500 TO 700    0.03903    0.52403   0.074 0.940630    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 0.8893789)
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{anova\_env1 }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(mod2, }\CommentTok{\#race and sex }
+\NormalTok{                      mod\_env1 }\CommentTok{\#with env, cat}
+\NormalTok{                      ) }
+
+\FunctionTok{print}\NormalTok{(anova\_env1) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Working (Rao-Scott+F) LRT for physical_env_risk_cat
+##  in svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     physical_env_risk_cat, design = design, family = binomial())
+## Working 2logLR =  11.17048 p= 0.0043212 
+## (scale factors:  1.2 0.83 );  denominator df= 2545
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Numerically }
+\NormalTok{mod\_env2 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}
+\NormalTok{  physical\_env\_risk\_num,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+
+\FunctionTok{summary}\NormalTok{(mod\_env2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## 
+## Call:
+## svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     physical_env_risk_num, design = design, family = binomial())
+## 
+## Survey design:
+## svydesign(ids = ~id, weights = ~weight, data = study_dat)
+## 
+## Coefficients:
+##                                     Estimate Std. Error t value Pr(>|t|)    
+## (Intercept)                       -2.2720429  0.1114580 -20.385  < 2e-16 ***
+## age_group21-24                     1.2898081  0.4118118   3.132  0.00175 ** 
+## sexFemale                         -0.5809292  0.1469600  -3.953 7.85e-05 ***
+## race_ethBlack                     -0.6096770  0.1966421  -3.100  0.00195 ** 
+## race_ethHispanic                  -0.2315999  0.1865884  -1.241  0.21459    
+## race_ethMixed Race (Non-Hispanic)  0.2539931  0.6244993   0.407  0.68424    
+## physical_env_risk_num             -0.0009287  0.0005992  -1.550  0.12122    
+## ---
+## Signif. codes:  0 '***' 0.001 '**' 0.01 '*' 0.05 '.' 0.1 ' ' 1
+## 
+## (Dispersion parameter for binomial family taken to be 0.9705191)
+## 
+## Number of Fisher Scoring iterations: 6
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{anova\_env2 }\OtherTok{\textless{}{-}} \FunctionTok{anova}\NormalTok{(mod2, }\CommentTok{\#race and sex }
+\NormalTok{                      mod\_env2 }\CommentTok{\#with env, numeric}
+\NormalTok{                      ) }
+
+\FunctionTok{print}\NormalTok{(anova\_env2)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Working (Rao-Scott+F) LRT for physical_env_risk_num
+##  in svyglm(formula = drive_after_drink ~ age_group + sex + race_eth + 
+##     physical_env_risk_num, design = design, family = binomial())
+## Working 2logLR =  2.49476 p= 0.11682 
+## df=1;  denominator df= 4136
+\end{verbatim}
+
+Interestingly, while it appears that the numeric version makes more
+sense intuitively in our model results, its addition doesn't add much in
+terms of predictivity in our model output.
+
+\subsection{2.4 Parental Monitoring}\label{parental-monitoring}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod4 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}
+\NormalTok{  family\_home\_risk\_num }\SpecialCharTok{+}
+\NormalTok{  physical\_env\_risk\_num }\SpecialCharTok{+}\NormalTok{ avg\_pmk,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod4, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 x 5
+##   term                                 OR CI_low CI_high      p.value
+##   <chr>                             <dbl>  <dbl>   <dbl>        <dbl>
+## 1 (Intercept)                       0.172 0.0914   0.322 0.0000000427
+## 2 age_group21-24                    3.30  1.41     7.73  0.00608     
+## 3 sexFemale                         0.572 0.428    0.764 0.000157    
+## 4 race_ethBlack                     0.533 0.362    0.784 0.00139     
+## 5 race_ethHispanic                  0.765 0.529    1.11  0.157       
+## 6 race_ethMixed Race (Non-Hispanic) 1.27  0.374    4.28  0.704       
+## 7 family_home_risk_num              1.00  1.000    1.00  0.304       
+## 8 physical_env_risk_num             0.999 0.997    1.000 0.0297      
+## 9 avg_pmk                           0.937 0.883    0.995 0.0339
+\end{verbatim}
+
+\textbf{Model Interpretation}
+
+Our age group term also changed a bit from before, jumping up from 2.5
+to 3.3 after controlling for all these things. But I am still skeptical
+when we include the risk categories numerically.
+
+Let's try again, this time exclusing the risk indicators.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod4}\FloatTok{.2} \OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ avg\_pmk,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod4}\FloatTok{.2}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 7 x 5
+##   term                                 OR CI_low CI_high  p.value
+##   <chr>                             <dbl>  <dbl>   <dbl>    <dbl>
+## 1 (Intercept)                       0.172  0.109   0.270 3.51e-14
+## 2 age_group21-24                    2.66   1.16    6.08  2.09e- 2
+## 3 sexFemale                         0.608  0.463   0.797 3.27e- 4
+## 4 race_ethBlack                     0.502  0.352   0.717 1.52e- 4
+## 5 race_ethHispanic                  0.772  0.553   1.08  1.27e- 1
+## 6 race_ethMixed Race (Non-Hispanic) 0.912  0.278   3.00  8.79e- 1
+## 7 avg_pmk                           0.930  0.886   0.977 3.59e- 3
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod4}\FloatTok{.3} \OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ avg\_pmk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod4}\FloatTok{.3}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 9 x 5
+##   term                                  OR CI_low CI_high  p.value
+##   <chr>                              <dbl>  <dbl>   <dbl>    <dbl>
+## 1 (Intercept)                       0.0953 0.0502   0.181 7.95e-13
+## 2 age_group21-24                    3.07   1.26     7.46  1.32e- 2
+## 3 sexFemale                         0.609  0.450    0.823 1.27e- 3
+## 4 race_ethBlack                     0.642  0.444    0.927 1.83e- 2
+## 5 race_ethHispanic                  0.680  0.463    0.997 4.85e- 2
+## 6 race_ethMixed Race (Non-Hispanic) 1.13   0.333    3.82  8.47e- 1
+## 7 avg_pmk_cat13 TO 16               0.561  0.222    1.42  2.22e- 1
+## 8 avg_pmk_cat5 TO 8                 1.21   0.628    2.34  5.66e- 1
+## 9 avg_pmk_cat9 TO 12                0.828  0.425    1.62  5.81e- 1
+\end{verbatim}
+
+\textbf{Model Interpretation}\\
+This looks a lot more realistic, our odds ratio for 21-24 is a lot
+closer to where it was before, though it did still increase slightly.
+This time, it appears that each unit increase in PMK is associated with
+a 10\% reduction in the odds of reporting driving while drinking,
+controlling for age, sex, and race/eth. On the other hand, being 21-24
+is associated with 2.6x greater odds of driving after drinking,
+controlling for sex, race, and parental monitoring knowledge.
+
+This would be a very intriguing interaction\ldots{} Let's check it out!
+
+\subsection{2.5 Interaction Testing}\label{interaction-testing}
+
+We are going to test a series of models here, this time examining
+whether our observed effects differ when introducing interaction terms.
+We are just going to include the interaction terms alone here before
+introducing them back into the full model, just to see what we can
+observe.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#PMK }
+\NormalTok{mod\_pmk }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{avg\_pmk,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)}
+
+\CommentTok{\#Sex }
+\NormalTok{mod\_sex }\OtherTok{\textless{}{-}}  \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{sex,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+
+\CommentTok{\#Race }
+\NormalTok{ mod\_race }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{race\_eth, }
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+ 
+  
+\CommentTok{\#Binge }
+\NormalTok{ mod\_binge }\OtherTok{\textless{}{-}}   \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{binge,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+ 
+\CommentTok{\#Income }
+\NormalTok{ mod\_income }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{income,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+
+ \FunctionTok{regTermTest}\NormalTok{(mod\_race, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{:}\NormalTok{race\_eth)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Wald test for age_group:race_eth
+##  in svyglm(formula = drive_after_drink ~ age_group * race_eth, design = design, 
+##     family = binomial())
+## F =  0.403565  on  3  and  7590  df: p= 0.75044
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{regTermTest}\NormalTok{(mod\_sex, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{:}\NormalTok{sex)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Wald test for age_group:sex
+##  in svyglm(formula = drive_after_drink ~ age_group * sex, design = design, 
+##     family = binomial())
+## F =  8.190174e-05  on  1  and  7594  df: p= 0.99278
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\FunctionTok{regTermTest}\NormalTok{(mod\_binge, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{:}\NormalTok{binge) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Wald test for age_group:binge
+##  in svyglm(formula = drive_after_drink ~ age_group * binge, design = design, 
+##     family = binomial())
+## F =  0.7884165  on  1  and  4391  df: p= 0.37463
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+ \FunctionTok{regTermTest}\NormalTok{(mod\_pmk, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{:}\NormalTok{avg\_pmk) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Wald test for age_group:avg_pmk
+##  in svyglm(formula = drive_after_drink ~ age_group * avg_pmk, design = design, 
+##     family = binomial())
+## F =  6.361449  on  1  and  4689  df: p= 0.011695
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+  \FunctionTok{regTermTest}\NormalTok{(mod\_income, }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{:}\NormalTok{income)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## Wald test for age_group:income
+##  in svyglm(formula = drive_after_drink ~ age_group * income, design = design, 
+##     family = binomial())
+## F =  0.8405573  on  4  and  5764  df: p= 0.4992
+\end{verbatim}
+
+\textbf{Interaction Summaries}
+
+It appears that there is a possible interaction effect for parental
+monitoring knowledge only.
+
+Another consideration: we have a ton of missingness for marijuana,
+smoker, PMK, family risk, and physical environment, making their
+inclusion in these models also needing to be carefully considered.
+
+Potential framework: Mod 1: age (crude) Mod 2: age, sex, race/eth, and
+income (demographics) Mod 3:protective and risk factor, without parental
+monitoring knowledge Mod 4: last model add parental monitoring knowledge
+
+Let's explore just the risk/protective factors that were statistically
+significant from our table 1 (\textless{} .01) in terms of our exposure.
+
+These variables were: riding with a drinking driver (2002), number of
+days drinking in 2002, being licensed, education, family/home risk index
+category. Education may be colinear with income and age generally, so we
+will include that one only with careful consideration.
+
+As reminder, the variables that were significant for our outcome were
+number days drinking 02, riding while drinking 2002, binge drinking,
+being licensed, the physical environment risk index category.
+
+So the only variables associated with \textbf{both} are: - licensed -
+number days drinking 02 - riding while rinking 02
+
+We know from before that the family/home risk index category is
+problematic due to missingness in modeling, so we will consider the
+other variables.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#just adding variables significant in both}
+\NormalTok{mod\_risk1 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{    license }\SpecialCharTok{+}\NormalTok{ num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_risk1, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 13 x 5
+##    term                                   OR  CI_low CI_high  p.value
+##    <chr>                               <dbl>   <dbl>   <dbl>    <dbl>
+##  1 (Intercept)                       0.00865 0.00495  0.0151 1.11e-60
+##  2 age_group21-24                    1.67    1.33     2.10   1.02e- 5
+##  3 sexFemale                         0.633   0.499    0.803  1.63e- 4
+##  4 race_ethBlack                     0.739   0.518    1.05   9.53e- 2
+##  5 race_ethHispanic                  0.980   0.722    1.33   8.96e- 1
+##  6 race_ethMixed Race (Non-Hispanic) 1.28    0.365    4.49   6.99e- 1
+##  7 income$10,001 - $30,000           1.30    0.868    1.94   2.04e- 1
+##  8 income$30,001 - $50,000           1.36    0.902    2.06   1.42e- 1
+##  9 income$50,001 - $80,000           1.19    0.792    1.79   4.01e- 1
+## 10 income>$80,000                    1.19    0.803    1.75   3.92e- 1
+## 11 licenseLicensed                   4.22    2.70     6.61   3.27e-10
+## 12 num_days_drink_02                 1.09    1.07     1.10   3.14e-28
+## 13 ride_drink_2002Yes                5.99    4.75     7.56   2.22e-50
+\end{verbatim}
+
+Let's take out license, since it had a pretty dramatic impact on our OR:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_risk2 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_risk2, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 12 x 5
+##    term                                  OR CI_low CI_high  p.value
+##    <chr>                              <dbl>  <dbl>   <dbl>    <dbl>
+##  1 (Intercept)                       0.0312 0.0209  0.0464 3.01e-63
+##  2 age_group21-24                    1.78   1.42    2.23   6.04e- 7
+##  3 sexFemale                         0.645  0.510   0.815  2.41e- 4
+##  4 race_ethBlack                     0.591  0.417   0.836  2.96e- 3
+##  5 race_ethHispanic                  0.898  0.668   1.21   4.75e- 1
+##  6 race_ethMixed Race (Non-Hispanic) 1.14   0.353   3.70   8.23e- 1
+##  7 income$10,001 - $30,000           1.27   0.855   1.90   2.35e- 1
+##  8 income$30,001 - $50,000           1.43   0.950   2.15   8.68e- 2
+##  9 income$50,001 - $80,000           1.31   0.881   1.96   1.82e- 1
+## 10 income>$80,000                    1.36   0.928   1.99   1.15e- 1
+## 11 num_days_drink_02                 1.08   1.07    1.10   6.52e-27
+## 12 ride_drink_2002Yes                5.65   4.49    7.10   1.08e-48
+\end{verbatim}
+
+Let's try adding some other variables and see what happens:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_risk3 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002 }\SpecialCharTok{+}\NormalTok{ binge }\SpecialCharTok{+}\NormalTok{ education,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_risk3, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 5
+##    term                                              OR  CI_low CI_high  p.value
+##    <chr>                                          <dbl>   <dbl>   <dbl>    <dbl>
+##  1 (Intercept)                                  2.43e-2 9.52e-3 6.22e-2 1.13e-14
+##  2 age_group21-24                               1.85e+0 1.44e+0 2.36e+0 1.14e- 6
+##  3 sexFemale                                    7.12e-1 5.53e-1 9.16e-1 8.21e- 3
+##  4 race_ethBlack                                6.24e-1 4.16e-1 9.36e-1 2.28e- 2
+##  5 race_ethHispanic                             9.79e-1 7.08e-1 1.35e+0 9.00e- 1
+##  6 race_ethMixed Race (Non-Hispanic)            1.39e+0 4.16e-1 4.66e+0 5.91e- 1
+##  7 income$10,001 - $30,000                      1.31e+0 8.53e-1 2.02e+0 2.15e- 1
+##  8 income$30,001 - $50,000                      1.29e+0 8.23e-1 2.03e+0 2.64e- 1
+##  9 income$50,001 - $80,000                      1.08e+0 6.97e-1 1.66e+0 7.42e- 1
+## 10 income>$80,000                               1.12e+0 7.41e-1 1.69e+0 5.93e- 1
+## 11 num_days_drink_02                            1.06e+0 1.05e+0 1.08e+0 7.00e-12
+## 12 ride_drink_2002Yes                           5.08e+0 3.98e+0 6.48e+0 5.25e-38
+## 13 bingeYes                                     2.49e+0 1.80e+0 3.45e+0 4.80e- 8
+## 14 educationBachelor's degree (BA, BS)          5.85e-1 1.83e-1 1.87e+0 3.67e- 1
+## 15 educationGED                                 7.33e-1 2.87e-1 1.87e+0 5.16e- 1
+## 16 educationHigh school diploma (Regular 12 ye~ 9.62e-1 4.28e-1 2.16e+0 9.26e- 1
+## 17 educationMaster's degree (MA, MS)            5.20e+5 5.89e+4 4.60e+6 1.20e-31
+\end{verbatim}
+
+Let's look at adding the environmental risk index, just out of
+curiosity:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_risk4 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002 }\SpecialCharTok{+}\NormalTok{ binge }\SpecialCharTok{+}\NormalTok{ education }\SpecialCharTok{+}
+\NormalTok{    physical\_env\_risk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_risk4, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 17 x 5
+##    term                                              OR  CI_low CI_high  p.value
+##    <chr>                                          <dbl>   <dbl>   <dbl>    <dbl>
+##  1 (Intercept)                                  3.00e-8 6.78e-9 1.33e-7 2.90e-86
+##  2 age_group21-24                               2.53e+0 6.20e-1 1.04e+1 1.95e- 1
+##  3 sexFemale                                    7.72e-1 4.31e-1 1.38e+0 3.85e- 1
+##  4 race_ethBlack                                4.23e-1 1.91e-1 9.38e-1 3.42e- 2
+##  5 race_ethHispanic                             7.90e-1 3.67e-1 1.70e+0 5.46e- 1
+##  6 race_ethMixed Race (Non-Hispanic)            1.88e+0 5.27e-1 6.73e+0 3.30e- 1
+##  7 income$10,001 - $30,000                      1.03e+0 3.72e-1 2.85e+0 9.57e- 1
+##  8 income$30,001 - $50,000                      1.27e+0 4.98e-1 3.23e+0 6.17e- 1
+##  9 income$50,001 - $80,000                      1.86e+0 7.48e-1 4.62e+0 1.82e- 1
+## 10 income>$80,000                               1.43e+0 5.41e-1 3.77e+0 4.71e- 1
+## 11 num_days_drink_02                            1.08e+0 1.04e+0 1.12e+0 1.63e- 4
+## 12 ride_drink_2002Yes                           4.53e+0 2.56e+0 8.00e+0 2.50e- 7
+## 13 bingeYes                                     1.99e+0 9.67e-1 4.10e+0 6.15e- 2
+## 14 educationGED                                 1.21e+6 2.35e+5 6.19e+6 2.48e-53
+## 15 educationHigh school diploma (Regular 12 ye~ 7.30e+5 1.71e+5 3.12e+6 6.24e-61
+## 16 physical_env_risk_cat300 TO 499              7.58e-1 3.54e-1 1.62e+0 4.74e- 1
+## 17 physical_env_risk_cat500 TO 700              2.68e+0 6.88e-1 1.05e+1 1.55e- 1
+\end{verbatim}
+
+What's interesting is that the odds ratio for the middle level of
+physical env level is higher than any other estimate, which also doesn't
+make sense logically since the more risk you are at physically might
+work alongside other elements? I think the missingness precludes its'
+inclusion in this analysis unfortunately.
+
+Let's try JUST the variables associated with our exposure:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_risk5 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002 }\SpecialCharTok{+}\NormalTok{ education }\SpecialCharTok{+}\NormalTok{ license }\SpecialCharTok{+}
+\NormalTok{    family\_home\_risk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_risk5, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 19 x 5
+##    term                                             OR  CI_low CI_high   p.value
+##    <chr>                                         <dbl>   <dbl>   <dbl>     <dbl>
+##  1 (Intercept)                                1.56 e-2 2.41e-3 1.02e-1 1.38 e- 5
+##  2 age_group21-24                             2.08 e+0 5.88e-1 7.34e+0 2.56 e- 1
+##  3 sexFemale                                  7.02 e-1 4.68e-1 1.05e+0 8.76 e- 2
+##  4 race_ethBlack                              5.15 e-1 2.78e-1 9.54e-1 3.49 e- 2
+##  5 race_ethHispanic                           7.52 e-1 4.08e-1 1.38e+0 3.60 e- 1
+##  6 race_ethMixed Race (Non-Hispanic)          1.53 e+0 3.59e-1 6.56e+0 5.64 e- 1
+##  7 income$10,001 - $30,000                    9.72 e-1 4.52e-1 2.09e+0 9.43 e- 1
+##  8 income$30,001 - $50,000                    1.44 e+0 6.86e-1 3.01e+0 3.36 e- 1
+##  9 income$50,001 - $80,000                    1.29 e+0 6.43e-1 2.58e+0 4.77 e- 1
+## 10 income>$80,000                             1.000e+0 5.06e-1 1.98e+0 1.000e+ 0
+## 11 num_days_drink_02                          1.10 e+0 1.08e+0 1.13e+0 5.54 e-14
+## 12 ride_drink_2002Yes                         5.82 e+0 3.93e+0 8.62e+0 4.13 e-18
+## 13 educationGED                               6.20 e-1 1.11e-1 3.45e+0 5.85 e- 1
+## 14 educationHigh school diploma (Regular 12 ~ 4.31 e-1 9.30e-2 1.99e+0 2.81 e- 1
+## 15 licenseLicensed                            4.49 e+0 1.90e+0 1.06e+1 6.41 e- 4
+## 16 family_home_risk_cat1000 TO 1299           1.05 e-6 1.19e-7 9.28e-6 9.39 e-34
+## 17 family_home_risk_cat1300 TO 1599           7.40 e-7 8.81e-8 6.21e-6 6.68 e-37
+## 18 family_home_risk_cat400 TO 699             1.49 e+0 8.99e-1 2.48e+0 1.21 e- 1
+## 19 family_home_risk_cat700 TO 999             1.82 e+0 6.37e-1 5.19e+0 2.64 e- 1
+\end{verbatim}
+
+Next, let's take just the variables associated with the exposure, but
+add in parental monitoring knowledge, testing for interaction.
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\NormalTok{mod\_risk6 }\OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{avg\_pmk\_cat }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income }\SpecialCharTok{+} 
+\NormalTok{     num\_days\_drink\_02 }\SpecialCharTok{+}\NormalTok{ ride\_drink\_2002 }\SpecialCharTok{+}\NormalTok{ education }\SpecialCharTok{+}\NormalTok{ license }\SpecialCharTok{+}
+\NormalTok{    family\_home\_risk\_cat,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod\_risk6, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 24 x 5
+##    term                                      OR      CI_low    CI_high  p.value
+##    <chr>                                  <dbl>       <dbl>      <dbl>    <dbl>
+##  1 (Intercept)                       0.0101     0.000895     0.114     2.08e- 4
+##  2 age_group21-24                    0.00000266 0.000000522  0.0000135 1.32e-49
+##  3 avg_pmk_cat13 TO 16               1.82       0.407        8.16      4.33e- 1
+##  4 avg_pmk_cat5 TO 8                 1.30       0.400        4.25      6.59e- 1
+##  5 avg_pmk_cat9 TO 12                0.948      0.278        3.23      9.32e- 1
+##  6 sexFemale                         0.743      0.472        1.17      1.98e- 1
+##  7 race_ethBlack                     0.725      0.362        1.45      3.65e- 1
+##  8 race_ethHispanic                  0.950      0.511        1.77      8.72e- 1
+##  9 race_ethMixed Race (Non-Hispanic) 1.93       0.357       10.5       4.44e- 1
+## 10 income$10,001 - $30,000           0.902      0.391        2.08      8.08e- 1
+## # i 14 more rows
+\end{verbatim}
+
+\subsubsection{Proposed sequential
+framework}\label{proposed-sequential-framework}
+
+Here is the output following the proposed framework:
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Mod 1 (Crude)}
+\FunctionTok{tidy}\NormalTok{(mod1, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 2 x 5
+##   term               OR CI_low CI_high  p.value
+##   <chr>           <dbl>  <dbl>   <dbl>    <dbl>
+## 1 (Intercept)    0.0673 0.0591  0.0767 0       
+## 2 age_group21-24 2.54   2.13    3.02   2.12e-25
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Mod 2 (Demographics)  }
+\NormalTok{mod2}\FloatTok{.1} \OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{) }
+
+\FunctionTok{tidy}\NormalTok{(mod2}\FloatTok{.1}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 10 x 5
+##    term                                  OR CI_low CI_high  p.value
+##    <chr>                              <dbl>  <dbl>   <dbl>    <dbl>
+##  1 (Intercept)                       0.0829 0.0596   0.115 1.41e-48
+##  2 age_group21-24                    2.31   1.90     2.82  1.41e-16
+##  3 sexFemale                         0.540  0.441    0.663 3.35e- 9
+##  4 race_ethBlack                     0.470  0.352    0.629 3.61e- 7
+##  5 race_ethHispanic                  0.757  0.584    0.981 3.54e- 2
+##  6 race_ethMixed Race (Non-Hispanic) 1.16   0.511    2.66  7.17e- 1
+##  7 income$10,001 - $30,000           1.17   0.817    1.67  3.94e- 1
+##  8 income$30,001 - $50,000           1.30   0.905    1.87  1.56e- 1
+##  9 income$50,001 - $80,000           1.24   0.864    1.79  2.40e- 1
+## 10 income>$80,000                    1.52   1.08     2.15  1.55e- 2
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\#Mod 3 (Evaluate risk/protective factors variables) }
+
+\NormalTok{mod3}\FloatTok{.3} \OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{avg\_pmk }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+\FunctionTok{tidy}\NormalTok{(mod3}\FloatTok{.3}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value) }
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 12 x 5
+##    term                                 OR  CI_low CI_high      p.value
+##    <chr>                             <dbl>   <dbl>   <dbl>        <dbl>
+##  1 (Intercept)                       0.151 0.0784    0.291 0.0000000164
+##  2 age_group21-24                    0.202 0.00540   7.56  0.387       
+##  3 avg_pmk                           0.918 0.867     0.971 0.00301     
+##  4 sexFemale                         0.574 0.419     0.786 0.000536    
+##  5 race_ethBlack                     0.651 0.436     0.970 0.0349      
+##  6 race_ethHispanic                  0.819 0.551     1.22  0.323       
+##  7 race_ethMixed Race (Non-Hispanic) 1.30  0.387     4.36  0.672       
+##  8 income$10,001 - $30,000           1.04  0.587     1.84  0.896       
+##  9 income$30,001 - $50,000           1.60  0.926     2.77  0.0923      
+## 10 income$50,001 - $80,000           1.60  0.946     2.69  0.0800      
+## 11 income>$80,000                    1.48  0.889     2.47  0.131       
+## 12 age_group21-24:avg_pmk            1.29  0.878     1.91  0.193
+\end{verbatim}
+
+\begin{Shaded}
+\begin{Highlighting}[]
+\CommentTok{\# Mod 4: Add Parental Monitoring Knowledge }
+\NormalTok{mod4}\FloatTok{.4} \OtherTok{\textless{}{-}} \FunctionTok{svyglm}\NormalTok{(}
+\NormalTok{  drive\_after\_drink }\SpecialCharTok{\textasciitilde{}}\NormalTok{ age\_group}\SpecialCharTok{*}\NormalTok{avg\_pmk }\SpecialCharTok{+}\NormalTok{ sex }\SpecialCharTok{+}\NormalTok{ race\_eth }\SpecialCharTok{+}\NormalTok{ income,}
+  \AttributeTok{design =}\NormalTok{ design,}
+  \AttributeTok{family =} \FunctionTok{binomial}\NormalTok{()}
+\NormalTok{)  }
+\FunctionTok{tidy}\NormalTok{(mod4}\FloatTok{.4}\NormalTok{, }\AttributeTok{conf.int =} \ConstantTok{TRUE}\NormalTok{) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{mutate}\NormalTok{(}
+    \AttributeTok{OR =} \FunctionTok{exp}\NormalTok{(estimate),}
+    \AttributeTok{CI\_low =} \FunctionTok{exp}\NormalTok{(conf.low),}
+    \AttributeTok{CI\_high =} \FunctionTok{exp}\NormalTok{(conf.high)}
+\NormalTok{  ) }\SpecialCharTok{\%\textgreater{}\%}
+  \FunctionTok{select}\NormalTok{(term, OR, CI\_low, CI\_high, p.value)}
+\end{Highlighting}
+\end{Shaded}
+
+\begin{verbatim}
+## # A tibble: 12 x 5
+##    term                                 OR  CI_low CI_high      p.value
+##    <chr>                             <dbl>   <dbl>   <dbl>        <dbl>
+##  1 (Intercept)                       0.151 0.0784    0.291 0.0000000164
+##  2 age_group21-24                    0.202 0.00540   7.56  0.387       
+##  3 avg_pmk                           0.918 0.867     0.971 0.00301     
+##  4 sexFemale                         0.574 0.419     0.786 0.000536    
+##  5 race_ethBlack                     0.651 0.436     0.970 0.0349      
+##  6 race_ethHispanic                  0.819 0.551     1.22  0.323       
+##  7 race_ethMixed Race (Non-Hispanic) 1.30  0.387     4.36  0.672       
+##  8 income$10,001 - $30,000           1.04  0.587     1.84  0.896       
+##  9 income$30,001 - $50,000           1.60  0.926     2.77  0.0923      
+## 10 income$50,001 - $80,000           1.60  0.946     2.69  0.0800      
+## 11 income>$80,000                    1.48  0.889     2.47  0.131       
+## 12 age_group21-24:avg_pmk            1.29  0.878     1.91  0.193
+\end{verbatim}
+
+\end{document}
